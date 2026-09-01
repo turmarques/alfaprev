@@ -1,0 +1,6 @@
+﻿# Robots.txt - Alfa Prev - Segurança Contra Incêndios
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://www.alfaprev.com.br/sitemap.xml

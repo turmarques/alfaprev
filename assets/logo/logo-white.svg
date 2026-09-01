@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 64" fill="none" role="img" aria-label="Alfa Prev — Segurança Contra Incêndio">
+  <defs>
+    <linearGradient id="flameGradWhite" x1="0%" y1="100%" x2="0%" y2="0%">
+      <stop offset="0%" stop-color="#EF4444" />
+      <stop offset="50%" stop-color="#F97316" />
+      <stop offset="100%" stop-color="#FBBF24" />
+    </linearGradient>
+  </defs>
+
+  <!-- Símbolo / Escudo -->
+  <g transform="translate(4, 4)">
+    <!-- Base de Fundo para o Ícone -->
+    <rect width="56" height="56" rx="12" fill="#1E293B" stroke="#334155" stroke-width="1.5" />
+    
+    <g transform="translate(28, 29) scale(0.72) translate(-32, -32)">
+      <!-- Crista superior do capacete -->
+      <path d="M28 10 C28 8, 36 8, 36 10 L38 16 L26 16 Z" fill="#FFFFFF" />
+      <!-- Cúpula do Capacete -->
+      <path d="M14 26 C14 15, 22 13, 32 13 C42 13, 50 15, 50 26 Z" fill="#FFFFFF" />
+      <!-- Aba do Capacete -->
+      <rect x="10" y="25" width="44" height="4" rx="2" fill="#FFFFFF" />
+      <!-- Corpo da engrenagem com dentes -->
+      <path d="M18 29 L14 36 L17 38 L16 46 L21 48 L24 53 L32 55 L40 53 L43 48 L48 46 L47 38 L50 36 L46 29 Z" fill="#FFFFFF" />
+      <!-- Centro oco da engrenagem -->
+      <circle cx="32" cy="38" r="11" fill="#1E293B" />
+      <!-- Chama central estilizada -->
+      <path d="M32 30 C32 30, 37 34, 37 38 C37 41, 34.5 43.5, 32 43.5 C29.5 43.5, 27 41, 27 38 C27 35.5, 28.5 34, 30 33 C30 35, 31.5 36, 32.5 36 C32.5 34.5, 32 30, 32 30 Z" fill="url(#flameGradWhite)" />
+    </g>
+  </g>
+
+  <!-- Tipografia Marca -->
+  <!-- "ALFA" em branco puro -->
+  <text x="72" y="35" font-family="'Inter', system-ui, -apple-system, sans-serif" font-size="24" font-weight="900" letter-spacing="-0.03em" fill="#FFFFFF">ALFA</text>
+  <!-- "PREV" em vermelho vibrante -->
+  <text x="136" y="35" font-family="'Inter', system-ui, -apple-system, sans-serif" font-size="24" font-weight="900" letter-spacing="-0.03em" fill="#EF4444">PREV</text>
+  
+  <!-- Subtítulo "SEGURANÇA CONTRA INCÊNDIO" -->
+  <text x="73" y="49" font-family="'Inter', system-ui, -apple-system, sans-serif" font-size="7.5" font-weight="700" letter-spacing="0.18em" fill="#94A3B8">SEGURANÇA CONTRA INCÊNDIO</text>
+</svg>

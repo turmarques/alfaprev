@@ -1,0 +1,95 @@
+﻿/* =====================================================
+   ALFA PREV — styles.css
+   Complementos ao Tailwind CDN
+   ===================================================== */
+
+/* Scroll suave */
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 4.5rem; /* altura do header fixo */
+}
+
+/* Focus visível acessível */
+*:focus-visible {
+  outline: 2px solid #B91C1C;
+  outline-offset: 2px;
+}
+
+/* Remove outline padrão em favor do :focus-visible */
+*:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* Smooth header scroll behavior */
+#site-header.scrolled {
+  box-shadow: 0 1px 12px rgba(0, 0, 0, 0.4);
+}
+
+/* FAQ answer transition */
+.faq-answer {
+  overflow: hidden;
+}
+
+/* Checkbox accent vermelho */
+input[type="checkbox"]:checked {
+  accent-color: #B91C1C;
+}
+
+/* Select arrow reset no Firefox */
+select {
+  -moz-appearance: none;
+}
+
+/* Remove iOS input styling */
+input, textarea, select {
+  -webkit-appearance: none;
+  appearance: none;
+  border-radius: 0.375rem; /* rounded-md */
+}
+
+/* Garantir que inputs de data/hora mantenham o estilo */
+input[type="text"],
+input[type="email"],
+input[type="tel"] {
+  border-radius: 0.375rem;
+}
+
+/* Animação suave do botão WhatsApp flutuante */
+#whatsapp-float {
+  transition: transform 0.15s ease, background-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+#whatsapp-float:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 24px rgba(37, 211, 102, 0.35);
+}
+
+/* Mobile nav link */
+.mobile-nav-link {
+  display: block;
+  transition: color 0.15s ease;
+}
+
+/* Evitar layout shift em imagens */
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+/* Print: ocultar elementos de UI */
+@media print {
+  #site-header,
+  #whatsapp-float,
+  #cookie-banner,
+  #mobile-menu {
+    display: none !important;
+  }
+}
+
+/* Melhor legibilidade em telas pequenas */
+@media (max-width: 639px) {
+  html {
+    scroll-padding-top: 4rem;
+  }
+}
