@@ -231,24 +231,24 @@ const lgpdEl = document.getElementById('lgpd');
 if (lgpdEl) lgpdEl.addEventListener('change', () => clearError('lgpd'));
 
 /* =====================================================
-   7. ENVIO DO FORMULÁRIO
+   7. ENVIO DO FORMULÁRIO — duplo: e-mail (Web3Forms) + banco (Supabase)
    =====================================================
-   INSTRUÇÃO DE INTEGRAÇÃO:
-   - Para usar FormSubmit.co:
-     1. Adicione ao <form>: action="https://formsubmit.co/cassia.marques@alfaseguranca.com" method="POST"
-     2. Adicione: <input type="hidden" name="_captcha" value="false">
-     3. Adicione: <input type="hidden" name="_subject" value="Novo orçamento - Alfa Prev">
-     4. Remova o fetch abaixo e deixe o form submeter normalmente.
-   - Para usar Web3Forms:
-     1. Obtenha sua chave em https://web3forms.com/
-     2. Adicione: <input type="hidden" name="access_key" value="SUA_CHAVE_WEB3FORMS">
-     3. Deixe o fetch abaixo intacto (ele já usa a API do Web3Forms).
-   - Fallback mailto (mais simples, sem serviço externo):
-     Descomente o bloco "MAILTO FALLBACK" abaixo.
+   Configuração necessária antes de funcionar:
+     • Web3Forms: substitua 'SUA_CHAVE_WEB3FORMS' abaixo pela chave real
+       (obtida em https://web3forms.com/ — gratuito)
+     • Supabase: preencha SUPABASE_URL e SUPABASE_ANON_KEY em assets/js/config.js
+       (obtidos em Project Settings → API no painel do Supabase)
    ===================================================== */
 if (form) {
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
+
+    // ── Verificação honeypot ──────────────────────────────
+    // Se o campo invisível #hp-website estiver preenchido, é bot.
+    // Descartar silenciosamente sem fazer nenhuma requisição de rede.
+    const hpField = document.getElementById('hp-website');
+    if (hpField && hpField.value.trim() !== '') return;
+
     if (!validateForm()) return;
 
     // Rastreamento GA4
@@ -264,50 +264,81 @@ if (form) {
     success.classList.add('hidden');
     errorDiv.classList.add('hidden');
 
-    /* ── Web3Forms (recomendado para estático) ──────────────
-       Substitua ACCESS_KEY pela sua chave do Web3Forms.
-       Obtenha gratuitamente em: https://web3forms.com/
-    ─────────────────────────────────────────────────────── */
-    const ACCESS_KEY = 'SUA_CHAVE_WEB3FORMS'; // PREENCHER
+    const nome     = document.getElementById('nome').value.trim();
+    const email    = document.getElementById('email').value.trim();
+    const telefone = document.getElementById('telefone').value.trim();
+    const tipo     = document.getElementById('tipo-imovel').value;
+    const resumo   = document.getElementById('resumo').value.trim();
 
-    const formData = {
-      access_key: ACCESS_KEY,
-      subject: 'Novo orçamento — Projeto de Prevenção e Combate a Incêndio — Alfa Prev',
-      from_name: 'Site Alfa Prev',
-      name:     document.getElementById('nome').value.trim(),
-      email:    document.getElementById('email').value.trim(),
-      phone:    document.getElementById('telefone').value.trim(),
-      property: document.getElementById('tipo-imovel').value,
-      message:  document.getElementById('resumo').value.trim(),
-    };
+    let emailOk = false;
+    let dbOk    = false;
+
+    // ── 7a. Envio por e-mail via Web3Forms ───────────────
+    const ACCESS_KEY = 'SUA_CHAVE_WEB3FORMS'; // PREENCHER — ver https://web3forms.com/
 
     try {
       const res = await fetch('https://api.web3forms.com/submit', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({
+          access_key: ACCESS_KEY,
+          subject:    'Novo orçamento — Projeto de Prevenção e Combate a Incêndio — Alfa Prev',
+          from_name:  'Site Alfa Prev',
+          name:       nome,
+          email:      email,
+          phone:      telefone,
+          property:   tipo,
+          message:    resumo,
+          botcheck:   false, // honeypot Web3Forms — sempre false para envios legítimos
+        }),
       });
       const data = await res.json();
-      if (data.success) {
-        success.classList.remove('hidden');
-        form.reset();
-      } else {
-        throw new Error('API error');
+      emailOk = data.success === true;
+      if (!emailOk) console.error('[Alfa Prev] Web3Forms rejeitou o envio:', data);
+    } catch (err) {
+      console.error('[Alfa Prev] Falha no envio por e-mail (Web3Forms):', err);
+    }
+
+    // ── 7b. Gravação no banco via Supabase ───────────────
+    // Só tenta se config.js estiver preenchido com a URL real do projeto
+    if (typeof SUPABASE_URL !== 'undefined' && SUPABASE_URL.startsWith('https://')) {
+      try {
+        const res = await fetch(`${SUPABASE_URL}/rest/v1/leads`, {
+          method: 'POST',
+          headers: {
+            'Content-Type':  'application/json',
+            'apikey':        SUPABASE_ANON_KEY,
+            'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+            'Prefer':        'return=minimal',
+          },
+          body: JSON.stringify({
+            nome,
+            email,
+            telefone,
+            tipo_imovel:        tipo,
+            mensagem:           resumo,
+            consentimento_lgpd: true, // checkbox LGPD já validado pelo validateForm()
+          }),
+        });
+        dbOk = res.status === 201;
+        if (!dbOk) console.error('[Alfa Prev] Supabase retornou status inesperado:', res.status, await res.text());
+      } catch (err) {
+        console.error('[Alfa Prev] Erro de rede ao conectar ao Supabase:', err);
       }
-    } catch {
-      /* MAILTO FALLBACK — descomente e remova o try/catch acima para usar:
-      const nome    = document.getElementById('nome').value.trim();
-      const email   = document.getElementById('email').value.trim();
-      const tel     = document.getElementById('telefone').value.trim();
-      const tipo    = document.getElementById('tipo-imovel').value;
-      const resumo  = document.getElementById('resumo').value.trim();
-      const body    = `Nome: ${nome}\nE-mail: ${email}\nTelefone: ${tel}\nTipo: ${tipo}\n\n${resumo}`;
-      window.location.href = `mailto:cassia.marques@alfaseguranca.com?subject=Novo%20orçamento%20–%20Alfa%20Prev&body=${encodeURIComponent(body)}`;
+    } else {
+      console.warn('[Alfa Prev] Supabase não configurado — preencha assets/js/config.js.');
+    }
+
+    // ── 7c. Resultado para o usuário ─────────────────────
+    // Sucesso se ao menos um dos dois canais funcionou.
+    // Falha total só se ambos falharem — aí permite nova tentativa.
+    if (emailOk || dbOk) {
       success.classList.remove('hidden');
       form.reset();
-      */
+      // Mantém botão desabilitado após sucesso — impede envio duplicado
+      btnText.textContent = 'Orçamento enviado!';
+    } else {
       errorDiv.classList.remove('hidden');
-    } finally {
       submitBtn.disabled = false;
       btnText.textContent = 'Enviar e Solicitar Orçamento';
     }
