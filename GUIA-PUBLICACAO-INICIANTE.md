@@ -12,7 +12,7 @@ Separe antes de iniciar:
 
 - [ ] Acesso ao e-mail da empresa (`cassia.marques@alfaseguranca.com`) para confirmações e cadastros
 - [ ] Cartão de crédito ou conta bancária (para pagar o domínio — custo anual de ~R$ 40)
-- [ ] Decisão sobre o nome de domínio (ex: `alfaprev.com.br`) — veja o Passo 1
+- [x] Domínio `alfaprev-sci.com.br` — **já registrado via Locaweb** (ativo, expira 08/09/2027)
 - [ ] Acesso ao código do site (a pasta do projeto no computador)
 - [ ] Cerca de 2–4 horas para concluir todos os passos
 
@@ -20,29 +20,18 @@ Separe antes de iniciar:
 
 ## Passo 1 — Registrar o domínio (o endereço do site)
 
+> **✅ JÁ CONCLUÍDO** — O domínio `alfaprev-sci.com.br` foi registrado via **Locaweb** em setembro/2026. Expira em **08/09/2027** (renovação anual obrigatória — anotar no calendário).
+
 ### O que é um domínio?
-É o endereço que as pessoas digitam para acessar o site (ex: `www.alfaprev.com.br`). Sem um domínio registrado no seu nome, o site não tem um endereço fixo na internet.
+É o endereço que as pessoas digitam para acessar o site. Sem um domínio registrado no seu nome, o site não tem um endereço fixo na internet.
 
-### Por que `.com.br`?
-Para empresas brasileiras, o `.com.br` é o mais reconhecido e confiável pelo público local. O Google também tende a priorizar domínios com extensão local nas buscas feitas no Brasil.
+### Onde gerenciar:
+O domínio está na conta Locaweb. Acesse o painel em [locaweb.com.br](https://www.locaweb.com.br) com as credenciais da empresa para gerenciar renovação e DNS.
 
-### Onde registrar?
-O órgão oficial para domínios `.com.br` é o **Registro.br** ([registro.br](https://registro.br)), mantido pelo NIC.br (entidade sem fins lucrativos ligada ao governo). É o lugar mais seguro e direto para registrar.
-
-### Como verificar antes de escolher o nome:
-1. Acesse [registro.br](https://registro.br)
-2. Na caixa de busca, digite o nome desejado (ex: `alfaprev`)
-3. Se aparecer "disponível", você pode registrar
-4. Se estiver ocupado, tente variações: `alfaprev-guarulhos`, `alfaprev-sci`, `alfaseguranca`
-
-### Como registrar:
-1. Crie uma conta no Registro.br (use CPF ou CNPJ da empresa)
-2. Busque o domínio, selecione e adicione ao carrinho
-3. Complete o pagamento (Pix, boleto ou cartão)
-4. **Custo:** R$ 40,00/ano para `.com.br` (renovação anual obrigatória — anotar no calendário)
-
-### Após registrar:
-Você terá acesso a um painel onde poderá configurar para onde o domínio "aponta" — isso é feito no Passo 4 (DNS).
+### Sobre www vs. sem-www:
+- O código do site usa `https://alfaprev-sci.com.br` (sem www) como padrão provisório.
+- Após escolher a hospedagem, decida o padrão definitivo e configure um redirecionamento 301 do outro para evitar conteúdo duplicado.
+- A configuração de DNS do Passo 4 depende desta decisão.
 
 ---
 
@@ -155,13 +144,24 @@ O DNS é configurado no painel do **Registro.br** (onde você registrou o domín
 ### Como fazer no Netlify:
 1. No painel do Netlify, acesse seu site publicado
 2. Vá em **"Domain settings"** → **"Add custom domain"**
-3. Digite seu domínio (ex: `alfaprev.com.br`) e clique em confirmar
+3. Digite `alfaprev-sci.com.br` e clique em confirmar
 4. O Netlify vai mostrar os servidores de DNS dele (chamados de "nameservers"), algo como:
    - `dns1.p04.nsone.net`
    - `dns2.p04.nsone.net`
-5. Acesse o painel do [registro.br](https://registro.br)
-6. Selecione seu domínio e clique em **"Alterar servidores DNS"**
+
+**Caminho A — Delegar o DNS inteiro para o Netlify (mais simples):**
+5. Acesse o painel da Locaweb
+6. Vá em "Meus Domínios" → selecione `alfaprev-sci.com.br` → "Alterar servidores DNS (nameservers)"
 7. Substitua os servidores atuais pelos fornecidos pelo Netlify
+8. Salve. Aguarde propagação (1–48h). O Netlify cuida do HTTPS automaticamente.
+
+**Caminho B — Manter o DNS na Locaweb e apenas apontar para o Netlify (mais controle):**
+5. No Netlify, em vez de nameservers, copie o **endereço IP** ou o **CNAME** fornecido para o domínio
+6. Acesse o painel da Locaweb → "Meus Domínios" → "Zona DNS" do domínio
+7. Edite (ou crie) os registros:
+   - Para o domínio raiz (`alfaprev-sci.com.br`): adicione um registro **A** apontando para o IP fornecido pelo Netlify
+   - Para `www`: adicione um registro **CNAME** apontando para o endereço `.netlify.app` do seu site
+8. Salve. Aguarde propagação (1–48h).
 
 ### Quanto tempo leva:
 A propagação do DNS leva entre **1 hora e 48 horas**. Nesse período, algumas pessoas ao redor do mundo ainda podem ver a página antiga (ou uma página em branco). Isso é normal — não entre em pânico.
@@ -230,7 +230,7 @@ Sem Search Console, o Google pode levar semanas ou meses para "descobrir" que se
 1. Acesse [search.google.com/search-console](https://search.google.com/search-console)
 2. Faça login com a conta Google da empresa (ou crie uma)
 3. Clique em **"Adicionar propriedade"**
-4. Escolha **"Prefixo de URL"** e digite: `https://www.alfaprev.com.br/`
+4. Escolha **"Prefixo de URL"** e digite: `https://alfaprev-sci.com.br/`
 5. O Google vai pedir para verificar que você é o dono do site. Escolha o método de **tag HTML**:
    - Copie o código fornecido (algo como `<meta name="google-site-verification" content="..." />`)
    - Abra o `index.html` do projeto
@@ -262,9 +262,9 @@ Após submeter o sitemap, geralmente entre 3 e 14 dias para a primeira indexaç�
 4. Preencha:
    - **Nome:** ALFA SEGURANÇA CONTRA INCÊNDIO LTDA (Alfa Prev)
    - **Categoria:** "Empresa de segurança contra incêndio" ou "Engenheiro"
-   - **Endereço:** Rua Floro de Oliveira, 491, Jardim Adriana, Guarulhos, SP
+   - **Endereço:** o endereço da empresa (confirmar com a Cassia se deve ser exibido no perfil)
    - **Telefone:** (11) 94566-5263
-   - **Site:** https://www.alfaprev.com.br
+   - **Site:** https://alfaprev-sci.com.br
 
 ### Verificação (etapa obrigatória):
 O Google precisa confirmar que o endereço é real. Métodos disponíveis:
@@ -344,7 +344,7 @@ Execute cada item abaixo antes de compartilhar o site publicamente:
 
 ### SEO e rastreamento
 - [ ] O Search Console está configurado e o sitemap enviado
-- [ ] O link canônico no HTML aponta para o domínio correto (`https://www.alfaprev.com.br/`)
+- [ ] O link canônico no HTML aponta para o domínio correto (`https://alfaprev-sci.com.br/`)
 - [ ] O HTTPS está ativo (cadeado visível na barra de endereços)
 
 ---

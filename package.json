@@ -1,0 +1,8 @@
+{
+  "name": "alfaprev-site",
+  "version": "1.0.0",
+  "description": "Site estático da Alfa Prev — processo de build para includes de partials",
+  "scripts": {
+    "build": "node build.js"
+  }
+}

@@ -7,12 +7,20 @@
 'use strict';
 
 /* =====================================================
-   1. ANO DINÂMICO NO FOOTER
+   1. ANO DINÂMICO NO FOOTER + CONTADOR DE EXPERIÊNCIA
    ===================================================== */
 const yearEl = document.getElementById('footer-year');
 if (yearEl) {
   yearEl.textContent = new Date().getFullYear();
 }
+
+/* Anos de experiência: incrementa automaticamente em 01/01 de cada ano.
+   Ano de início da atividade: 2018 (8 anos em 2026). */
+const EXP_START_YEAR = 2018;
+const expYears = new Date().getFullYear() - EXP_START_YEAR;
+document.querySelectorAll('.js-exp-years').forEach(el => {
+  el.textContent = expYears;
+});
 
 /* =====================================================
    2. HEADER — EFEITO AO ROLAR
@@ -410,3 +418,20 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     }
   });
 });
+
+/* =====================================================
+   11. ACTIVE NAV LINK — marca o item correspondente à página atual
+   ===================================================== */
+(function () {
+  const raw = window.location.pathname;
+  const page = (raw === '/' || /\/?index\.html$/.test(raw))
+    ? 'index'
+    : raw.replace(/.*\//, '').replace(/\.html$/, '');
+  document.querySelectorAll('[data-nav]').forEach(function (link) {
+    if (link.dataset.nav === page) {
+      link.classList.remove('text-gray-300', 'text-gray-200');
+      link.classList.add('text-white');
+      link.setAttribute('aria-current', 'page');
+    }
+  });
+}());

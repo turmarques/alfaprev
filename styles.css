@@ -93,3 +93,14 @@ img {
     scroll-padding-top: 4rem;
   }
 }
+
+/* Hero stat numbers — font fluida com clamp() para evitar overflow em qualquer largura.
+   Usar SEMPRE em conjunto com min-w-0 no item do grid e whitespace-nowrap no elemento.
+   Nunca usar whitespace-nowrap sem clamp() — causa sobreposição de texto em colunas estreitas. */
+.hero-stat-number {
+  font-size: clamp(1.1rem, 4.5vw, 1.75rem);
+  white-space: nowrap;
+  font-weight: 800;
+  color: #ffffff;
+  line-height: 1.2;
+}
