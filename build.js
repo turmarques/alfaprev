@@ -30,6 +30,18 @@ for (const file of fs.readdirSync(SRC_DIR)) {
   });
 
   fs.writeFileSync(path.join(OUT_DIR, file), content, 'utf8');
+
+  // Sanity check: Tailwind CDN must be present in every output
+  if (!content.includes('cdn.tailwindcss.com')) {
+    console.error(`  [ERRO] cdn.tailwindcss.com NÃO encontrado em ${file} — verifique o partial head-common!`);
+    process.exitCode = 1;
+  }
+  // Sanity check: no unresolved INCLUDE markers
+  if (/<!-- INCLUDE:/.test(content)) {
+    console.error(`  [ERRO] Marcador <!-- INCLUDE: --> não resolvido em ${file} — partial ausente?`);
+    process.exitCode = 1;
+  }
+
   console.log(`  ✓ ${file}`);
   count++;
 }

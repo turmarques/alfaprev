@@ -3,19 +3,21 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Guarda de segurança: redireciona para o arquivo gerado na raiz se aberto diretamente via servidor HTTP -->
+  <script>if(['http:','https:'].includes(location.protocol)&&location.pathname.includes('/src/'))location.replace('/'+location.pathname.split('/').pop());</script>
   <title>Alfa Prev | Projetos de Prevenção e Combate a Incêndio, AVCB e Segurança Contra Incêndio em SP</title>
   <meta name="description" content="Alfa Prev | Projetos de Prevenção e Combate a Incêndio (PPCI), regularização de AVCB/CLCB, laudos técnicos e assessoria técnica especializada em todo o Estado de São Paulo.">
   <link rel="canonical" href="https://alfaprev-sci.com.br/">
   <meta name="robots" content="index, follow">
   <meta name="theme-color" content="#0F172A">
-  <meta property="og:title" content="Alfa Prev | Segurança Contra Incêndio &amp; Engenharia de Prevenção">
+  <meta property="og:title" content="Alfa Prev | Segurança Contra Incêndio &amp; Engenharia de Segurança">
   <meta property="og:description" content="Projetos de Prevenção e Combate a Incêndio, laudos técnicos e regularização AVCB/CLCB com responsável técnica especializada em todo o Estado de São Paulo.">
   <meta property="og:image" content="https://alfaprev-sci.com.br/assets/images/logo-dark-bg.jpg">
   <meta property="og:type" content="website">
   <meta property="og:locale" content="pt_BR">
   <meta property="og:url" content="https://alfaprev-sci.com.br/">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Alfa Prev | Segurança Contra Incêndio &amp; Engenharia de Prevenção">
+  <meta name="twitter:title" content="Alfa Prev | Segurança Contra Incêndio &amp; Engenharia de Segurança">
   <meta name="twitter:description" content="Projetos de Prevenção e Combate a Incêndio, laudos técnicos e regularização AVCB/CLCB com responsável técnica especializada em todo o Estado de São Paulo.">
   <meta name="twitter:image" content="https://alfaprev-sci.com.br/assets/images/logo-dark-bg.jpg">
   <script type="application/ld+json">
@@ -88,7 +90,7 @@
         <nav class="hidden lg:flex items-center gap-1" role="navigation" aria-label="Navegação principal">
           <a href="/" data-nav="index" class="px-3 py-2 text-sm text-gray-300 hover:text-white font-medium rounded transition-colors">Home</a>
           <a href="/servicos.html" data-nav="servicos" class="px-3 py-2 text-sm text-gray-300 hover:text-white font-medium rounded transition-colors">Serviços</a>
-          <a href="/sobre.html" data-nav="sobre" class="px-3 py-2 text-sm text-gray-300 hover:text-white font-medium rounded transition-colors">Sobre</a>
+          <a href="/quem-somos.html" data-nav="quem-somos" class="px-3 py-2 text-sm text-gray-300 hover:text-white font-medium rounded transition-colors">Quem Somos</a>
           <a href="/legislacao.html" data-nav="legislacao" class="px-3 py-2 text-sm text-gray-300 hover:text-white font-medium rounded transition-colors">Legislação</a>
           <a href="/faq.html" data-nav="faq" class="px-3 py-2 text-sm text-gray-300 hover:text-white font-medium rounded transition-colors">FAQ</a>
           <a href="/contato.html" data-nav="contato" class="px-3 py-2 text-sm text-gray-300 hover:text-white font-medium rounded transition-colors">Contato</a>
@@ -126,7 +128,7 @@
       <nav class="flex flex-col px-4 py-4 gap-1">
         <a href="/" data-nav="index" class="mobile-nav-link py-3 px-3 text-gray-200 hover:text-white font-medium border-b border-gray-700 text-sm">Home</a>
         <a href="/servicos.html" data-nav="servicos" class="mobile-nav-link py-3 px-3 text-gray-200 hover:text-white font-medium border-b border-gray-700 text-sm">Serviços</a>
-        <a href="/sobre.html" data-nav="sobre" class="mobile-nav-link py-3 px-3 text-gray-200 hover:text-white font-medium border-b border-gray-700 text-sm">Sobre</a>
+        <a href="/quem-somos.html" data-nav="quem-somos" class="mobile-nav-link py-3 px-3 text-gray-200 hover:text-white font-medium border-b border-gray-700 text-sm">Quem Somos</a>
         <a href="/legislacao.html" data-nav="legislacao" class="mobile-nav-link py-3 px-3 text-gray-200 hover:text-white font-medium border-b border-gray-700 text-sm">Legislação</a>
         <a href="/faq.html" data-nav="faq" class="mobile-nav-link py-3 px-3 text-gray-200 hover:text-white font-medium border-b border-gray-700 text-sm">FAQ</a>
         <a href="/contato.html" data-nav="contato" class="mobile-nav-link py-3 px-3 text-gray-200 hover:text-white font-medium text-sm">Contato</a>
@@ -147,31 +149,28 @@
 
 
   <!-- HERO -->
-  <section id="inicio" class="relative bg-corp-black pt-28 pb-16 lg:pt-36 lg:pb-24 overflow-hidden"
+  <section id="inicio" class="relative bg-white pt-28 pb-16 lg:pt-36 lg:pb-24 overflow-hidden"
     aria-labelledby="hero-heading">
-    <div class="absolute inset-0 opacity-5 pointer-events-none" aria-hidden="true">
-      <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
-            <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#ffffff" stroke-width="0.5" />
-          </pattern>
-        </defs>
-        <rect width="100%" height="100%" fill="url(#grid)" />
-      </svg>
+    <!-- Marca d'água: ícone do logo posicionado à direita, opacidade ~5% -->
+    <div class="absolute right-0 top-0 bottom-0 flex items-center pointer-events-none overflow-hidden" aria-hidden="true">
+      <img src="/assets/logo/logo-icon-dark.svg" alt=""
+        class="w-72 h-72 lg:w-[480px] lg:h-[480px] opacity-[0.05]"
+        style="transform: translateX(25%); opacity: 0.05; width: 288px; height: 288px;"
+        width="288" height="288">
     </div>
     <div class="absolute left-0 top-0 bottom-0 w-1 bg-corp-red" aria-hidden="true"></div>
     <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="max-w-3xl">
-        <div class="inline-flex items-center gap-2 bg-red-900/40 border border-corp-red/30 rounded-md px-3 py-1.5 mb-6">
+        <div class="inline-flex items-center gap-2 bg-red-50 border border-corp-red/30 rounded-md px-3 py-1.5 mb-6">
           <span class="w-2 h-2 bg-corp-red rounded-full flex-shrink-0" aria-hidden="true"></span>
-          <span class="text-corp-red text-xs font-semibold uppercase tracking-wider">Engenharia de Prevenção Contra Incêndio</span>
+          <span class="text-corp-red text-xs font-semibold uppercase tracking-wider">Engenharia de Segurança Contra Incêndio</span>
         </div>
-        <h1 id="hero-heading" class="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white leading-tight mb-6">
-          Projetos de Prevenção e Combate a Incêndio, Regularização e
-          <span class="text-corp-red"> Laudos Técnicos</span>
-          <span class="text-gray-300 text-3xl sm:text-4xl lg:text-5xl block mt-1">(AVCB / CLCB)</span>
+        <h1 id="hero-heading" class="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-corp-black leading-tight mb-6">
+          Projetos de Prevenção e Combate a Incêndio,
+          <span class="text-corp-red"> Assessoria Técnica para Regularização de AVCB/CLCB</span>
+          <span class="text-gray-500 text-3xl sm:text-4xl lg:text-5xl block mt-1">e muito mais</span>
         </h1>
-        <p class="text-gray-300 text-lg lg:text-xl leading-relaxed mb-8 max-w-2xl">
+        <p class="text-gray-600 text-lg lg:text-xl leading-relaxed mb-8 max-w-2xl">
           Foco total em <strong>prevenção</strong> e na <strong>preparação completa das edificações</strong> para
           contenção rápida e proteção da vida e do patrimônio se houver um princípio de incêndio. Atendimento
           personalizado para cada cliente em todo o Estado de São Paulo.
@@ -190,7 +189,7 @@
           </a>
           <a href="https://wa.me/5511945665263?text=Ol%C3%A1!%20Gostaria%20de%20mais%20informa%C3%A7%C3%B5es%20sobre%20os%20projetos%20de%20preven%C3%A7%C3%A3o%20e%20combate%20a%20inc%C3%AAndio%20da%20Alfa%20Prev."
             target="_blank" rel="noopener noreferrer" id="hero-cta-whatsapp"
-            class="inline-flex items-center justify-center gap-2 bg-white/10 hover:bg-white/20 border border-white/20 text-white font-semibold px-6 py-3.5 rounded-md text-base transition-colors cta-whatsapp-hero"
+            class="inline-flex items-center justify-center gap-2 bg-corp-black hover:bg-corp-slate text-white font-semibold px-6 py-3.5 rounded-md text-base transition-colors cta-whatsapp-hero"
             aria-label="Falar com especialista em segurança contra incêndio pelo WhatsApp">
             <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-wa-green" viewBox="0 0 24 24"
               fill="currentColor" aria-hidden="true">
@@ -200,36 +199,52 @@
           </a>
         </div>
 
-        <!-- Badges de Garantia e Abrangência -->
-        <div class="space-y-2.5">
-          <div class="flex flex-wrap gap-4">
-            <div class="inline-flex items-center gap-1.5 text-gray-300 text-sm font-medium">
-              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-emerald-400 flex-shrink-0" viewBox="0 0 24 24"
+        <!-- Badges de Garantia e Abrangência — 5 badges conforme PARTE 5 -->
+        <div class="space-y-3">
+          <div class="flex flex-wrap gap-3">
+            <div class="inline-flex items-center gap-1.5 text-gray-700 text-sm font-medium">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-emerald-600 flex-shrink-0" viewBox="0 0 24 24"
                 fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
                 aria-hidden="true">
                 <polyline points="20 6 9 17 4 12" />
               </svg>
               Projetos 100% Adequados às Normas Técnicas
             </div>
-            <div class="inline-flex items-center gap-1.5 text-gray-300 text-sm font-medium">
-              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-emerald-400 flex-shrink-0" viewBox="0 0 24 24"
+            <div class="inline-flex items-center gap-1.5 text-gray-700 text-sm font-medium">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-emerald-600 flex-shrink-0" viewBox="0 0 24 24"
                 fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
                 aria-hidden="true">
                 <polyline points="20 6 9 17 4 12" />
               </svg>
               Responsável Técnica Especializada (PUC-MG)
             </div>
-            <div class="inline-flex items-center gap-1.5 text-gray-300 text-sm font-medium">
-              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-emerald-400 flex-shrink-0" viewBox="0 0 24 24"
+            <div class="inline-flex items-center gap-1.5 text-gray-700 text-sm font-medium">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-emerald-600 flex-shrink-0" viewBox="0 0 24 24"
                 fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
                 aria-hidden="true">
                 <polyline points="20 6 9 17 4 12" />
               </svg>
               Atendimento Personalizado
             </div>
+            <div class="inline-flex items-center gap-1.5 text-gray-700 text-sm font-medium">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-emerald-600 flex-shrink-0" viewBox="0 0 24 24"
+                fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
+                aria-hidden="true">
+                <polyline points="20 6 9 17 4 12" />
+              </svg>
+              Serviços em conformidade com as legislações vigentes
+            </div>
+            <div class="inline-flex items-center gap-1.5 text-gray-700 text-sm font-medium">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-emerald-600 flex-shrink-0" viewBox="0 0 24 24"
+                fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
+                aria-hidden="true">
+                <polyline points="20 6 9 17 4 12" />
+              </svg>
+              Assessoria completa para segurança do seu patrimônio
+            </div>
           </div>
-          <div class="inline-flex items-center gap-2 bg-emerald-950/50 border border-emerald-500/30 rounded-md px-3.5 py-1.5 text-emerald-300 text-xs sm:text-sm font-medium">
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-emerald-400 flex-shrink-0" viewBox="0 0 24 24"
+          <div class="inline-flex items-center gap-2 bg-emerald-50 border border-emerald-500/30 rounded-md px-3.5 py-1.5 text-emerald-700 text-xs sm:text-sm font-medium">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-emerald-600 flex-shrink-0" viewBox="0 0 24 24"
               fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
               aria-hidden="true">
               <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
@@ -244,22 +259,22 @@
            Grid: 2 colunas até md (768px), 4 colunas a partir de md.
            min-w-0 em cada item é obrigatório para evitar que o conteúdo force a coluna a crescer.
            .hero-stat-number usa clamp() para font-size fluida + whitespace-nowrap sem overflow. -->
-      <div class="mt-14 pt-8 border-t border-gray-700 grid grid-cols-2 md:grid-cols-4 gap-6 max-w-3xl">
+      <div class="mt-14 pt-8 border-t border-gray-200 grid grid-cols-2 md:grid-cols-4 gap-6 max-w-3xl">
         <div class="min-w-0">
-          <div class="hero-stat-number"><span class="js-exp-years">8</span> anos</div>
-          <div class="text-gray-400 text-sm mt-1">Experiência no setor</div>
+          <div class="hero-stat-number">+<span class="js-exp-years">8</span> anos</div>
+          <div class="text-gray-500 text-sm mt-1">Experiência no setor</div>
         </div>
         <div class="min-w-0">
           <div class="hero-stat-number">+50 mil m²</div>
-          <div class="text-gray-400 text-sm mt-1">Projetos e obras executadas</div>
+          <div class="text-gray-500 text-sm mt-1">Projetos, obras e vistorias realizadas</div>
         </div>
         <div class="min-w-0">
           <div class="hero-stat-number">CAU/SP</div>
-          <div class="text-gray-400 text-sm mt-1">00A1858351 ativo</div>
+          <div class="text-gray-500 text-sm mt-1">00A1858351 ativo</div>
         </div>
         <div class="min-w-0">
           <div class="hero-stat-number">100%</div>
-          <div class="text-gray-400 text-sm mt-1">Cobertura no Estado de SP</div>
+          <div class="text-gray-500 text-sm mt-1">Cobertura no Estado de SP</div>
         </div>
       </div>
     </div>
@@ -422,6 +437,7 @@
           <span class="text-gray-400 text-xs font-medium">CAU/SP 00A1858351</span>
         </div>
         <h3 class="text-xl font-bold text-corp-black mb-1">Cassia Élica Spinelli Marques</h3>
+        <!-- REVISAR COM CASSIA: confirmar se o nome da especialização PUC-MG é "Segurança" ou "Prevenção" Contra Incêndio -->
         <p class="text-corp-red font-medium text-sm mb-5">Arquiteta e Urbanista · Especialista em Engenharia de Prevenção Contra Incêndio (PUC-MG)</p>
         <div class="grid grid-cols-3 gap-4 mb-6 py-5 border-y border-gray-100">
           <div class="text-center">
@@ -437,7 +453,7 @@
             <div class="text-gray-500 text-xs mt-0.5">CAU/SP 00A1858351</div>
           </div>
         </div>
-        <a href="/sobre.html" class="inline-flex items-center gap-2 text-corp-red font-semibold text-sm hover:text-corp-red-dk transition-colors">
+        <a href="/quem-somos.html" class="inline-flex items-center gap-2 text-corp-red font-semibold text-sm hover:text-corp-red-dk transition-colors">
           Conhecer a responsável técnica
           <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none"
             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -485,7 +501,7 @@
           <p class="text-gray-300 text-sm font-medium mb-1">ALFA SEGURANÇA CONTRA INCÊNDIO LTDA</p>
           <p class="text-gray-400 text-xs mb-3">CNPJ: 62.088.739/0001-54</p>
           <p class="text-gray-400 text-xs leading-relaxed mb-4">
-            Especialistas em Engenharia de Prevenção e Segurança Contra Incêndio. Regularização, laudos, projetos de combate a incêndio e digitalização de plantas em todo o Estado de São Paulo.
+            Especialistas em Engenharia de Segurança Contra Incêndio. Regularização, laudos, projetos de prevenção e combate a incêndio e assessoria técnica em todo o Estado de São Paulo.
           </p>
         </div>
 
@@ -495,7 +511,7 @@
             <li><a href="/" class="text-gray-400 text-sm hover:text-white transition-colors">Home</a></li>
             <li><a href="/servicos.html" class="text-gray-400 text-sm hover:text-white transition-colors">Serviços &amp; Soluções</a></li>
             <li><a href="/legislacao.html" class="text-gray-400 text-sm hover:text-white transition-colors">Legislação &amp; Prevenção</a></li>
-            <li><a href="/sobre.html" class="text-gray-400 text-sm hover:text-white transition-colors">Sobre a Alfa Prev</a></li>
+            <li><a href="/quem-somos.html" class="text-gray-400 text-sm hover:text-white transition-colors">Quem Somos</a></li>
             <li><a href="/faq.html" class="text-gray-400 text-sm hover:text-white transition-colors">Perguntas Frequentes</a></li>
             <li><a href="/contato.html" class="text-gray-400 text-sm hover:text-white transition-colors">Solicitar Orçamento</a></li>
             <li><a href="/contato.html#politica-privacidade" class="text-gray-400 text-sm hover:text-white transition-colors">Política de Privacidade</a></li>

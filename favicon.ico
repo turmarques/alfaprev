@@ -1,0 +1,31 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <defs>
+    <linearGradient id="flameGrad" x1="0%" y1="100%" x2="0%" y2="0%">
+      <stop offset="0%" stop-color="#EF4444" />
+      <stop offset="50%" stop-color="#F97316" />
+      <stop offset="100%" stop-color="#FBBF24" />
+    </linearGradient>
+  </defs>
+  <!-- Background circular para contraste perfeito em qualquer tema de navegador -->
+  <rect width="64" height="64" rx="14" fill="#0F172A" />
+  
+  <g transform="translate(32, 33) scale(0.85) translate(-32, -32)">
+    <!-- Capacete de Bombeiro -->
+    <!-- Crista superior -->
+    <path d="M28 10 C28 8, 36 8, 36 10 L38 16 L26 16 Z" fill="#FFFFFF" />
+    <!-- Cúpula do Capacete -->
+    <path d="M14 26 C14 15, 22 13, 32 13 C42 13, 50 15, 50 26 Z" fill="#FFFFFF" />
+    <!-- Aba do Capacete -->
+    <rect x="10" y="25" width="44" height="4" rx="2" fill="#FFFFFF" />
+    
+    <!-- Engrenagem Inferior -->
+    <!-- Corpo da engrenagem com dentes -->
+    <path d="M18 29 L14 36 L17 38 L16 46 L21 48 L24 53 L32 55 L40 53 L43 48 L48 46 L47 38 L50 36 L46 29 Z" fill="#FFFFFF" />
+    
+    <!-- Centro oco da engrenagem (corte circular) -->
+    <circle cx="32" cy="38" r="11" fill="#0F172A" />
+    
+    <!-- Chama central estilizada com gradiente de fogo -->
+    <path d="M32 30 C32 30, 37 34, 37 38 C37 41, 34.5 43.5, 32 43.5 C29.5 43.5, 27 41, 27 38 C27 35.5, 28.5 34, 30 33 C30 35, 31.5 36, 32.5 36 C32.5 34.5, 32 30, 32 30 Z" fill="url(#flameGrad)" />
+  </g>
+</svg>
