@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <!-- Guarda de segurança: redireciona para o arquivo gerado na raiz se aberto diretamente via servidor HTTP -->
-  <script>if(['http:','https:'].includes(location.protocol)&&location.pathname.includes('/src/'))location.replace('/'+location.pathname.split('/').pop());</script>
+  <script>if(['http:','https:'].includes(location.protocol)&&location.pathname.includes('/src/pages/'))location.replace(location.pathname.replace('/src/pages/','/'));</script>
   <title>Alfa Prev | Projetos de Prevenção e Combate a Incêndio, AVCB e Segurança Contra Incêndio em SP</title>
   <meta name="description" content="Alfa Prev | Projetos de Prevenção e Combate a Incêndio (PPCI), regularização de AVCB/CLCB, laudos técnicos e assessoria técnica especializada em todo o Estado de São Paulo.">
   <link rel="canonical" href="https://alfaprev-sci.com.br/">
@@ -151,12 +151,12 @@
   <!-- HERO -->
   <section id="inicio" class="relative bg-white pt-28 pb-16 lg:pt-36 lg:pb-24 overflow-hidden"
     aria-labelledby="hero-heading">
-    <!-- Marca d'água: ícone do logo posicionado à direita, opacidade ~5% -->
-    <div class="absolute right-0 top-0 bottom-0 flex items-center pointer-events-none overflow-hidden" aria-hidden="true">
+    <!-- Marca d'água: ícone do logo centralizado atrás do bloco de título, opacidade ~6% -->
+    <div class="absolute inset-0 flex items-center justify-center pointer-events-none" aria-hidden="true">
       <img src="/assets/logo/logo-icon-dark.svg" alt=""
-        class="w-72 h-72 lg:w-[480px] lg:h-[480px] opacity-[0.05]"
-        style="transform: translateX(25%); opacity: 0.05; width: 288px; height: 288px;"
-        width="288" height="288">
+        class="w-64 h-64 sm:w-80 sm:h-80 lg:w-[440px] lg:h-[440px] opacity-[0.06]"
+        style="opacity: 0.06; width: 256px; height: 256px;"
+        width="256" height="256">
     </div>
     <div class="absolute left-0 top-0 bottom-0 w-1 bg-corp-red" aria-hidden="true"></div>
     <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -309,7 +309,7 @@
             </div>
             <h3 class="text-base font-semibold text-corp-black mb-2">Projetos de Prevenção e Combate a Incêndio (PPCI)</h3>
             <p class="text-gray-600 text-sm leading-relaxed">
-              Desenvolvimento de projetos técnicos completos: dimensionamento de hidrantes, sprinklers, extintores, rotas de saída e sinalização para aprovação junto ao Corpo de Bombeiros.
+              Desenvolvimento de projetos técnicos completos: dimensionamento dos sistemas de hidrantes, extintores, rotas de fuga e iluminação de emergência, além das demais medidas de segurança exigidas para cada edificação, sempre com base na legislação vigente de segurança contra incêndio.
             </p>
           </div>
         </article>
@@ -371,10 +371,10 @@
           </div>
           <h2 id="leg-teaser-heading" class="text-3xl lg:text-4xl font-bold text-corp-black mb-5">Regularização não é opcional</h2>
           <p class="text-gray-600 leading-relaxed mb-4">
-            O <strong>AVCB (Auto de Vistoria do Corpo de Bombeiros)</strong> é o documento que comprova que uma edificação foi planejada e equipada para prevenir sinistros. Ele tem validade legal e exige renovação periódica. O vencimento gera irregularidade imediata.
+            O <strong>AVCB (Auto de Vistoria do Corpo de Bombeiros)</strong> é o documento emitido pelo Corpo de Bombeiros, que comprova que uma edificação foi planejada e equipada com as medidas de segurança necessárias para prevenir sinistros. Ele tem validade legal e exige renovação periódica. O vencimento gera irregularidade imediata.
           </p>
           <p class="text-gray-600 leading-relaxed mb-6">
-            Para estabelecimentos de menor porte, o Corpo de Bombeiros emite o <strong>CLCB (Certificado de Licença do Corpo de Bombeiros)</strong>, processo simplificado que também precisa de assessoria técnica para ser conduzido corretamente.
+            Para estabelecimentos de menor risco, o Corpo de Bombeiros emite o <strong>CLCB (Certificado de Licença do Corpo de Bombeiros)</strong>, processo simplificado que também precisa de assessoria técnica para ser conduzido corretamente.
           </p>
           <ul class="space-y-2 mb-8">
             <li class="flex items-start gap-2 text-gray-600 text-sm">

@@ -394,6 +394,29 @@ Decisão: não duplicar sentido entre badges 2 e outro sobre "especialista" — 
 - **Home:** `ProfessionalService`
 - **Quem Somos:** `Person` (responsável técnica) + `ProfessionalService`
 - **Serviços:** `ItemList` (listagem dos 6 serviços)
-- **Legislação:** `Article`
+- **Legislação (hub):** `CollectionPage`
+- **Artigos de legislação (`/legislacao/*.html`):** `Article` com `datePublished`
 - **FAQ:** `FAQPage` (manter sincronizado com os itens do accordion)
 - **Contato:** `LocalBusiness`
+
+### Como adicionar um novo artigo em Legislação
+
+1. **Criar o arquivo fonte** em `src/pages/legislacao/nome-do-artigo.html` seguindo o padrão dos artigos existentes:
+   - Redirect guard no `<head>` (idêntico aos outros artigos)
+   - `<title>`, `<meta name="description">` e `<link rel="canonical">` únicos para o artigo
+   - JSON-LD `Article` com `datePublished` no formato `YYYY-MM-DD`
+   - JSON-LD `BreadcrumbList` com 3 níveis: Home → Legislação → título do artigo
+   - `<!-- INCLUDE:head-common -->` antes de `</head>`
+   - Mini-hero com breadcrumb de navegação (nav com links para `/` e `/legislacao.html`)
+   - ID único no `<section>` do mini-hero (ex: `art4-heading`) para evitar colisão entre páginas
+   - Corpo do artigo em `<article class="py-16 lg:py-20 bg-white">` com `max-w-3xl`
+   - Seção CTA ao final (`bg-corp-black`)
+   - INCLUDEs de footer, whatsapp-float, cookie-banner, scripts
+
+2. **Adicionar card no hub** em `src/pages/legislacao.html` — copiar um dos `<article>` existentes no grid e ajustar título, descrição e link.
+
+3. **Adicionar URL no `sitemap.xml`** com `changefreq: yearly` e `priority: 0.7`.
+
+4. **Rodar `npm run build`** — o `processDir()` do `build.js` percorre recursivamente `src/pages/` incluindo subdiretórios.
+
+5. **Verificar**: abrir o arquivo gerado na raiz (ex: `legislacao/nome-do-artigo.html`) e confirmar que `cdn.tailwindcss.com` está presente no `<head>` (sinal de que o `<!-- INCLUDE:head-common -->` foi expandido corretamente).

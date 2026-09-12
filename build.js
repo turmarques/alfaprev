@@ -14,35 +14,55 @@ for (const file of fs.readdirSync(PARTIALS_DIR)) {
   partials[key] = fs.readFileSync(path.join(PARTIALS_DIR, file), 'utf8');
 }
 
-// Process each source page
 let count = 0;
-for (const file of fs.readdirSync(SRC_DIR)) {
-  if (!file.endsWith('.html')) continue;
-  let content = fs.readFileSync(path.join(SRC_DIR, file), 'utf8');
+let errors = 0;
 
-  // Replace all <!-- INCLUDE:name --> markers
-  content = content.replace(/<!-- INCLUDE:([\w-]+) -->/g, (match, name) => {
-    if (partials[name] === undefined) {
-      console.warn(`  [WARN] Partial não encontrado: "${name}" (em ${file})`);
-      return match;
+// Process src/pages/ recursively, mirroring the directory structure to the output
+function processDir(srcDir, outDir) {
+  if (!fs.existsSync(outDir)) fs.mkdirSync(outDir, { recursive: true });
+
+  for (const item of fs.readdirSync(srcDir)) {
+    const srcPath = path.join(srcDir, item);
+    const outPath = path.join(outDir, item);
+    const stat = fs.statSync(srcPath);
+
+    if (stat.isDirectory()) {
+      processDir(srcPath, outPath);
+      continue;
     }
-    return partials[name];
-  });
 
-  fs.writeFileSync(path.join(OUT_DIR, file), content, 'utf8');
+    if (!item.endsWith('.html')) continue;
 
-  // Sanity check: Tailwind CDN must be present in every output
-  if (!content.includes('cdn.tailwindcss.com')) {
-    console.error(`  [ERRO] cdn.tailwindcss.com NÃO encontrado em ${file} — verifique o partial head-common!`);
-    process.exitCode = 1;
+    let content = fs.readFileSync(srcPath, 'utf8');
+
+    // Replace all <!-- INCLUDE:name --> markers
+    content = content.replace(/<!-- INCLUDE:([\w-]+) -->/g, (match, name) => {
+      if (partials[name] === undefined) {
+        console.warn(`  [WARN] Partial não encontrado: "${name}" (em ${item})`);
+        return match;
+      }
+      return partials[name];
+    });
+
+    fs.writeFileSync(outPath, content, 'utf8');
+
+    // Sanity check: Tailwind CDN must be present in every output
+    if (!content.includes('cdn.tailwindcss.com')) {
+      console.error(`  [ERRO] cdn.tailwindcss.com NÃO encontrado em ${path.relative(OUT_DIR, outPath)} — verifique o partial head-common!`);
+      errors++;
+    }
+    // Sanity check: no unresolved INCLUDE markers
+    if (/<!-- INCLUDE:/.test(content)) {
+      console.error(`  [ERRO] Marcador <!-- INCLUDE: --> não resolvido em ${path.relative(OUT_DIR, outPath)} — partial ausente?`);
+      errors++;
+    }
+
+    console.log(`  ✓ ${path.relative(OUT_DIR, outPath)}`);
+    count++;
   }
-  // Sanity check: no unresolved INCLUDE markers
-  if (/<!-- INCLUDE:/.test(content)) {
-    console.error(`  [ERRO] Marcador <!-- INCLUDE: --> não resolvido em ${file} — partial ausente?`);
-    process.exitCode = 1;
-  }
-
-  console.log(`  ✓ ${file}`);
-  count++;
 }
+
+processDir(SRC_DIR, OUT_DIR);
+
+if (errors > 0) process.exitCode = 1;
 console.log(`\nBuild concluído: ${count} página(s) gerada(s) em ${OUT_DIR}`);
