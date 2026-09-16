@@ -231,6 +231,17 @@ alfaprev/
 - Sinalização: renomeada para "Sinalização de Emergência", iluminação de emergência removida da lista de sub-serviços
 - Teste Hidrostático: renomeado para "Teste hidrostático de mangueiras de incêndio"
 - FAQ: frequência de manutenção de mangueiras agora sem prazo fixo; PPCI com nomenclatura correta
+- Citações legais/normativas corrigidas (set/2026): Decreto 56.819/2011 → 69.118/2024; Lei 16.213/2016 (inexistente) → LC 1.257/2015; NBR 11861 → NBR 12779; NBR 13434 → NBR 16820:2020
+- Artigo "Lei Kiss": renomeado para `lei-kiss-decreto-69118.html`, linha do tempo normativa (56.819 → 63.911 → 69.118) adicionada
+
+### ⚠️ Pendências de revisão técnica com a Cassia — OBRIGATÓRIO antes de considerar definitivo
+
+> **Contexto:** as correções de citações legais/normativas abaixo foram feitas com base em pesquisa externa, NÃO em confirmação direta da responsável técnica. Conteúdo de lei e norma é o tipo de informação que mais compromete a credibilidade da empresa se estiver errado. Estes itens devem ser revisados pela Cassia antes da publicação do site ou de qualquer divulgação do Blog SCI.
+
+1. **Numeração das Instruções Técnicas (ITs)** — confirmar se a numeração IT-01, IT-11, IT-18, IT-20, IT-21, IT-22 permanece igual com o Decreto 69.118/2024 ou se houve renumeração. Localização: artigo `src/pages/blog-sci/lei-kiss-decreto-69118.html`.
+2. **NBR 12962 (Extintores, edição 2016)** — verificar se a edição 2016 continua vigente ou foi cancelada/substituída. Foram encontrados sinais ambíguos em fontes secundárias, mas sem confirmação. Não alterar a citação enquanto não houver confirmação. Localização: `src/pages/servicos.html` (tag do card Extintores).
+3. **VIA-FÁCIL e TAACB** — plataforma digital de licenciamento e novo documento citados em fontes de terceiros como novidades do Decreto 69.118/2024. Não foram adicionados ao site. Confirmar com a Cassia se já fazem parte do fluxo de trabalho real da Alfa Prev — podem ser conteúdo relevante para o Blog SCI se confirmados.
+4. **Outros impactos do Decreto 69.118/2024** — verificar se há algum outro processo, prazo ou terminologia que mudou com o decreto e que afete a descrição dos serviços da Alfa Prev no site.
 
 ### Pendente antes de publicar 🔴
 - [x] Registrar domínio — `alfaprev-sci.com.br` registrado via Locaweb (ativo, expira 08/09/2027)

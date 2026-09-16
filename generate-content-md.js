@@ -11,7 +11,7 @@ const PAGE_ORDER = [
   { file: 'servicos.html',                          label: 'Serviços (servicos.html)' },
   { file: 'blog-sci.html',                          label: 'Blog SCI — Hub (blog-sci.html)' },
   { file: path.join('blog-sci', 'avcb-clcb.html'),                   label: 'Artigo: AVCB e CLCB (blog-sci/avcb-clcb.html)' },
-  { file: path.join('blog-sci', 'lei-kiss-decreto-56819.html'),       label: 'Artigo: Lei Kiss e Decreto 56.819 (blog-sci/lei-kiss-decreto-56819.html)' },
+  { file: path.join('blog-sci', 'lei-kiss-decreto-69118.html'),       label: 'Artigo: Lei Kiss e Decreto 69.118/2024 (blog-sci/lei-kiss-decreto-69118.html)' },
   { file: path.join('blog-sci', 'vencimento-avcb-clcb.html'),        label: 'Artigo: Vencimento AVCB/CLCB (blog-sci/vencimento-avcb-clcb.html)' },
   { file: 'quem-somos.html',                        label: 'Quem Somos (quem-somos.html)' },
   { file: 'faq.html',                               label: 'FAQ (faq.html)' },

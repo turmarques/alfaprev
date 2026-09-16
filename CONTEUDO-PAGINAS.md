@@ -3,7 +3,7 @@
 > Arquivo gerado automaticamente por `generate-content-md.js` via `npm run build`.
 > **Não edite manualmente.** Edite o conteúdo em `src/pages/` e rode `npm run build`.
 
-Gerado em: 2026-09-16T03:30:42.515Z
+Gerado em: 2026-09-16T04:24:09.175Z
 
 ---
 
@@ -84,10 +84,10 @@ Teste Hidrostático
 Sinalização
 Todos os serviços da Alfa Prev
 Projetos de Prevenção e Combate a Incêndio (PPCI)
-IT Nº 01: Decreto Estadual SP 56.819/2011
+IT Nº 01: Decreto Estadual nº 69.118/2024
 Desenvolvimento de projetos técnicos completos: dimensionamento dos sistemas de hidrantes, extintores, rotas de fuga e iluminação de emergência, além das demais medidas de segurança exigidas para cada edificação, sempre com base na legislação vigente de segurança contra incêndio.
 Assessoria Técnica para AVCB / CLCB
-Lei Estadual SP 16.213/2016
+Lei Complementar nº 1.257/2015 · Decreto nº 69.118/2024
 Assessoria técnica especializada para emissão e renovação de AVCB (Auto de Vistoria do Corpo de Bombeiros) e CLCB (Certificado de Licença do Corpo de Bombeiros). A Alfa Prev avalia o enquadramento correto da edificação, organiza a documentação exigida, orienta as adequações necessárias e acompanha todo o processo até a vistoria, orientando o cliente sobre a preparação da edificação para o momento da inspeção do Corpo de Bombeiros. Mais do que obter o documento, o objetivo é garantir que a edificação esteja de fato em conformidade, eliminando riscos de interdições, multas e recusas de cobertura securitária.
 Venda, Inspeção e Recarga de Extintores
 NBR 12962: Inspeção e Manutenção
@@ -103,17 +103,17 @@ Classe D: metais combustíveis, como magnésio, sódio e alumínio.
 Classe K: incêndios envolvendo óleos e gorduras de cozinha, comuns em cozinhas profissionais e industriais.
 A escolha correta do extintor é fundamental para combater o incêndio em seu estágio inicial.
 Teste hidrostático de mangueiras de incêndio
-NBR 11861: Manutenção de Mangueiras
+NBR 12779: Inspeção e Manutenção de Mangueiras
 O teste hidrostático em mangueiras de incêndio é fundamental para verificar sua integridade e identificar possíveis vazamentos, danos ou alterações que possam comprometer seu desempenho durante o combate a um incêndio.
 Durante uma emergência, a mangueira é submetida à pressão da água para permitir o combate às chamas. Por isso, é indispensável garantir que esteja em condições adequadas de segurança e funcionamento, reduzindo o risco de rompimentos e falhas durante a utilização.
 A Alfa Prev realiza inspeção e teste hidrostático em mangueiras de incêndio, seguindo os requisitos técnicos aplicáveis, contribuindo para a confiabilidade do sistema de hidrantes e para a proteção de pessoas e patrimônio.
 Sinalização de Emergência
-NBR 13434
+NBR 16820:2020 (Sinalização de Emergência)
 Em uma situação de emergência, cada segundo é importante. Uma sinalização de emergência corretamente instalada facilita a identificação das rotas de fuga, saídas de emergência, equipamentos de combate a incêndio e demais recursos de segurança, auxiliando na evacuação rápida e segura da edificação.
 A Alfa Prev oferece fornecimento e instalação de sinalização de emergência, adequadas às características e necessidades de cada edificação.
 Quando necessário, também realizamos o dimensionamento e a definição das sinalizações em projeto, estabelecendo os tipos, quantidades e locais de instalação de acordo com as medidas de segurança contra incêndio previstas.
 Categorias do serviço
-Sinalização de Orientação: placas de saída de emergência, indicação de rotas de fuga e ponto de encontro externo, conforme NBR 13434
+Sinalização de Orientação: placas de saída de emergência, indicação de rotas de fuga e ponto de encontro externo, conforme NBR 16820:2020 (que substituiu a antiga NBR 13434)
 Sinalização de Equipamentos: identificação de extintores, hidrantes, acionadores de alarme e chuveiros automáticos
 Digitalização de Projetos Arquitetônicos
 Plantas CAD para aprovação junto ao CBPMESP
@@ -137,17 +137,19 @@ Solicitar Orçamento
 
 Blog SCI
 Blog SCI
-Conteúdo sobre engenharia de incêndio, normas, novidades regulatórias e dicas práticas para manter sua edificação segura e regularizada.
+O Blog SCI é um espaço criado para reunir conteúdo técnico, objetivo e atualizado sobre Segurança Contra Incêndio no Estado de São Paulo.
 Artigos e Guias
-Conteúdo sobre engenharia de incêndio
-Conteúdo sobre engenharia de incêndio, normas, novidades regulatórias e dicas práticas para manter sua edificação segura e regularizada, produzido pela Alfa Prev.
+Blog SCI: Legislação, Normas e Segurança Contra Incêndio em São Paulo
+Aqui você encontra informações sobre AVCB e CLCB, Projetos de Prevenção e Combate a Incêndio (PPCI), o Decreto Estadual nº 69.118/2024 e suas Instruções Técnicas, além de orientações práticas sobre regularização e segurança de edificações.
+O conteúdo é pensado para comerciantes, empresários, síndicos, arquitetos, engenheiros e demais profissionais envolvidos com a segurança e a regularização de edificações — ajudando a entender as exigências legais e as medidas de segurança contra incêndio de forma clara e objetiva.
+Informação técnica para ajudar você a entender, prevenir e manter sua edificação em conformidade com a legislação de Segurança Contra Incêndio vigente.
 Documentação
 AVCB e CLCB: qual é a diferença e qual o seu imóvel precisa
 Os dois documentos têm força legal equivalente — mas processo, abrangência e critérios de exigência diferentes. Entenda qual se aplica ao seu caso.
 Ler artigo
 Legislação
-Lei Kiss e o Decreto 56.819/2011: como a legislação de incêndio funciona em São Paulo
-Da tragédia de Santa Maria à lei federal: o contexto histórico e a estrutura normativa que define as obrigações de segurança contra incêndio no Estado de SP.
+Lei Kiss e o Decreto Estadual nº 69.118/2024: como a legislação de incêndio funciona em São Paulo
+Da tragédia de Santa Maria à lei federal: o contexto histórico e a linha do tempo normativa que define as obrigações de segurança contra incêndio no Estado de SP.
 Ler artigo
 Consequências
 O que acontece quando o AVCB ou CLCB vence sem renovação
@@ -183,7 +185,7 @@ O CLCB também tem prazo de validade e exige renovação periódica, assim como 
 A diferença essencial entre os dois
 O AVCB exige inspeção presencial do Corpo de Bombeiros antes da emissão. O CLCB é emitido com base em declaração do responsável pelo imóvel, podendo a inspeção ocorrer depois , como fiscalização. O AVCB é, portanto, um processo mais robusto — e destinado a edificações de maior porte ou maior risco.
 Qual o seu imóvel precisa: AVCB ou CLCB?
-A definição de qual documento é exigido para cada edificação está estabelecida na Instrução Técnica nº 01 do Corpo de Bombeiros do Estado de São Paulo, que integra o Decreto Estadual 56.819/2011. A classificação considera três variáveis principais:
+A definição de qual documento é exigido para cada edificação está estabelecida na Instrução Técnica nº 01 do Corpo de Bombeiros do Estado de São Paulo, que integra o Decreto Estadual nº 69.118/2024. A classificação considera três variáveis principais:
 Grupo de ocupação: residencial, comercial, industrial, educacional, de saúde, de reunião de público, etc.
 Área total construída da edificação ou unidade.
 Altura da edificação (determinante especialmente para o tipo de sistemas exigidos).
@@ -215,15 +217,15 @@ Solicitar avaliação gratuita
 
 ---
 
-## Artigo: Lei Kiss e Decreto 56.819 (blog-sci/lei-kiss-decreto-56819.html)
+## Artigo: Lei Kiss e Decreto 69.118/2024 (blog-sci/lei-kiss-decreto-69118.html)
 
 Home
 /
 Blog SCI
 /
-Lei Kiss e Decreto 56.819/2011
+Lei Kiss e Decreto 69.118/2024
 Blog SCI
-Lei Kiss e o Decreto 56.819/2011: como a legislação de incêndio funciona em São Paulo
+Lei Kiss e o Decreto Estadual nº 69.118/2024: como a legislação de incêndio funciona em São Paulo
 Publicado em setembro de 2026 · Alfa Prev
 A obrigação legal de manter um imóvel com documentação de segurança contra incêndio vigente não surgiu do nada. Ela é resultado de uma construção normativa que, no Estado de São Paulo, antecede até mesmo os episódios que chamaram a atenção do país para o tema — e que foi reforçada, no âmbito federal, após a tragédia de Santa Maria.
 Entender como essa legislação se estrutura ajuda gestores, síndicos e proprietários a compreender por que as exigências do Corpo de Bombeiros existem — e por que cumprí-las não é apenas uma questão de evitar multas.
@@ -233,15 +235,8 @@ A investigação revelou um cenário que, infelizmente, não era exclusivo de Sa
 O resultado foi uma pressão nacional por legislação federal mais rigorosa — que até então deixava quase toda a regulamentação a cargo dos estados.
 O Decreto Estadual 56.819/2011: São Paulo já regulava antes de Kiss
 O Estado de São Paulo aprovou, em 10 de novembro de 2011, o Decreto nº 56.819 — o Regulamento de Segurança contra Incêndio das Edificações e Áreas de Risco do Estado de São Paulo. Esse decreto, portanto, entrou em vigor quase dois anos antes da tragédia da Boate Kiss.
-O Decreto 56.819/2011 é a principal referência normativa para quem opera no Estado de SP. Ele não define apenas quais edificações precisam de AVCB ou CLCB — define o quê cada edificação precisa ter instalado e em funcionamento para obter esses documentos. Para isso, o decreto é acompanhado por um conjunto de Instruções Técnicas (ITs) , publicadas pelo Corpo de Bombeiros, que detalham os requisitos específicos para cada sistema e tipo de uso.
-Entre as principais ITs, estão as que regulam:
-A classificação das edificações e o dimensionamento das medidas de segurança (IT-01)
-Saídas de emergência (IT-11)
-Sinalização de emergência (IT-20)
-Sistemas de hidrantes e mangotinhos (IT-22)
-Extintores de incêndio (IT-21)
-Iluminação de emergência (IT-18)
-Em termos práticos, é a partir do conjunto formado pelo Decreto e pelas ITs que se determina o escopo de qualquer Projeto de Prevenção e Combate a Incêndio (PPCI) em São Paulo.
+O Decreto 56.819/2011 foi, por muitos anos, a principal referência normativa para quem operava no Estado de SP. Ele não definia apenas quais edificações precisam de AVCB ou CLCB — definia o quê cada edificação precisa ter instalado e em funcionamento para obter esses documentos. Para isso, o decreto era acompanhado por um conjunto de Instruções Técnicas (ITs) , publicadas pelo Corpo de Bombeiros, que detalham os requisitos específicos para cada sistema e tipo de uso.
+Em termos práticos, foi a partir do conjunto formado pelo Decreto e pelas ITs que se determinou o escopo de qualquer Projeto de Prevenção e Combate a Incêndio (PPCI) em São Paulo por mais de uma década.
 A Lei Federal 13.425/2017: o que ficou conhecida como Lei Kiss
 A Lei Federal nº 13.425 foi sancionada em março de 2017 — quatro anos após o incêndio da Boate Kiss, que motivou sua elaboração e lhe conferiu o nome pelo qual ficou conhecida. A lei estabelece diretrizes nacionais sobre medidas de prevenção e combate a incêndio e a desastres em estabelecimentos e edificações de uso coletivo.
 Entre os pontos centrais da Lei Kiss:
@@ -252,8 +247,22 @@ Estabelece prazo para que estabelecimentos já em funcionamento se adequem às e
 Para o Estado de São Paulo, que já possuía o Decreto 56.819/2011, a Lei Kiss representou um reforço federal às obrigações que o estado já exigia — ampliando o alcance da responsabilização e tornando o cumprimento uma questão de lei federal, não apenas estadual.
 São Paulo já regulava antes de Kiss
 O fato de São Paulo ter aprovado o Decreto 56.819/2011 antes da tragédia de Santa Maria não significa que as exigências eram menos sérias — significa que o estado já reconhecia a necessidade de regulação técnica rigorosa. O problema enfrentado em todo o país não era de ausência de regras, mas de cumprimento e fiscalização. A Lei Kiss veio para tornar o cumprimento uma obrigação federal explícita e ampliar a responsabilização dos gestores.
+A linha do tempo normativa: do Decreto 56.819 ao Decreto 69.118/2024
+A legislação estadual de segurança contra incêndio passou por atualizações relevantes desde 2011. A linha do tempo do decreto regulamentador é a seguinte:
+Decreto nº 56.819, de 10 de novembro de 2011 — instituiu o Regulamento de Segurança contra Incêndio das Edificações e Áreas de Risco do Estado de São Paulo. Foi o decreto vigente durante a tragédia da Boate Kiss (2013) e à época da aprovação da Lei Kiss (2017).
+Decreto nº 63.911, de 10 de dezembro de 2018 — revogou o Decreto 56.819/2011 e promoveu atualizações no regulamento.
+Decreto nº 69.118, de 9 de dezembro de 2024 — revogou o Decreto 63.911/2018 e é o decreto atualmente em vigor no Estado de São Paulo. Mantém a estrutura de AVCB e CLCB como documentos de regularidade da edificação.
+A nomenclatura dos documentos (AVCB e CLCB) não foi alterada com as atualizações. O que muda entre versões do decreto são aspectos técnicos do regulamento e procedimentos administrativos.
+O Decreto 69.118/2024 também é acompanhado por um conjunto de Instruções Técnicas (ITs) publicadas pelo Corpo de Bombeiros, que detalham os requisitos específicos para cada sistema e tipo de uso. Entre as principais ITs estão as que regulam:
+A classificação das edificações e o dimensionamento das medidas de segurança (IT-01)
+Saídas de emergência (IT-11)
+Sinalização de emergência (IT-20)
+Sistemas de hidrantes e mangotinhos (IT-22)
+Extintores de incêndio (IT-21)
+Iluminação de emergência (IT-18)
+Em termos práticos, é a partir do conjunto formado pelo Decreto 69.118/2024 e pelas ITs que se determina o escopo de qualquer Projeto de Prevenção e Combate a Incêndio (PPCI) em São Paulo.
 Quem precisa cumprir essa legislação
-Em São Paulo, praticamente todo imóvel de uso não-residencial — e boa parte dos residenciais coletivos — está sujeito às exigências do Decreto 56.819/2011 e das ITs do Corpo de Bombeiros. Isso inclui:
+Em São Paulo, praticamente todo imóvel de uso não-residencial — e boa parte dos residenciais coletivos — está sujeito às exigências do Decreto Estadual nº 69.118/2024 e das ITs do Corpo de Bombeiros. Isso inclui:
 Condomínios residenciais (especialmente com mais de um pavimento ou acima de determinada altura)
 Estabelecimentos comerciais e de serviços (lojas, restaurantes, academias, clínicas, salões de beleza, escritórios)
 Indústrias e armazéns
@@ -280,7 +289,7 @@ Este artigo detalha o que acontece, na prática, quando a renovação não é fe
 Irregularidade imediata, sem período de carência
 No dia seguinte ao vencimento do AVCB ou CLCB, o imóvel já está em situação irregular perante o Corpo de Bombeiros do Estado de São Paulo. A lei não prevê período de tolerância. A renovação não tem efeito retroativo: o intervalo entre o vencimento e a emissão do novo documento é um período de irregularidade.
 Multas administrativas
-A principal consequência imediata da irregularidade é a aplicação de multas pelo Corpo de Bombeiros, com base na Lei Estadual 16.213/2016 e no Decreto 56.819/2011 . As penalidades são progressivas: quanto mais tempo o imóvel permanece irregular, maior o valor acumulado.
+A principal consequência imediata da irregularidade é a aplicação de multas pelo Corpo de Bombeiros, com base na Lei Complementar nº 1.257/2015 e no Decreto Estadual nº 69.118/2024 . As penalidades são progressivas: quanto mais tempo o imóvel permanece irregular, maior o valor acumulado.
 As multas são aplicadas por auto de infração e podem ser lavradas durante vistorias de rotina, fiscalizações decorrentes de denúncia ou inspeções pós-sinistro. O fato de o imóvel estar em aparente bom estado de conservação não isenta o responsável da multa — a infração é o descumprimento do prazo legal, não a condição física do imóvel.
 Os valores das penalidades variam conforme o tipo de ocupação e o porte da edificação. A reincidência agrava o enquadramento. Em alguns casos, a multa pode ser convertida em obrigação de regularização, com prazo determinado pelo Corpo de Bombeiros — mas o descumprimento desse prazo resulta em novas sanções.
 Risco de interdição
@@ -412,7 +421,7 @@ O vencimento do AVCB ou CLCB coloca o imóvel em situação de irregularidade im
 Quais documentos costumam ser solicitados no processo de AVCB?
 Os requisitos variam conforme a edificação, sua classificação de risco e se é uma primeira emissão ou renovação. Em geral, costumam ser exigidos: plantas arquitetônicas aprovadas com memorial descritivo, o Projeto de Prevenção e Combate a Incêndio (PPCI) completo, documentos de responsabilidade técnica (ART do engenheiro ou RRT da arquiteta responsável), AVCB anterior vigente em casos de renovação, e evidências das instalações executadas conforme o projeto. A lista exata deve ser confirmada com o Corpo de Bombeiros ou com um consultor técnico habilitado. A Alfa Prev faz essa avaliação individualmente para cada imóvel antes do protocolo.
 Quais edificações precisam de AVCB ou CLCB obrigatoriamente?
-Praticamente toda edificação não-residencial precisa de um dos dois documentos. O tipo de certificado exigido e o nível de complexidade do projeto dependem da classificação de ocupação, da área total construída, da altura e do grau de risco, conforme o Decreto Estadual SP nº 56.819/2011. Entre as edificações que tipicamente precisam de regularização estão: estabelecimentos comerciais de qualquer porte, galpões industriais e armazéns, condomínios residenciais acima de determinada altura ou número de unidades, hotéis, hospitais e clínicas, instituições de ensino, igrejas e casas de espetáculo, restaurantes e casas noturnas, e academias de ginástica. Residências unifamiliares, de modo geral, não se enquadram na obrigatoriedade. A definição de qual documento se aplica é sempre feita caso a caso, com base nas características reais do imóvel.
+Praticamente toda edificação não-residencial precisa de um dos dois documentos. O tipo de certificado exigido e o nível de complexidade do projeto dependem da classificação de ocupação, da área total construída, da altura e do grau de risco, conforme o Decreto Estadual SP nº 69.118/2024. Entre as edificações que tipicamente precisam de regularização estão: estabelecimentos comerciais de qualquer porte, galpões industriais e armazéns, condomínios residenciais acima de determinada altura ou número de unidades, hotéis, hospitais e clínicas, instituições de ensino, igrejas e casas de espetáculo, restaurantes e casas noturnas, e academias de ginástica. Residências unifamiliares, de modo geral, não se enquadram na obrigatoriedade. A definição de qual documento se aplica é sempre feita caso a caso, com base nas características reais do imóvel.
 Veja também
 Blog SCI
 |
