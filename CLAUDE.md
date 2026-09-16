@@ -12,7 +12,7 @@ Fonte única de contexto do projeto para o Claude Code. Leia este arquivo no in�
 
 **Tom de voz esperado no copy:**
 - Técnico mas acessível: explica os termos sem ser condescendente
-- Autoridade sem arrogância: a empresa tem credencial real (CAU/SP ativo, especialização PUC-MG)
+- Autoridade sem arrogância: a empresa tem credencial real (CAU/SP ativo, especialização em Engenharia de Incêndio)
 - Urgência legítima: a regularização tem consequências reais (multa, interdição, risco de vida)
 - Nunca soar como "IA gerando texto": evitar frases genéricas, buzzwords de marketing, adjetivos vazios
 - **Tom institucional:** o site fala sempre em nome da empresa ("a Alfa Prev"), não em nome de uma pessoa específica — exceto na seção dedicada à responsável técnica, onde nome e credenciais devem permanecer como ativo de credibilidade. Fora dessa seção, usar "a Alfa Prev" como agente em vez de "nossa equipe" (que pode sugerir pluralidade inexistente) ou o nome da responsável como sujeito da empresa. Nunca inventar equipe, funcionários ou estrutura que não existem.
@@ -37,7 +37,7 @@ Fonte única de contexto do projeto para o Claude Code. Leia este arquivo no in�
 
 **Responsável Técnica:**
 - Nome: Cassia Élica Spinelli Marques
-- Formação: Arquiteta e Urbanista, Especialista em Engenharia de Prevenção Contra Incêndio (PUC-MG)
+- Formação: Arquiteta e Urbanista, Especialista em Engenharia de Incêndio
 - Registro: CAU/SP 00A1858351 (ativo)
 - Experiência: 8 anos de atuação no setor
 - Portfólio: +50.000 m² em projetos executados
@@ -101,7 +101,7 @@ alfaprev/
 |---|---|---|
 | `#inicio` | Hero | H1, CTAs WhatsApp e formulário, badges de credibilidade, 4 estatísticas |
 | `#servicos` | Serviços | 6 cards de serviço + banner de CTA |
-| `#legislacao` | Legislação & Prevenção | Por que regularizar + 4 riscos + CTA lateral sticky |
+| `#blog-sci` | Blog SCI | Hub de artigos sobre Engenharia de Incêndio, normas e regularização |
 | `#responsavel-tecnica` | Responsável Técnica | Card da Cassia + 3 estatísticas de destaque |
 | `#faq` | FAQ | 7 perguntas/respostas com accordion (Schema FAQPage) |
 | `#contato` | Contato & Orçamento | Dados de contato + formulário de orçamento |
@@ -220,9 +220,17 @@ alfaprev/
 - H1 do Hero atualizado para nova redação (PPCI + Assessoria AVCB/CLCB)
 - Estatísticas do Hero: "8 anos" → "+8 anos"; legenda de m² inclui "vistorias"
 - Badges do Hero: 5 no total (3 existentes + 2 novos); cores adaptadas para fundo claro
-- Terminologia atualizada: "Engenharia de Segurança Contra Incêndio" substituindo "Prevenção" (com exceções documentadas)
+- Terminologia atualizada: "Engenharia de Incêndio" como denominação padrão em todo o site (substituindo tanto "Segurança" quanto "Prevenção")
+- PUC-MG removida de todas as menções ao site (credential simplificada para "Especialista em Engenharia de Incêndio")
 - Página "Sobre" renomeada para "Quem Somos" (`quem-somos.html`) com novo texto institucional
 - Todos os links internos e sitemap.xml atualizados para `quem-somos.html`
+- Seção "Legislação" renomeada para "Blog SCI" — hub e artigos migrados para `blog-sci.html` / `blog-sci/`
+- Nav (header/footer) e sitemap.xml atualizados para blog-sci
+- Presença física no local: linguagem suavizada de "vai até você" para "quando necessário, realiza visita técnica ao imóvel"
+- Extintores: descrição reescrita, classes de incêndio atualizadas (A, B, C, D, K)
+- Sinalização: renomeada para "Sinalização de Emergência", iluminação de emergência removida da lista de sub-serviços
+- Teste Hidrostático: renomeado para "Teste hidrostático de mangueiras de incêndio"
+- FAQ: frequência de manutenção de mangueiras agora sem prazo fixo; PPCI com nomenclatura correta
 
 ### Pendente antes de publicar 🔴
 - [x] Registrar domínio — `alfaprev-sci.com.br` registrado via Locaweb (ativo, expira 08/09/2027)
@@ -268,7 +276,7 @@ Guia de publicação passo a passo: `GUIA-PUBLICACAO-INICIANTE.md`
 ```bash
 npm run build
 ```
-Isso regera todos os HTMLs na raiz do projeto.
+Isso regera todos os HTMLs na raiz do projeto **e** atualiza automaticamente `CONTEUDO-PAGINAS.md`.
 
 **OBRIGATÓRIO após o build:** abrir o arquivo gerado na raiz (ex: `index.html`) no navegador via Live Server — nunca o arquivo-fonte em `/src/pages/`. Os arquivos-fonte não têm o Tailwind CDN nem os partials expandidos; abri-los diretamente exibe o site sem nenhum estilo. O `build.js` agora inclui sanity checks que avisam no terminal se `cdn.tailwindcss.com` ou partials não resolvidos forem detectados na saída.
 
@@ -283,11 +291,17 @@ alfaprev/
 ├── index.html              # GERADO — não edite diretamente
 ├── servicos.html           # GERADO — não edite diretamente
 ├── quem-somos.html         # GERADO — não edite diretamente (renomeado de sobre.html em set/2026)
-├── legislacao.html         # GERADO — não edite diretamente
+├── blog-sci.html           # GERADO — não edite diretamente
+├── blog-sci/               # GERADO — não edite diretamente
+│   ├── avcb-clcb.html
+│   ├── lei-kiss-decreto-56819.html
+│   └── vencimento-avcb-clcb.html
 ├── faq.html                # GERADO — não edite diretamente
 ├── contato.html            # GERADO — não edite diretamente
 ├── build.js                # Script de build (Node.js nativo — sem dependências)
-├── package.json            # {"scripts": {"build": "node build.js"}}
+├── generate-content-md.js # Extrai texto das páginas e gera CONTEUDO-PAGINAS.md
+├── CONTEUDO-PAGINAS.md     # GERADO — conteúdo textual de todas as páginas (não edite)
+├── package.json            # {"scripts": {"build": "node build.js && node generate-content-md.js"}}
 ├── partials/
 │   ├── head-common.html    # Tailwind CDN, Inter font, tailwind.config, styles.css
 │   ├── header.html         # Header com navegação completa (editar aqui)
@@ -297,13 +311,27 @@ alfaprev/
 │   └── scripts.html        # Tags <script> de config.js e script.js
 └── src/
     └── pages/
-        ├── index.html         # Home: Hero + teasers de serviços, legislação e quem somos
+        ├── index.html         # Home: Hero + teasers de serviços, blog SCI e quem somos
         ├── servicos.html      # Todos os 6 serviços com descrições completas
         ├── quem-somos.html    # Texto institucional + responsável técnica + dados da empresa
-        ├── legislacao.html    # AVCB, CLCB e importância da regularização
-        ├── faq.html        # 7 perguntas/respostas com accordion (Schema FAQPage)
-        └── contato.html    # Formulário de orçamento, mapa, contatos, privacidade
+        ├── blog-sci.html      # Hub do Blog SCI (artigos sobre normas e regularização)
+        ├── blog-sci/
+        │   ├── avcb-clcb.html
+        │   ├── lei-kiss-decreto-56819.html
+        │   └── vencimento-avcb-clcb.html
+        ├── faq.html           # 7 perguntas/respostas com accordion (Schema FAQPage)
+        └── contato.html       # Formulário de orçamento, mapa, contatos, privacidade
 ```
+
+### Arquivo CONTEUDO-PAGINAS.md — regras obrigatórias
+
+`CONTEUDO-PAGINAS.md` é gerado automaticamente por `generate-content-md.js` e contém o conteúdo textual de todas as páginas do site extraído dos arquivos-fonte em `src/pages/`.
+
+**Regras:**
+- **Nunca edite `CONTEUDO-PAGINAS.md` diretamente** — qualquer alteração manual será sobrescrita no próximo `npm run build`.
+- Sempre que você (Claude) editar conteúdo em `src/pages/` ou `partials/`, **o próximo `npm run build` já atualiza o arquivo automaticamente**. Não é necessário rodá-lo em separado.
+- Se uma nova página for adicionada em `src/pages/`, adicione também uma entrada no array `PAGE_ORDER` de `generate-content-md.js` para que a nova página apareça no arquivo na ordem correta.
+- O arquivo serve como referência textual rápida do conteúdo do site para revisão de copy, auditoria de SEO e contexto em conversas futuras.
 
 ### Páginas e SEO
 
@@ -319,10 +347,10 @@ Cada página publicada deve ter, obrigatoriamente:
 
 - Serviços → Contato (CTA principal)
 - Serviços → FAQ (dúvidas sobre qual serviço)
-- Legislação → Serviços (como resolver)
-- Legislação → FAQ (dúvidas relacionadas)
+- Blog SCI → Serviços (como resolver)
+- Blog SCI → FAQ (dúvidas relacionadas)
 - FAQ → Contato (CTA principal)
-- FAQ → Serviços / Legislação (relacionados)
+- FAQ → Serviços / Blog SCI (relacionados)
 - Quem Somos → Contato (CTA principal)
 - Home → todas as páginas via teasers e nav
 
@@ -365,11 +393,12 @@ O número de anos de experiência é atualizado automaticamente por JS via `scri
 
 ### Convenção de terminologia (atualizado set/2026)
 
-Usar **"Engenharia de Segurança Contra Incêndio"** (não "Engenharia de Prevenção Contra Incêndio") para posicionamento geral da empresa.
+Usar **"Engenharia de Incêndio"** como denominação padrão em todo o site. Não usar "Engenharia de Segurança Contra Incêndio" nem "Engenharia de Prevenção Contra Incêndio".
 
-**Duas exceções que NÃO devem ser alteradas:**
+**Exceção que NÃO deve ser alterada:**
 1. **"Projeto(s) de Prevenção e Combate a Incêndio (PPCI)"** — nome técnico/legal oficial exigido pelo Corpo de Bombeiros.
-2. **"Especialista em Engenharia de Prevenção Contra Incêndio (PUC-MG)"** — pendente confirmação com Cassia se o nome oficial da especialização usa "Segurança" ou "Prevenção". Marcado com `<!-- REVISAR COM CASSIA -->` em `src/pages/quem-somos.html` e `src/pages/index.html`.
+
+**Credential da responsável técnica:** usar exatamente `"Arquiteta e Urbanista · Especialista em Engenharia de Incêndio"` — sem menção à PUC-MG em nenhum lugar do site.
 
 ### Página "Quem Somos" (renomeada de "Sobre" em set/2026)
 
@@ -378,45 +407,45 @@ Usar **"Engenharia de Segurança Contra Incêndio"** (não "Engenharia de Preven
 - Nav: link "Quem Somos" em header e footer
 - Conteúdo: texto institucional completo (set/2026) + bloco da responsável técnica (Cassia)
 
-### Badges do Hero (set/2026)
+### Badges do Hero (atualizado set/2026)
 
-5 badges com ícone de check verde:
-1. Projetos 100% Adequados às Normas Técnicas
-2. Responsável Técnica Especializada (PUC-MG)
-3. Atendimento Personalizado
-4. Serviços em conformidade com as legislações vigentes
-5. Assessoria completa para segurança do seu patrimônio
+3 badges com ícone de check verde (reduzidos de 5):
+1. Responsável Técnica Especializada em Engenharia de Incêndio
+2. Serviços em conformidade com as legislações vigentes
+3. Assessoria completa para segurança do seu patrimônio
 
-Decisão: não duplicar sentido entre badges 2 e outro sobre "especialista" — manter os 5 acima. Se a Cassia quiser dois badges distintos sobre a especialização, confirmar antes de alterar.
+Removidos: "Projetos 100% Adequados às Normas Técnicas" e "Atendimento Personalizado".
 
 ### Schema.org — padrão por tipo de página
 - **Todas as páginas:** `BreadcrumbList`
 - **Home:** `ProfessionalService`
 - **Quem Somos:** `Person` (responsável técnica) + `ProfessionalService`
 - **Serviços:** `ItemList` (listagem dos 6 serviços)
-- **Legislação (hub):** `CollectionPage`
-- **Artigos de legislação (`/legislacao/*.html`):** `Article` com `datePublished`
+- **Blog SCI (hub):** `CollectionPage`
+- **Artigos do Blog SCI (`/blog-sci/*.html`):** `Article` com `datePublished`
 - **FAQ:** `FAQPage` (manter sincronizado com os itens do accordion)
 - **Contato:** `LocalBusiness`
 
-### Como adicionar um novo artigo em Legislação
+### Como adicionar um novo artigo no Blog SCI
 
-1. **Criar o arquivo fonte** em `src/pages/legislacao/nome-do-artigo.html` seguindo o padrão dos artigos existentes:
-   - Redirect guard no `<head>` (idêntico aos outros artigos)
+1. **Criar o arquivo fonte** em `src/pages/blog-sci/nome-do-artigo.html` seguindo o padrão dos artigos existentes:
+   - Redirect guard no `<head>` (idêntico aos outros artigos — adaptar o `replace` para `'/src/pages/blog-sci/'` → `'blog-sci/'`)
    - `<title>`, `<meta name="description">` e `<link rel="canonical">` únicos para o artigo
    - JSON-LD `Article` com `datePublished` no formato `YYYY-MM-DD`
-   - JSON-LD `BreadcrumbList` com 3 níveis: Home → Legislação → título do artigo
+   - JSON-LD `BreadcrumbList` com 3 níveis: Home → Blog SCI → título do artigo
    - `<!-- INCLUDE:head-common -->` antes de `</head>`
-   - Mini-hero com breadcrumb de navegação (nav com links para `/` e `/legislacao.html`)
+   - Mini-hero com breadcrumb de navegação (nav com links para `/` e `/blog-sci.html`)
    - ID único no `<section>` do mini-hero (ex: `art4-heading`) para evitar colisão entre páginas
    - Corpo do artigo em `<article class="py-16 lg:py-20 bg-white">` com `max-w-3xl`
    - Seção CTA ao final (`bg-corp-black`)
    - INCLUDEs de footer, whatsapp-float, cookie-banner, scripts
 
-2. **Adicionar card no hub** em `src/pages/legislacao.html` — copiar um dos `<article>` existentes no grid e ajustar título, descrição e link.
+2. **Adicionar card no hub** em `src/pages/blog-sci.html` — copiar um dos `<article>` existentes no grid e ajustar título, descrição e link.
 
 3. **Adicionar URL no `sitemap.xml`** com `changefreq: yearly` e `priority: 0.7`.
 
-4. **Rodar `npm run build`** — o `processDir()` do `build.js` percorre recursivamente `src/pages/` incluindo subdiretórios.
+4. **Adicionar entrada no `PAGE_ORDER`** de `generate-content-md.js` usando `path.join('blog-sci', 'nome-do-artigo.html')`.
 
-5. **Verificar**: abrir o arquivo gerado na raiz (ex: `legislacao/nome-do-artigo.html`) e confirmar que `cdn.tailwindcss.com` está presente no `<head>` (sinal de que o `<!-- INCLUDE:head-common -->` foi expandido corretamente).
+5. **Rodar `npm run build`** — o `processDir()` do `build.js` percorre recursivamente `src/pages/` incluindo subdiretórios.
+
+6. **Verificar**: abrir o arquivo gerado na raiz (ex: `blog-sci/nome-do-artigo.html`) e confirmar que `cdn.tailwindcss.com` está presente no `<head>` (sinal de que o `<!-- INCLUDE:head-common -->` foi expandido corretamente).
