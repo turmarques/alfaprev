@@ -344,6 +344,18 @@ alfaprev/
 - Se uma nova página for adicionada em `src/pages/`, adicione também uma entrada no array `PAGE_ORDER` de `generate-content-md.js` para que a nova página apareça no arquivo na ordem correta.
 - O arquivo serve como referência textual rápida do conteúdo do site para revisão de copy, auditoria de SEO e contexto em conversas futuras.
 
+### Regra: sem aparência de texto gerado por IA
+
+O site não deve soar como texto produzido por IA. Regras obrigatórias de escrita:
+
+- **Proibido usar travessão (—) e meia-risca (–) em texto corrido.** Esses caracteres são marcadores frequentes de texto gerado automaticamente. Substituir por pontuação natural: dois pontos (`:`), vírgula, ponto ou parênteses — conforme o contexto.
+- Sem frases genéricas ou adjetivos vazios ("soluções completas e integradas", "atendimento diferenciado", "líderes do setor").
+- Sem estruturas do tipo "X — Y — Z" com travessões como parênteses.
+- Dados e estatísticas: usar apenas os confirmados na seção "Dados de Negócio". Nunca inventar.
+- Tom direto e técnico: dizer o que é, não o que parece ser.
+
+Esta regra se aplica a todo texto visível no site: parágrafos, títulos, bullets, callouts e qualquer outro elemento de copy.
+
 ### Páginas e SEO
 
 Cada página publicada deve ter, obrigatoriamente:
