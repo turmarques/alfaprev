@@ -295,6 +295,8 @@ Isso regera todos os HTMLs na raiz do projeto **e** atualiza automaticamente `CO
 
 **Commits pequenos e frequentes:** fazer commit ao fim de cada prompt/tarefa concluída — não acumular várias mudanças estruturais sem commitar. Isso torna trivial identificar via `git diff` ou `git bisect` qual mudança específica introduziu um problema. Padrão: commitar após cada sessão de edição que produz um resultado visual verificável.
 
+**Push para o repositório remoto:** nunca fazer push. O push é sempre responsabilidade do Artur. Claude Code apenas faz commits locais.
+
 ### Estrutura de arquivos atualizada
 
 ```
