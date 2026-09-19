@@ -27,8 +27,8 @@ Fonte única de contexto do projeto para o Claude Code. Leia este arquivo no in�
 | Nome fantasia | Alfa Prev |
 | CNPJ | 62.088.739/0001-54 |
 | Endereço | NÃO USAR ENDEREÇO EM LUGAR NENHUM DO SITE — o atendimento é 100% no local do cliente (a Alfa Prev vai até o imóvel). Nunca colocar mapa, endereço físico ou qualquer dado de localização da empresa no site. |
-| Telefone/WhatsApp | +55 11 94566-5263 / (11) 94566-5263 |
-| E-mail | cassia.marques@alfaseguranca.com |
+| Telefone/WhatsApp | +55 11 98932-5513 / (11) 98932-5513 — atualizado em set/2026 |
+| E-mail | contato@alfasci.com.br — atualizado em set/2026 (domínio diferente do site: alfasci.com.br vs alfaprev-sci.com.br) |
 | Instagram | @alfaprev_sci |
 | Facebook | https://www.facebook.com/profile.php?id=61594085214860 |
 | Horário | Segunda a Sexta das 09h às 17h (emergências fora do horário também atendidas) |
@@ -247,7 +247,7 @@ alfaprev/
 - [x] Registrar domínio — `alfaprev-sci.com.br` registrado via Locaweb (ativo, expira 08/09/2027)
 - [ ] Escolher hospedagem (Netlify recomendado — `netlify.toml` já pronto)
 - [ ] Criar projeto no Supabase, rodar `supabase-schema.sql` e preencher `assets/js/config.js`
-- [ ] Configurar chave Web3Forms em `script.js`
+- [ ] Configurar chave Web3Forms em `script.js` — criar nova chave no painel do Web3Forms registrada com `contato@alfasci.com.br` (e-mail de contato atualizado em set/2026)
 - [ ] Testar envio real do formulário (e-mail + gravação no banco)
 
 ### Pendente na semana de publicação 🟠
@@ -355,6 +355,21 @@ O site não deve soar como texto produzido por IA. Regras obrigatórias de escri
 - Tom direto e técnico: dizer o que é, não o que parece ser.
 
 Esta regra se aplica a todo texto visível no site: parágrafos, títulos, bullets, callouts e qualquer outro elemento de copy.
+
+### Convenções de copy (adicionado set/2026)
+
+- **"Obtenção" vs "Regularização" na frase de assessoria AVCB/CLCB:** o H1 do Hero usa "Assessoria Técnica para Obtenção do AVCB/CLCB". Outros usos genéricos de "regularização" no site (ex: "processo de regularização", "regularizar seu imóvel") continuam corretos e não devem ser alterados.
+- **"Situação de emergência" em vez de "princípio de incêndio":** o termo "princípio de incêndio" foi removido de todo o site e substituído por "em uma situação de emergência" ou formulação equivalente.
+- **Mensagem padrão única do WhatsApp:** todos os links `wa.me` do site usam a mesma mensagem: "Olá equipe Alfa Prev, gostaria de saber mais sobre os serviços oferecidos por vocês falando com um especialista." URL codificada: `https://wa.me/5511989325513?text=Ol%C3%A1%20equipe%20Alfa%20Prev%2C%20gostaria%20de%20saber%20mais%20sobre%20os%20servi%C3%A7os%20oferecidos%20por%20voc%C3%AAs%20falando%20com%20um%20especialista.` — não criar variações de mensagem.
+
+### Pendência: reconfiguração do formulário de e-mail (OBRIGATÓRIO antes de publicar)
+
+O formulário de contato envia e-mails via Web3Forms. O e-mail exibido no site foi atualizado para `contato@alfasci.com.br`, mas o destino real dos envios é configurado no painel do Web3Forms, não no código. Para que os leads cheguem ao novo e-mail:
+1. Acessar https://web3forms.com
+2. Criar nova chave de acesso registrada com `contato@alfasci.com.br`
+3. Substituir `ACCESS_KEY` em `script.js` com a nova chave
+
+Um comentário de alerta foi adicionado em `script.js` próximo à `ACCESS_KEY` para lembrar disso.
 
 ### Páginas e SEO
 

@@ -3,7 +3,7 @@
 > Arquivo gerado automaticamente por `generate-content-md.js` via `npm run build`.
 > **Não edite manualmente.** Edite o conteúdo em `src/pages/` e rode `npm run build`.
 
-Gerado em: 2026-09-16T04:38:23.985Z
+Gerado em: 2026-09-19T22:59:04.238Z
 
 ---
 
@@ -11,10 +11,10 @@ Gerado em: 2026-09-16T04:38:23.985Z
 
 Engenharia de Incêndio
 Projetos de Prevenção e Combate a Incêndio,
-Assessoria Técnica para Regularização de AVCB/CLCB
+Assessoria Técnica para Obtenção do AVCB/CLCB
 e muito mais
 Foco total em prevenção e na preparação completa das edificações para
-contenção rápida e proteção da vida e do patrimônio se houver um princípio de incêndio. Atendimento
+contenção rápida e proteção da vida e do patrimônio em uma situação de emergência. Atendimento
 personalizado para cada cliente em todo o Estado de São Paulo.
 Solicitar Orçamento Gratuito
 Falar com Especialista
@@ -407,7 +407,7 @@ O Auto de Vistoria do Corpo de Bombeiros (AVCB) é o documento oficial que certi
 Qual a diferença entre AVCB e CLCB?
 O AVCB é destinado a edificações de maior porte ou risco elevado, exigindo vistoria presencial dos bombeiros e projeto técnico completo (PPCI). Já o CLCB (Certificado de Licença do Corpo de Bombeiros) é um processo simplificado para estabelecimentos de pequeno porte e baixo risco. A Alfa Prev avalia a necessidade exata do seu imóvel e conduz todo o processo.
 Por que o foco deve ser na prevenção e preparação da edificação?
-A prevenção estrutural elimina as fontes mais comuns de risco e evita o início do fogo. Porém, se houver um princípio de incêndio, uma edificação devidamente preparada com rotas de fuga, extintores corretos, iluminação e sinalização permite que os ocupantes saiam em segurança e que o fogo seja contido rapidamente antes de se alastrar.
+A prevenção estrutural elimina as fontes mais comuns de risco e evita o início do fogo. Em uma situação de emergência, uma edificação devidamente preparada com rotas de fuga, extintores corretos, iluminação e sinalização permite que os ocupantes saiam em segurança e que o fogo seja contido rapidamente antes de se alastrar.
 Quanto tempo leva para obter o laudo ou o AVCB?
 O prazo varia conforme a complexidade do imóvel e a demanda do Corpo de Bombeiros. Processos de CLCB para estabelecimentos de baixo risco podem ser concluídos em poucas semanas. Projetos de maior porte (AVCB) levam alguns meses entre elaboração técnica, aprovação e vistoria.
 Com que frequência os extintores e mangueiras precisam de manutenção?
@@ -444,9 +444,9 @@ Orçamento
 Solicite um Orçamento sem Compromisso
 Preencha o formulário ao lado e a Alfa Prev entrará em contato para entender a necessidade da sua edificação e apresentar a melhor solução de prevenção e regularização. Quando necessário, o atendimento pode incluir visita técnica ao imóvel, em qualquer cidade do Estado de São Paulo.
 Telefone / WhatsApp
-(11) 94566-5263
+(11) 98932-5513
 E-mail
-cassia.marques@alfaseguranca.com
+contato@alfasci.com.br
 Horário de Atendimento
 Segunda a Sexta das 09h às 17h
 Atendimento a emergências também fora do horário comercial
@@ -457,7 +457,7 @@ Website
 Nome Completo *
 E-mail *
 Telefone / WhatsApp *
-Ocupação / Projeto *
+Ocupação *
 Selecione o tipo de edificação
 Comercial
 Industrial
@@ -465,7 +465,7 @@ Condomínio Residencial
 Condomínio Comercial
 Digitalização de Plantas / Projetos
 Outro
-Tipo de Serviços / Projeto *
+Tipos de Serviços *
 Concordo com o tratamento dos meus dados pessoais conforme a Política de Privacidade da Alfa Prev, para fins de resposta ao orçamento solicitado. (LGPD, Lei 13.709/2018)
 Enviar e Solicitar Orçamento
 Orçamento enviado com sucesso!
@@ -478,6 +478,6 @@ A ALFA SEGURANÇA CONTRA INCÊNDIO LTDA (ALFA PREV) , inscrita no CNPJ sob o nº
 exclusivamente para fins de atendimento técnico, elaboração de propostas comerciais e prestação de serviços de
 engenharia contra incêndio, em total conformidade com a Lei Geral de Proteção de Dados (LGPD, Lei nº 13.709/2018) .
 Os dados fornecidos não são comercializados, alugados ou compartilhados com terceiros para quaisquer finalidades publicitárias sem consentimento explícito.
-O titular dos dados pode solicitar a confirmação da existência de tratamento, a retificação ou a eliminação dos seus dados a qualquer momento pelo e-mail cassia.marques@alfaseguranca.com .
+O titular dos dados pode solicitar a confirmação da existência de tratamento, a retificação ou a eliminação dos seus dados a qualquer momento pelo e-mail contato@alfasci.com.br .
 
 ---

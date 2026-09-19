@@ -282,6 +282,11 @@ if (form) {
     let dbOk    = false;
 
     // ── 7a. Envio por e-mail via Web3Forms ───────────────
+    // ⚠️ ATENÇÃO — PENDÊNCIA: o e-mail de destino do formulário é configurado no painel do Web3Forms
+    // (web3forms.com), vinculado à chave ACCESS_KEY. O e-mail exibido no site foi atualizado para
+    // contato@alfasci.com.br, mas o destino real dos envios só muda quando a chave for registrada
+    // com o novo e-mail no painel do Web3Forms. Trocar a ACCESS_KEY abaixo não basta — é necessário
+    // acessar web3forms.com, criar uma nova chave associada a contato@alfasci.com.br e substituir aqui.
     const ACCESS_KEY = 'SUA_CHAVE_WEB3FORMS'; // PREENCHER — ver https://web3forms.com/
 
     try {
