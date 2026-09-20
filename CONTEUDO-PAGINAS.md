@@ -3,7 +3,7 @@
 > Arquivo gerado automaticamente por `generate-content-md.js` via `npm run build`.
 > **Não edite manualmente.** Edite o conteúdo em `src/pages/` e rode `npm run build`.
 
-Gerado em: 2026-09-19T22:59:04.238Z
+Gerado em: 2026-09-20T00:07:16.667Z
 
 ---
 
@@ -172,7 +172,7 @@ AVCB e CLCB
 Blog SCI
 AVCB e CLCB: qual é a diferença e qual o seu imóvel precisa
 Publicado em setembro de 2026 · Alfa Prev
-AVCB e CLCB são os dois documentos emitidos pelo Corpo de Bombeiros que certificam que uma edificação atende às exigências de segurança contra incêndio vigentes em São Paulo. Ambos têm força legal equivalente: o que os diferencia é o tipo de processo, o perfil de edificação a que se aplicam e o nível de escrutínio exigido antes da emissão.
+AVCB e CLCB são os dois documentos emitidos pelo Corpo de Bombeiros que certificam que uma edificação atende às exigências de segurança contra incêndio em São Paulo. Ambos têm força legal equivalente: o que os diferencia é o tipo de processo, o perfil de edificação a que se aplicam e o nível de escrutínio exigido antes da emissão.
 Entender qual documento se aplica ao seu imóvel é o ponto de partida de qualquer processo de regularização. A escolha errada, ou a ausência de qualquer um deles, expõe o proprietário ou gestor a consequências legais e financeiras relevantes.
 O que é o AVCB
 O Auto de Vistoria do Corpo de Bombeiros é o documento emitido após uma inspeção presencial realizada por agentes do Corpo de Bombeiros do Estado de São Paulo na própria edificação. A vistoria confirma que todos os sistemas de segurança contra incêndio exigidos estão instalados, funcionando e em conformidade com o projeto aprovado.
@@ -370,7 +370,8 @@ De experiência prática no mercado
 Projetos, vistorias e assessorias executadas
 CAU/SP 00A1858351
 Registro profissional ativo e regular
-Acompanhe nossas atividades no Instagram @alfaprev_sci
+Instagram @alfaprev_sci
+LinkedIn da Alfa Prev
 Dados Institucionais
 ALFA SEGURANÇA CONTRA INCÊNDIO LTDA
 Todos os projetos, laudos e assessorias são conduzidos sob responsabilidade técnica documentada, com CNPJ ativo e registro profissional regular.

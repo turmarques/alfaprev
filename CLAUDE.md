@@ -31,6 +31,7 @@ Fonte única de contexto do projeto para o Claude Code. Leia este arquivo no in�
 | E-mail | contato@alfasci.com.br — atualizado em set/2026 (domínio diferente do site: alfasci.com.br vs alfaprev-sci.com.br) |
 | Instagram | @alfaprev_sci |
 | Facebook | https://www.facebook.com/profile.php?id=61594085214860 |
+| LinkedIn | https://www.linkedin.com/in/alfaprev/ |
 | Horário | Segunda a Sexta das 09h às 17h (emergências fora do horário também atendidas) |
 | Área de atendimento | Todo o Estado de São Paulo |
 | Domínio | alfaprev-sci.com.br — registrado via Locaweb em set/2026, expira 08/09/2027. www vs. sem-www pendente (depende do hosting). Usar sempre `https://alfaprev-sci.com.br` no código até decisão final. |
