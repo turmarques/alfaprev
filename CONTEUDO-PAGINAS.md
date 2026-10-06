@@ -4,7 +4,7 @@
 > Extraído manualmente a partir de `/src/pages/` + `/partials/` (fonte de verdade), com o site previamente sincronizado via `npm run build`.
 > **Não editar o conteúdo do site aqui.** Qualquer alteração de texto deve ser feita em `/src/pages/` ou `/partials/`, seguida de `npm run build`.
 >
-> Gerado em: 2026-10-06
+> Gerado em: 2026-10-05
 
 ---
 
@@ -15,9 +15,8 @@
 3. [Quem Somos](#3-quem-somos-quem-somoshtml)
 4. [Blog SCI — Hub](#4-blog-sci--hub-blog-scihtml)
    - 4.1 [Artigo: AVCB e CLCB](#41-artigo-avcb-e-clcb-blog-sciavcb-clcbhtml)
-   - 4.2 [Artigo: Lei Kiss e Decreto 69.118/2024](#42-artigo-lei-kiss-e-decreto-691182024-blog-scilei-kiss-decreto-69118html)
-   - 4.3 [Artigo: Vencimento AVCB/CLCB](#43-artigo-vencimento-avcbclcb-blog-scivencimento-avcb-clcbhtml)
-5. [FAQ](#5-faq-faqhtml)
+   - 4.2 [Artigo: Vencimento AVCB/CLCB](#42-artigo-vencimento-avcbclcb-blog-scivencimento-avcb-clcbhtml)
+5. [FAQ (oculto)](#5-faq-oculto-faqhtml)
 6. [Contato](#6-contato-contatohtml)
 7. [Política de Privacidade](#7-política-de-privacidade-dentro-de-contatohtml)
 8. [Elementos Compartilhados](#8-elementos-compartilhados-header-footer-whatsapp-cookies)
@@ -163,6 +162,8 @@ A Alfa Prev avalia a estrutura da sua edificação e define o plano de seguranç
 - CTA: Falar no WhatsApp
 - Texto: Dúvidas sobre qual serviço se aplica ao seu imóvel? → Link: Leia as perguntas frequentes
 
+> **FAQ oculto (out/2026):** a seção "CTA ao FAQ" que ficava imediatamente após este banner (texto: "Dúvidas sobre qual serviço se aplica ao seu imóvel?" com link "Leia as perguntas frequentes" para `/faq.html#faq-heading`) está comentada no código-fonte (`src/pages/servicos.html`) e não aparece mais na página publicada. Ver seção 5 para detalhes.
+
 ### CTA Final (H2)
 Solicitar orçamento para os serviços
 Descreva seu imóvel e a Alfa Prev retorna com uma análise técnica personalizada.
@@ -256,10 +257,11 @@ O conteúdo é pensado para comerciantes, empresários, síndicos, arquitetos, e
 
 Informação técnica para ajudar você a entender, prevenir e manter sua edificação em conformidade com a legislação de Segurança Contra Incêndio vigente.
 
-### Cards de artigo (3, H3 cada)
+> **Nota (out/2026):** este texto de introdução cita nominalmente "o Decreto Estadual nº 69.118/2024 e suas Instruções Técnicas" como conteúdo disponível no hub, mas o artigo dedicado ao decreto ("Lei Kiss e o Decreto Estadual nº 69.118/2024") foi removido do Blog SCI em out/2026 (ver seção 11 do CLAUDE.md e item 237 do histórico "Feito"). Não há mais nenhum artigo que aborde esse tema especificamente. Esta divergência está registrada na seção 12 (Inconsistências Encontradas) e não foi corrigida.
+
+### Cards de artigo (2, H3 cada)
 1. Tag: Documentação — **AVCB e CLCB: qual é a diferença e qual o seu imóvel precisa** — Os dois documentos têm força legal equivalente, mas processo, abrangência e critérios de exigência diferentes. Entenda qual se aplica ao seu caso. → Link: Ler artigo
-2. Tag: Legislação — **Lei Kiss e o Decreto Estadual nº 69.118/2024: como a legislação de incêndio funciona em São Paulo** — Da tragédia de Santa Maria à lei federal: o contexto histórico e a linha do tempo normativa que define as obrigações de segurança contra incêndio no Estado de SP. → Link: Ler artigo
-3. Tag: Consequências — **O que acontece quando o AVCB ou CLCB vence sem renovação** — Multas progressivas, risco de interdição, exclusões de cobertura securitária e responsabilidade civil. As consequências do vencimento não são hipotéticas. → Link: Ler artigo
+2. Tag: Consequências — **O que acontece quando o AVCB ou CLCB vence sem renovação** — Multas progressivas, risco de interdição, exclusões de cobertura securitária e responsabilidade civil. As consequências do vencimento não são hipotéticas. → Link: Ler artigo
 
 Nota de rodapé do hub: Novos artigos são publicados regularmente. Acompanhe ou entre em contato para dúvidas específicas.
 
@@ -282,19 +284,19 @@ Tag de seção: Blog SCI
 ### AVCB e CLCB: qual é a diferença e qual o seu imóvel precisa (H1)
 Publicado em setembro de 2026 · Alfa Prev
 
-AVCB e CLCB são os dois documentos emitidos pelo Corpo de Bombeiros que certificam que uma edificação atende às exigências de segurança contra incêndio em São Paulo. Ambos têm força legal equivalente: o que os diferencia é o tipo de processo, o perfil de edificação a que se aplicam e o nível de escrutínio exigido antes da emissão.
+AVCB e CLCB são os dois documentos emitidos pelo Corpo de Bombeiros que certificam que uma edificação atende às exigências de segurança contra incêndio vigentes em São Paulo. **Ambos possuem validade legal e comprovam a regularidade da edificação perante o Corpo de Bombeiros. A principal diferença está no processo de regularização, nas características e no enquadramento da edificação, bem como nas medidas de segurança exigidas para a emissão de cada documento.**
 
 Entender qual documento se aplica ao seu imóvel é o ponto de partida de qualquer processo de regularização. A escolha errada, ou a ausência de qualquer um deles, expõe o proprietário ou gestor a consequências legais e financeiras relevantes.
 
 **O que é o AVCB** (H2)
-O Auto de Vistoria do Corpo de Bombeiros é o documento emitido após uma inspeção presencial realizada por agentes do Corpo de Bombeiros do Estado de São Paulo na própria edificação. A vistoria confirma que todos os sistemas de segurança contra incêndio exigidos estão instalados, funcionando e em conformidade com o projeto aprovado.
+O **Auto de Vistoria do Corpo de Bombeiros** é o documento emitido após uma inspeção presencial realizada por agentes do Corpo de Bombeiros do Estado de São Paulo na própria edificação. A vistoria confirma que todos os sistemas de segurança contra incêndio exigidos estão instalados, funcionando e em conformidade com o projeto aprovado.
 
-O processo, portanto, tem duas etapas de contato com o Corpo de Bombeiros: primeiro a aprovação do projeto técnico, o PPCI (Projeto de Prevenção e Combate a Incêndio), e depois de instalados os sistemas, a vistoria propriamente dita. Somente após a vistoria e a aprovação o AVCB é emitido.
+O processo de regularização envolve, de forma geral, duas etapas principais junto ao Corpo de Bombeiros. A primeira consiste na análise e aprovação do PPCI (Projeto de Prevenção e Combate a Incêndio), elaborado de acordo com as características e necessidades da edificação. Após a aprovação do projeto e a instalação das medidas de segurança previstas, é realizada a vistoria oficial pelo Corpo de Bombeiros para verificar se a edificação está em conformidade com o projeto aprovado e com as exigências de segurança vigentes. **Somente após a aprovação na vistoria é emitido o AVCB.**
 
-O AVCB tem validade determinada, que varia conforme o tipo de ocupação e o grupo de risco da edificação, e precisa ser renovado periodicamente. O vencimento implica irregularidade imediata, independentemente das condições físicas do imóvel.
+O AVCB tem validade determinada, que varia conforme o tipo de ocupação da edificação, e precisa ser renovado periodicamente. O vencimento implica irregularidade imediata, independentemente das condições físicas do imóvel.
 
 **O que é o CLCB** (H2)
-O Certificado de Licença do Corpo de Bombeiros é o documento equivalente para edificações de menor porte e menor grau de risco. Ao contrário do AVCB, o CLCB é baseado em uma declaração de conformidade feita pelo próprio responsável pelo imóvel (proprietário ou locatário), atestando que a edificação atende às medidas de segurança exigidas para aquele tipo e tamanho de uso.
+O **Certificado de Licença do Corpo de Bombeiros** é o documento equivalente para edificações de menor porte e menor grau de risco. Ao contrário do AVCB, o CLCB é baseado em uma declaração de conformidade feita pelo próprio responsável pelo imóvel (proprietário ou locatário), atestando que a edificação atende às medidas de segurança exigidas para aquele tipo de ocupação.
 
 O Corpo de Bombeiros pode realizar fiscalizações a posteriori: a inspeção não é pré-requisito para a emissão, mas pode ocorrer a qualquer momento para verificar se a declaração corresponde à realidade. Caso a edificação não esteja em conformidade no momento de uma fiscalização, o CLCB pode ser cassado e multas podem ser aplicadas.
 
@@ -316,19 +318,23 @@ Os limiares exatos variam por tipo de ocupação. A forma segura de determinar q
 O processo do AVCB envolve, em linhas gerais, as seguintes etapas:
 1. Análise do imóvel: levantamento das características da edificação (ocupação, área, altura, sistemas existentes) para definir quais medidas de segurança são exigidas.
 2. Elaboração do PPCI: o Projeto de Prevenção e Combate a Incêndio é o documento técnico que detalha todos os sistemas a serem instalados ou adequados: hidrantes, extintores, saídas de emergência, iluminação, sinalização, entre outros.
-3. Protocolo e aprovação do projeto: o PPCI é submetido ao Corpo de Bombeiros para análise e aprovação. O prazo de análise varia conforme a complexidade do projeto.
+3. Protocolo e aprovação do projeto: o PPCI é submetido ao Corpo de Bombeiros para análise e aprovação. O prazo de análise é de até 30 dias úteis.
 4. Execução das medidas: após a aprovação do projeto, os sistemas precisam ser instalados, ajustados ou regularizados conforme o que foi projetado.
 5. Solicitação de vistoria e emissão do AVCB: com as medidas executadas, solicita-se a vistoria. Os agentes do Corpo de Bombeiros visitam o imóvel, verificam a conformidade e, se aprovada, emitem o AVCB.
 
 **Como funciona o processo de obtenção do CLCB** (H2)
-O CLCB é um processo relativamente mais simples: o responsável pelo imóvel preenche e assina uma declaração de que a edificação atende às medidas de segurança exigidas para seu tipo e porte de uso, conforme a legislação vigente. Essa declaração é protocolada junto ao Corpo de Bombeiros, que analisa a documentação e, se em ordem, emite o certificado.
+O CLCB possui um processo de regularização mais simplificado e, para as edificações que se enquadram nessa modalidade, não exige a aprovação prévia de um Projeto de Segurança Contra Incêndio pelo Corpo de Bombeiros.
 
-Apesar de parecer um processo mais simples, a declaração só pode ser feita com base em uma análise técnica honesta do imóvel. Declarar conformidade sem que ela exista configura fraude e agrava a situação em caso de fiscalização ou, pior, de sinistro.
+Antes de realizar o processo, entretanto, é fundamental verificar se a edificação realmente atende aos critérios para enquadramento no CLCB e se todas as medidas de segurança exigidas estão implantadas.
 
-Contar com um profissional técnico habilitado para verificar se o imóvel realmente atende às exigências antes de protocolar a declaração é a abordagem correta, e menos arriscada.
+Quando necessário, pode ser elaborado um projeto de segurança orientativo, desenvolvido para auxiliar o proprietário ou responsável pela edificação na implantação e adequação dos equipamentos e sistemas de segurança.
+
+A ausência de aprovação prévia de um projeto não significa que a edificação possa funcionar sem os equipamentos e sistemas de segurança necessários. Extintores, sinalização, iluminação de emergência, saídas de emergência e demais medidas aplicáveis devem estar corretamente dimensionados, instalados, em pleno funcionamento e em conformidade com as normas e exigências vigentes.
+
+Por isso, antes de solicitar o CLCB, é recomendável contar com a avaliação de um profissional técnico habilitado. Além de reduzir o risco de inconsistências no processo, essa análise permite identificar previamente eventuais adequações necessárias na edificação.
 
 **Validade e renovação** (H2)
-A validade de AVCB e CLCB é definida conforme o grupo de ocupação e o nível de risco da edificação, variando geralmente entre 1 e 3 anos. Edificações de maior risco ou complexidade tendem a ter prazos de renovação mais curtos.
+A validade do AVCB é definida conforme o grupo de ocupação da edificação, variando geralmente entre 1 e 3 anos.
 
 Um ponto importante: o processo de renovação não é instantâneo. Para o AVCB, a preparação do projeto, a aprovação pelo Corpo de Bombeiros, a execução das eventuais adequações e o agendamento da vistoria podem levar meses. O ideal é iniciar o processo de renovação com pelo menos seis meses de antecedência em relação ao vencimento.
 
@@ -336,10 +342,7 @@ Para o CLCB, o prazo de antecedência pode ser menor, mas não deve ser deixado 
 
 > **Atenção: o vencimento não tem período de carência.** No dia seguinte ao vencimento do AVCB ou CLCB, o imóvel já está em situação irregular perante o Corpo de Bombeiros. Não há período de tolerância. Imóveis irregulares estão sujeitos a multas, interdição e exclusão de cobertura securitária.
 
-**Quando consultar um profissional** (H2)
-Se você não tem certeza se seu imóvel precisa de AVCB ou CLCB, ou se precisa de algum dos dois, a resposta correta não é supor: é verificar. A legislação é clara, mas a aplicação depende das características específicas de cada edificação, e uma leitura equivocada pode levar ao processo errado ou à omissão indevida.
-
-Um profissional habilitado (arquiteto, engenheiro com especialização em engenharia de incêndio ou responsável técnico credenciado) pode fazer a classificação correta da edificação, indicar qual documento é exigido, conduzir o processo de obtenção e garantir que a declaração ou o projeto técnico reflita fielmente a realidade do imóvel.
+> **Nota (out/2026):** a seção "Quando consultar um profissional", que encerrava o artigo na versão anterior (set/2026), foi removida do conteúdo publicado.
 
 ### CTA Final (H2: "Precisa regularizar seu imóvel?")
 A Alfa Prev conduz todo o processo: do projeto técnico à vistoria do Corpo de Bombeiros. Atendimento em todo o Estado de São Paulo.
@@ -347,86 +350,7 @@ A Alfa Prev conduz todo o processo: do projeto técnico à vistoria do Corpo de 
 
 ---
 
-### 4.2 Artigo: Lei Kiss e Decreto 69.118/2024 (`blog-sci/lei-kiss-decreto-69118.html`)
-
-**Título:** Lei Kiss e o Decreto Estadual nº 69.118/2024: legislação de incêndio em São Paulo | Alfa Prev
-**Meta description:** Entenda o contexto histórico da Lei Kiss (Lei 13.425/2017) e como o Decreto Estadual nº 69.118/2024 (que revogou o antigo 56.819/2011) regula a segurança contra incêndio em São Paulo.
-**Canonical:** https://alfaprev-sci.com.br/blog-sci/lei-kiss-decreto-69118.html
-**Data de publicação (JSON-LD `datePublished`):** 2026-09-12 · Autor: Alfa Prev
-
-Breadcrumb: Home / Blog SCI / Lei Kiss e Decreto 69.118/2024
-Tag de seção: Blog SCI
-
-### Lei Kiss e o Decreto Estadual nº 69.118/2024: como a legislação de incêndio funciona em São Paulo (H1)
-Publicado em setembro de 2026 · Alfa Prev
-
-A obrigação legal de manter um imóvel com documentação de segurança contra incêndio vigente não surgiu do nada. Ela é resultado de uma construção normativa que, no Estado de São Paulo, antecede até mesmo os episódios que chamaram a atenção do país para o tema, reforçada no âmbito federal após a tragédia de Santa Maria.
-
-Entender como essa legislação se estrutura ajuda gestores, síndicos e proprietários a compreender por que as exigências do Corpo de Bombeiros existem e por que cumprí-las não é apenas uma questão de evitar multas.
-
-**A tragédia de Santa Maria e o que ela revelou** (H2)
-Na madrugada de 27 de janeiro de 2013, um incêndio destruiu a Boate Kiss, em Santa Maria, Rio Grande do Sul. A casa de shows estava lotada quando um sinalizador de sinalização (bengala fumígena) usado pela banda incendiou a espuma acústica fixada no teto. O fogo se alastrou rapidamente. As saídas de emergência eram insuficientes e mal sinalizadas. Duzentas e quarenta e duas pessoas morreram, a maioria jovens universitários. Centenas ficaram feridas.
-
-A investigação revelou um cenário que, infelizmente, não era exclusivo de Santa Maria: ausência de alvará de funcionamento regularizado, documentação de segurança desatualizada, sistemas de combate a incêndio insuficientes e fiscalização precária. A tragédia expôs uma falha sistêmica no cumprimento e na fiscalização das normas de segurança contra incêndio em estabelecimentos de uso coletivo em todo o país.
-
-O resultado foi uma pressão nacional por legislação federal mais rigorosa. Até então, quase toda a regulamentação ficava a cargo dos estados.
-
-**O Decreto Estadual 56.819/2011: São Paulo já regulava antes de Kiss** (H2)
-O Estado de São Paulo aprovou, em 10 de novembro de 2011, o Decreto nº 56.819, o Regulamento de Segurança contra Incêndio das Edificações e Áreas de Risco do Estado de São Paulo. Esse decreto, portanto, entrou em vigor quase dois anos antes da tragédia da Boate Kiss.
-
-O Decreto 56.819/2011 foi, por muitos anos, a principal referência normativa para quem operava no Estado de SP. Ele não definia apenas quais edificações precisam de AVCB ou CLCB: definia o quê cada edificação precisa ter instalado e em funcionamento para obter esses documentos. Para isso, o decreto era acompanhado por um conjunto de Instruções Técnicas (ITs), publicadas pelo Corpo de Bombeiros, que detalham os requisitos específicos para cada sistema e tipo de uso.
-
-Em termos práticos, foi a partir do conjunto formado pelo Decreto e pelas ITs que se determinou o escopo de qualquer Projeto de Prevenção e Combate a Incêndio (PPCI) em São Paulo por mais de uma década.
-
-**A Lei Federal 13.425/2017: o que ficou conhecida como Lei Kiss** (H2)
-<!-- REVISAR COM CASSIA: verificar data de assinatura exata da Lei 13.425/2017 -->
-A Lei Federal nº 13.425 foi sancionada em março de 2017, quatro anos após o incêndio da Boate Kiss, que motivou sua elaboração e lhe conferiu o nome pelo qual ficou conhecida. A lei estabelece diretrizes nacionais sobre medidas de prevenção e combate a incêndio e a desastres em estabelecimentos e edificações de uso coletivo.
-
-Entre os pontos centrais da Lei Kiss:
-- Os estados são obrigados a estabelecer e manter codes técnicos de segurança contra incêndio. Os que não tinham foram obrigados a adotá-los.
-- Os municípios são responsáveis por fiscalizar estabelecimentos de uso coletivo e exigir a documentação de conformidade.
-- O descumprimento sujeita proprietários e responsáveis a sanções administrativas, civis e penais.
-- Estabelece prazo para que estabelecimentos já em funcionamento se adequem às exigências.
-
-Para o Estado de São Paulo, que já possuía o Decreto 56.819/2011, a Lei Kiss representou um reforço federal às obrigações que o estado já exigia, ampliando o alcance da responsabilização e tornando o cumprimento uma questão de lei federal, não apenas estadual.
-
-O fato de São Paulo ter aprovado o Decreto 56.819/2011 antes da tragédia de Santa Maria não significa que as exigências eram menos sérias. Significa que o estado já reconhecia a necessidade de regulação técnica rigorosa. O problema enfrentado em todo o país não era de ausência de regras, mas de cumprimento e fiscalização. A Lei Kiss veio para tornar o cumprimento uma obrigação federal explícita e ampliar a responsabilização dos gestores.
-
-**A linha do tempo normativa: do Decreto 56.819 ao Decreto 69.118/2024** (H2)
-<!-- REVISAR COM CASSIA: confirmar se a numeração das ITs (IT-01, IT-11, IT-20, IT-22, IT-21, IT-18) mudou com o Decreto 69.118/2024 -->
-A legislação estadual de segurança contra incêndio passou por atualizações relevantes desde 2011. A linha do tempo do decreto regulamentador é a seguinte:
-- Decreto nº 56.819, de 10 de novembro de 2011: instituiu o Regulamento de Segurança contra Incêndio das Edificações e Áreas de Risco do Estado de São Paulo. Foi o decreto vigente durante a tragédia da Boate Kiss (2013) e à época da aprovação da Lei Kiss (2017).
-- Decreto nº 63.911, de 10 de dezembro de 2018: revogou o Decreto 56.819/2011 e promoveu atualizações no regulamento.
-- Decreto nº 69.118, de 9 de dezembro de 2024: revogou o Decreto 63.911/2018 e é o decreto atualmente em vigor no Estado de São Paulo. Mantém a estrutura de AVCB e CLCB como documentos de regularidade da edificação.
-
-A nomenclatura dos documentos (AVCB e CLCB) não foi alterada com as atualizações. O que muda entre versões do decreto são aspectos técnicos do regulamento e procedimentos administrativos.
-
-O Decreto 69.118/2024 também é acompanhado por um conjunto de Instruções Técnicas (ITs) publicadas pelo Corpo de Bombeiros, que detalham os requisitos específicos para cada sistema e tipo de uso. Entre as principais ITs estão as que regulam:
-- A classificação das edificações e o dimensionamento das medidas de segurança (IT-01)
-- Saídas de emergência (IT-11)
-- Sinalização de emergência (IT-20)
-- Sistemas de hidrantes e mangotinhos (IT-22)
-- Extintores de incêndio (IT-21)
-- Iluminação de emergência (IT-18)
-
-Em termos práticos, é a partir do conjunto formado pelo Decreto 69.118/2024 e pelas ITs que se determina o escopo de qualquer Projeto de Prevenção e Combate a Incêndio (PPCI) em São Paulo.
-
-**Quem precisa cumprir essa legislação** (H2)
-Em São Paulo, praticamente todo imóvel de uso não-residencial, incluindo boa parte dos residenciais coletivos, está sujeito às exigências do Decreto Estadual nº 69.118/2024 e das ITs do Corpo de Bombeiros. Isso inclui:
-- Condomínios residenciais (especialmente com mais de um pavimento ou acima de determinada altura)
-- Estabelecimentos comerciais e de serviços (lojas, restaurantes, academias, clínicas, salões de beleza, escritórios)
-- Indústrias e armazéns
-- Estabelecimentos de ensino, saúde e de uso público ou coletivo em geral
-
-A falta de cumprimento não é uma questão de azar ou de estar fora do radar. A fiscalização pode acontecer a qualquer momento. Um sinistro em imóvel irregular agrava exponencialmente as consequências legais para o responsável.
-
-### CTA Final (H2: "Precisa regularizar seu imóvel?")
-A Alfa Prev conduz todo o processo: do projeto técnico à vistoria do Corpo de Bombeiros. Atendimento em todo o Estado de São Paulo.
-- CTA: Solicitar avaliação gratuita
-
----
-
-### 4.3 Artigo: Vencimento AVCB/CLCB (`blog-sci/vencimento-avcb-clcb.html`)
+### 4.2 Artigo: Vencimento AVCB/CLCB (`blog-sci/vencimento-avcb-clcb.html`)
 
 **Título:** O que acontece quando o AVCB ou CLCB vence sem renovação | Alfa Prev
 **Meta description:** Multas progressivas, risco de interdição, exclusão de cobertura de seguro e responsabilidade civil. Entenda as consequências reais do vencimento do AVCB ou CLCB em São Paulo.
@@ -503,65 +427,23 @@ Quanto mais rápido o processo for iniciado, menor o período de irregularidade 
 
 A irregularidade não desaparece sozinha: não há como retroativamente regularizar um período em que o imóvel estava com AVCB ou CLCB vencido. O único caminho é obter o novo documento o quanto antes e manter o cronograma de renovação para que isso não se repita.
 
+> **Nota (out/2026):** este artigo continua descrevendo o CLCB como "processo declaratório" ("Mesmo sendo um processo declaratório, adequações físicas podem ser necessárias antes de protocolar a declaração"). Essa descrição não foi atualizada para refletir a reescrita do processo de obtenção do CLCB em `avcb-clcb.html` (que passou a enfatizar a ausência de aprovação prévia de projeto, não a natureza declaratória). Ver seção 12, item 5.
+
 ### CTA Final (H2: "AVCB ou CLCB vencido? Regularize agora.")
 A Alfa Prev conduz todo o processo de renovação: do diagnóstico inicial à emissão do novo documento. Atendimento em todo o Estado de São Paulo.
 - CTA: Solicitar avaliação gratuita
 
 ---
 
-## 5. FAQ (`faq.html`)
+## 5. FAQ (oculto) (`faq.html`)
 
-**Título:** Perguntas Frequentes sobre AVCB, Extintores e Projetos de Incêndio | Alfa Prev SP
-**Meta description:** Tire suas dúvidas sobre AVCB, CLCB, PPCI, extintores, mangueiras e regularização de segurança contra incêndio em São Paulo. Respostas técnicas da Alfa Prev.
-**Canonical:** https://alfaprev-sci.com.br/faq.html
-
-### Mini-hero (H1)
-Dúvidas Frequentes
-Perguntas Frequentes sobre Regularização de Segurança Contra Incêndio
-Dúvidas sobre AVCB, CLCB, prazos, equipamentos e qual serviço se aplica ao seu imóvel. Respostas diretas, sem juridiquês.
-- Link: Não encontrou a resposta? Entre em contato
-
-### Accordion (H2: "Perguntas frequentes")
-Tag de seção: FAQ
-Tire suas principais dúvidas sobre regularização de imóveis, projetos de prevenção e combate a incêndio, AVCB, CLCB e manutenção de equipamentos.
-- Link: Ainda tem dúvidas? Entre em contato
-
-**1. O que é o AVCB e por que ele é obrigatório?**
-O Auto de Vistoria do Corpo de Bombeiros (AVCB) é o documento oficial que certifica que um imóvel atende a todas as exigências de segurança contra incêndio e engenharia preventiva. Ele tem validade determinada e precisa ser renovado periodicamente. Sem o AVCB vigente, o imóvel pode ser multado, interditado e ter indenização de sinistros negada pela seguradora.
-
-**2. Qual a diferença entre AVCB e CLCB?**
-O AVCB é destinado a edificações de maior porte ou risco elevado, exigindo vistoria presencial dos bombeiros e projeto técnico completo (PPCI). Já o CLCB (Certificado de Licença do Corpo de Bombeiros) é um processo simplificado para estabelecimentos de pequeno porte e baixo risco. A Alfa Prev avalia a necessidade exata do seu imóvel e conduz todo o processo.
-
-**3. Por que o foco deve ser na prevenção e preparação da edificação?**
-A prevenção estrutural elimina as fontes mais comuns de risco e evita o início do fogo. Em uma situação de emergência, uma edificação devidamente preparada com rotas de fuga, extintores corretos, iluminação e sinalização permite que os ocupantes saiam em segurança e que o fogo seja contido rapidamente antes de se alastrar.
-
-**4. Quanto tempo leva para obter o laudo ou o AVCB?**
-O prazo varia conforme a complexidade do imóvel e a demanda do Corpo de Bombeiros. Processos de CLCB para estabelecimentos de baixo risco podem ser concluídos em poucas semanas. Projetos de maior porte (AVCB) levam alguns meses entre elaboração técnica, aprovação e vistoria.
-
-**5. Com que frequência os extintores e mangueiras precisam de manutenção?**
-Conforme a NBR 12962, os extintores passam por inspeção técnica anual ou semestral e recarga periódica de acordo com o agente extintor. O teste hidrostático das mangueiras deve ser realizado periodicamente, conforme os requisitos técnicos aplicáveis, para certificar que a pressurização funcione perfeitamente sem rupturas.
-
-**6. A Alfa Prev atende qualquer cidade do estado de São Paulo?**
-Sim! A Alfa Prev atende em todo o estado de São Paulo, abrangendo a capital, Região Metropolitana de São Paulo, Grande ABC, Baixada Santista e interior. Além disso, disponibilizamos atendimento para situações de emergência fora do horário comercial. Entre em contato pelo WhatsApp ou formulário para agendar uma vistoria técnica na sua cidade.
-
-**7. O que é o Projeto de Prevenção e Combate a Incêndio (PPCI)?**
-O PPCI (Projeto de Prevenção e Combate a Incêndio) é o projeto técnico de Engenharia de Incêndio que dimensiona todos os sistemas de segurança da edificação: rotas de fuga, extintores, sprinklers, hidrantes, alarmes e sinalização. É obrigatório para regularização e obtenção do AVCB.
-
-**8. O que acontece se o AVCB ou CLCB vencer sem ser renovado?**
-O vencimento do AVCB ou CLCB coloca o imóvel em situação de irregularidade imediata, sem período de tolerância. As consequências práticas incluem: exposição a multas em fiscalizações municipais e estaduais, risco de interdição do estabelecimento ou condomínio, possibilidade de recusa de cobertura pela seguradora em sinistros relacionados a incêndio, e responsabilidade civil e potencialmente criminal dos gestores e proprietários. O processo de renovação deve ser iniciado com antecedência para evitar qualquer intervalo sem documento válido. A Alfa Prev orienta seus clientes sobre o prazo correto para início da renovação, conforme o tipo de edificação e a classificação de risco.
-
-**9. Quais documentos costumam ser solicitados no processo de AVCB?**
-Os requisitos variam conforme a edificação, sua classificação de risco e se é uma primeira emissão ou renovação. Em geral, costumam ser exigidos: plantas arquitetônicas aprovadas com memorial descritivo, o Projeto de Prevenção e Combate a Incêndio (PPCI) completo, documentos de responsabilidade técnica (ART do engenheiro ou RRT da arquiteta responsável), AVCB anterior vigente em casos de renovação, e evidências das instalações executadas conforme o projeto. A lista exata deve ser confirmada com o Corpo de Bombeiros ou com um consultor técnico habilitado. A Alfa Prev faz essa avaliação individualmente para cada imóvel antes do protocolo.
-
-**10. Quais edificações precisam de AVCB ou CLCB obrigatoriamente?**
-Praticamente toda edificação não-residencial precisa de um dos dois documentos. O tipo de certificado exigido e o nível de complexidade do projeto dependem da classificação de ocupação, da área total construída, da altura e do grau de risco, conforme o Decreto Estadual SP nº 69.118/2024. Entre as edificações que tipicamente precisam de regularização estão: estabelecimentos comerciais de qualquer porte, galpões industriais e armazéns, condomínios residenciais acima de determinada altura ou número de unidades, hotéis, hospitais e clínicas, instituições de ensino, igrejas e casas de espetáculo, restaurantes e casas noturnas, e academias de ginástica. Residências unifamiliares, de modo geral, não se enquadram na obrigatoriedade. A definição de qual documento se aplica é sempre feita caso a caso, com base nas características reais do imóvel.
-
-### Rodapé da página
-Veja também: Blog SCI | Nossos serviços
-
-### CTA Final (H2: "Pronto para resolver? Solicite seu orçamento")
-A Alfa Prev avalia o seu imóvel e conduz todo o processo de regularização: do diagnóstico à obtenção do documento.
-- CTA: Solicitar Orçamento Gratuito
+> **FAQ oculto do site publicado (out/2026).** A página de FAQ não é mais gerada pelo build (`faq.html` foi adicionado ao array `SKIP_FILES` em `build.js`) e os links de navegação para ela foram comentados em `partials/header.html` (desktop + mobile), `partials/footer.html` e na seção de CTA de `src/pages/servicos.html`. A entrada correspondente também foi removida de `sitemap.xml`. O conteúdo-fonte completo (7 perguntas/respostas, accordion, Schema `FAQPage`) permanece intacto em `src/pages/faq.html` e não foi apagado — apenas não é mais publicado.
+>
+> **Por quê:** decisão de negócio para remover a página do site publicado temporariamente, sem perder o trabalho de conteúdo já feito.
+>
+> **Como reativar:** ver seção "FAQ oculto (out/2026)" no `CLAUDE.md` para o passo a passo completo (remover `'faq.html'` de `SKIP_FILES`, descomentar os 3 links de navegação e a seção de CTA em `servicos.html`, readicionar a entrada em `sitemap.xml`, rodar `npm run build` e recompor esta seção com o conteúdo integral das perguntas).
+>
+> Uma única alteração de texto foi feita no conteúdo-fonte da pergunta 8 antes da ocultação: a frase final passou de "conforme o tipo de edificação e a classificação de risco" para "conforme o tipo de ocupação da edificação" (consistente com a regra de validade por ocupação, não por risco — ver seção 11 do CLAUDE.md).
 
 ---
 
@@ -601,14 +483,15 @@ Rótulo oculto do honeypot: Website (campo `#hp-website`, invisível, não remov
 | Tipos de Serviços (textarea) | Tipos de Serviços * | Descreva seu imóvel, o que precisa (Projeto de Prevenção/PPCI, AVCB/CLCB, digitalização de plantas, extintores, mangueiras) e eventuais prazos. | Sim |
 | LGPD (checkbox) | Concordo com o tratamento dos meus dados pessoais conforme a Política de Privacidade da Alfa Prev, para fins de resposta ao orçamento solicitado. (LGPD, Lei 13.709/2018) | — | Sim |
 
-**Opções do select "Ocupação" (6):**
+**Opções do select "Ocupação" (6, atualizado em out/2026):**
 1. Selecione o tipo de edificação (placeholder, desabilitado)
 2. Comercial
 3. Industrial
 4. Condomínio Residencial
-5. Condomínio Comercial
-6. Digitalização de Plantas / Projetos
-7. Outro
+5. Escritórios
+6. Outro
+
+> **Nota (out/2026):** as opções "Condomínio Comercial" (`condominio_comercial`) e "Digitalização de Plantas / Projetos" (`digitalizacao_projetos`) foram removidas; a opção "Escritórios" (valor `escritorios`) foi adicionada em substituição. Nenhuma dependência foi encontrada em `script.js`, `assets/js/config.js` ou `supabase-schema.sql` que precisasse de ajuste em função dessa mudança (não há `CHECK` constraint nem lógica condicional baseada nos valores desse campo).
 
 Botão de envio: Enviar e Solicitar Orçamento
 
@@ -638,7 +521,10 @@ Estes elementos aparecem em todas (ou quase todas) as páginas e são documentad
 ### Header (`partials/header.html`)
 Logo: Alfa Prev, Segurança Contra Incêndio (alt text da imagem no header/footer)
 
-**Navegação (desktop e mobile, idêntica):** Home · Serviços · Quem Somos · Blog SCI · FAQ · Contato
+**Navegação (desktop e mobile, idêntica):** Home · Serviços · Quem Somos · Blog SCI · Contato
+
+> **FAQ oculto (out/2026):** o link "FAQ" (desktop e mobile) está comentado em `partials/header.html` e não aparece mais na navegação publicada. Ver seção 5.
+
 Botão: Falar no WhatsApp (desktop, mobile e flutuante — mesmo rótulo e mesma URL/mensagem nas 3 instâncias)
 
 ### Botão WhatsApp flutuante (`partials/whatsapp-float.html`)
@@ -654,7 +540,9 @@ Botões: Recusar · Aceitar
 - CNPJ: 62.088.739/0001-54
 - "Especialistas em Engenharia de Incêndio. Regularização, laudos, projetos de prevenção e combate a incêndio e assessoria técnica em todo o Estado de São Paulo."
 
-**Coluna Navegação:** Home · Serviços & Soluções · Blog SCI · Quem Somos · Perguntas Frequentes · Solicitar Orçamento · Política de Privacidade
+**Coluna Navegação:** Home · Serviços & Soluções · Blog SCI · Quem Somos · Solicitar Orçamento · Política de Privacidade
+
+> **FAQ oculto (out/2026):** o link "Perguntas Frequentes" está comentado em `partials/footer.html` e não aparece mais na coluna de navegação publicada. Ver seção 5.
 
 **Coluna Contato:**
 - (11) 98932-5513
@@ -705,11 +593,12 @@ Nenhum marcador `<!-- PREENCHER -->` foi encontrado no texto visível das págin
 
 > As correções de citações legais/normativas já aplicadas no site foram feitas com base em pesquisa externa, **não em confirmação direta da responsável técnica**. Os itens abaixo precisam de validação antes da publicação do site ou de qualquer divulgação do Blog SCI.
 
-1. **Numeração das Instruções Técnicas (ITs)** — confirmar se a numeração IT-01, IT-11, IT-18, IT-20, IT-21, IT-22 permanece igual com o Decreto 69.118/2024 ou se houve renumeração. Marcado inline em `src/pages/blog-sci/lei-kiss-decreto-69118.html` (comentários HTML nas linhas 23, 126 e 185).
-2. **Data exata de sanção da Lei 13.425/2017** — confirmar a data precisa (o artigo cita "março de 2017"). Marcado inline em `src/pages/blog-sci/lei-kiss-decreto-69118.html` (linha 126).
-3. **NBR 12962 (Extintores, edição 2016)** — verificar se a edição 2016 continua vigente ou foi cancelada/substituída. Citada na tag do card de Extintores em `src/pages/servicos.html`.
-4. **VIA-FÁCIL e TAACB** — plataforma digital de licenciamento e novo documento citados em fontes de terceiros como novidades do Decreto 69.118/2024. Não foram adicionados ao site. Confirmar se já fazem parte do fluxo de trabalho real da Alfa Prev.
-5. **Outros impactos do Decreto 69.118/2024** — verificar se há algum outro processo, prazo ou terminologia que mudou com o decreto e que afete a descrição dos serviços da Alfa Prev no site.
+1. **Órfão desde out/2026 — Numeração das Instruções Técnicas (ITs)** — confirmar se a numeração IT-01, IT-11, IT-18, IT-20, IT-21, IT-22 permanece igual com o Decreto 69.118/2024 ou se houve renumeração. O artigo que citava essas ITs (`lei-kiss-decreto-69118.html`) foi removido do Blog SCI em out/2026 — este item não tem mais localização ativa no site, mantido apenas como registro histórico.
+2. **Órfão desde out/2026 — Data exata de sanção da Lei 13.425/2017** — confirmar a data precisa (o artigo removido citava "março de 2017"). Sem localização ativa no site desde a remoção do artigo.
+3. **Ainda ativo — NBR 12962 (Extintores, edição 2016)** — verificar se a edição 2016 continua vigente ou foi cancelada/substituída. Citada na tag do card de Extintores em `src/pages/servicos.html`.
+4. **Ainda ativo — VIA-FÁCIL e TAACB** — plataforma digital de licenciamento e novo documento citados em fontes de terceiros como novidades do Decreto 69.118/2024. Não foram adicionados ao site. Confirmar se já fazem parte do fluxo de trabalho real da Alfa Prev.
+5. **Ainda ativo — Outros impactos do Decreto 69.118/2024** — verificar se há algum outro processo, prazo ou terminologia que mudou com o decreto e que afete a descrição dos serviços da Alfa Prev no site.
+6. **(out/2026) Faixa de validade do AVCB ("entre 1 e 3 anos")** — o artigo `avcb-clcb.html` afirma que a validade do AVCB varia "geralmente entre 1 e 3 anos" conforme o grupo de ocupação. Essa faixa numérica não foi confirmada diretamente com a Cassia — precisa de validação antes de qualquer divulgação do Blog SCI, já que está vinculada à nova regra "validade depende apenas da ocupação" também adicionada em out/2026 (antes a validade também considerava o grupo de risco/complexidade).
 
 ---
 
@@ -717,13 +606,13 @@ Nenhum marcador `<!-- PREENCHER -->` foi encontrado no texto visível das págin
 
 > Listadas apenas para conhecimento — **não foram corrigidas**, conforme instrução de não alterar nenhum arquivo do site além deste.
 
-1. **Terminologia "Segurança Contra Incêndio" vs. padrão "Engenharia de Incêndio":** o CLAUDE.md define "Engenharia de Incêndio" como denominação padrão do site, mas o termo mais antigo "Segurança Contra Incêndio" ainda aparece 20 vezes no texto visível:
-   - `index.html`: 5 ocorrências (ex.: linha 35 do texto extraído — "soluções completas em segurança contra incêndio")
+1. **Terminologia "Segurança Contra Incêndio" vs. padrão "Engenharia de Incêndio":** o CLAUDE.md define "Engenharia de Incêndio" como denominação padrão do site, mas o termo mais antigo "Segurança Contra Incêndio" ainda aparece em diversos pontos do texto visível:
+   - `index.html`: 5 ocorrências (ex.: "soluções completas em segurança contra incêndio")
    - `quem-somos.html`: 2 ocorrências (ex.: "Com mais de 8 anos de experiência na área de Segurança Contra Incêndio")
    - `servicos.html`: 3 ocorrências (ex.: "legislação vigente de segurança contra incêndio")
    - `blog-sci.html`: 3 ocorrências (ex.: "sobre Segurança Contra Incêndio no Estado de São Paulo")
    - `contato.html`: 4 ocorrências (título da página e descrição)
-   - `faq.html`: 1 ocorrência (H1 da página)
+   - `faq.html`: 1 ocorrência (H1 da página) — presente apenas no código-fonte oculto, não afeta mais o site publicado (ver seção 5)
    - `partials/header.html`: 1 ocorrência (alt text do logo)
    - `partials/footer.html`: 1 ocorrência (alt text do logo)
 
@@ -733,8 +622,6 @@ Nenhum marcador `<!-- PREENCHER -->` foi encontrado no texto visível das págin
 
 3. **Meta tags de geolocalização com endereço implícito:** `partials/head-common.html` contém `geo.placename: "Guarulhos, São Paulo"` e coordenadas (`geo.position` / `ICBM: -23.4630, -46.5333`) presentes em todas as páginas. Isso conflita com a regra do CLAUDE.md de nunca publicar endereço físico ou dado de localização da empresa no site (atendimento é 100% no local do cliente).
 
-4. **Divergência não commitada em `avcb-clcb.html`:** o arquivo-fonte tem uma alteração de texto pendente de commit (remoção da palavra "vigentes" na frase sobre o que AVCB/CLCB certificam). O conteúdo extraído neste documento reflete o texto atual da árvore de trabalho (sem "vigentes").
+4. **"Tipos de Serviços" como campo de texto livre:** o rótulo do campo do formulário de contato é "Tipos de Serviços", mas o campo (`#resumo`) é um textarea de texto livre, não uma seleção múltipla de serviços — o rótulo pode gerar expectativa de um campo de seleção.
 
-5. **"Tipos de Serviços" como campo de texto livre:** o rótulo do campo do formulário de contato é "Tipos de Serviços", mas o campo (`#resumo`) é um textarea de texto livre, não uma seleção múltipla de serviços — o rótulo pode gerar expectativa de um campo de seleção.
-
-6. **Marcadores `<!-- REVISAR COM CASSIA -->` mencionados no CLAUDE.md mas não encontrados em `servicos.html`:** o CLAUDE.md afirma que "classes de extintores e categorias de sinalização" estão marcadas com esse comentário em `servicos.html`, mas nenhuma ocorrência do marcador foi encontrada no arquivo atual. Os únicos marcadores `<!-- REVISAR COM CASSIA -->` presentes no código hoje estão em `src/pages/blog-sci/lei-kiss-decreto-69118.html`.
+5. **(out/2026) CLCB: declaração vs. ausência de aprovação prévia.** O processo de obtenção do CLCB em `avcb-clcb.html` foi reescrito para enfatizar que "não exige a aprovação prévia de um Projeto de Segurança Contra Incêndio pelo Corpo de Bombeiros", sem mais usar a palavra "declaração" para descrever o ato do responsável pelo imóvel. Porém, no mesmo artigo, as seções "O que é o CLCB" ("o CLCB é baseado em uma declaração de conformidade feita pelo próprio responsável pelo imóvel") e "A diferença essencial" ("O CLCB é emitido com base em declaração do responsável pelo imóvel") continuam usando o framing declaratório. O artigo `vencimento-avcb-clcb.html` também mantém esse framing ("Mesmo sendo um processo declaratório, adequações físicas podem ser necessárias..."). Não há contradição factual necessariamente, mas o tom e o nível de ênfase mudaram apenas em uma seção do artigo, criando uma leitura inconsistente dentro do próprio site sobre como o CLCB funciona. Ver também item 6 da seção 11.
