@@ -6,6 +6,13 @@ const PARTIALS_DIR = path.join(__dirname, 'partials');
 const SRC_DIR = path.join(__dirname, 'src', 'pages');
 const OUT_DIR = __dirname;
 
+// Páginas de src/pages/ que não devem gerar arquivo publicado na raiz.
+// Caminho relativo a SRC_DIR, com '/' mesmo no Windows.
+// Usado para ocultar páginas sem remover o conteúdo-fonte (ex: FAQ, set/2026).
+const SKIP_FILES = [
+  'faq.html',
+];
+
 // Load all partials into memory
 const partials = {};
 for (const file of fs.readdirSync(PARTIALS_DIR)) {
@@ -32,6 +39,12 @@ function processDir(srcDir, outDir) {
     }
 
     if (!item.endsWith('.html')) continue;
+
+    const relPath = path.relative(SRC_DIR, srcPath).split(path.sep).join('/');
+    if (SKIP_FILES.includes(relPath)) {
+      console.log(`  ⏭ ${relPath} (ignorado — ver SKIP_FILES em build.js)`);
+      continue;
+    }
 
     let content = fs.readFileSync(srcPath, 'utf8');
 
