@@ -339,13 +339,19 @@ alfaprev/
 
 ### Arquivo CONTEUDO-PAGINAS.md — regras obrigatórias
 
-`CONTEUDO-PAGINAS.md` é gerado automaticamente por `generate-content-md.js` e contém o conteúdo textual de todas as páginas do site extraído dos arquivos-fonte em `src/pages/`.
+`CONTEUDO-PAGINAS.md` é o documento de referência para revisão de copy pela Cassia e para auditoria de conteúdo/SEO. Desde out/2026 ele é **composto manualmente por Claude Code** a partir de `/src/pages/` + `/partials/` (não mais apenas pelo output simples de `generate-content-md.js` — esse script continua existindo e roda como parte de `npm run build`, mas seu output simples deve ser considerado apenas um rascunho intermediário, sempre substituído pela versão rica descrita abaixo).
 
 **Regras:**
-- **Nunca edite `CONTEUDO-PAGINAS.md` diretamente** — qualquer alteração manual será sobrescrita no próximo `npm run build`.
-- Sempre que você (Claude) editar conteúdo em `src/pages/` ou `partials/`, **o próximo `npm run build` já atualiza o arquivo automaticamente**. Não é necessário rodá-lo em separado.
-- Se uma nova página for adicionada em `src/pages/`, adicione também uma entrada no array `PAGE_ORDER` de `generate-content-md.js` para que a nova página apareça no arquivo na ordem correta.
-- O arquivo serve como referência textual rápida do conteúdo do site para revisão de copy, auditoria de SEO e contexto em conversas futuras.
+- **Nunca edite o conteúdo do site a partir deste arquivo.** Qualquer alteração de texto deve ser feita em `/src/pages/` ou `/partials/`, nunca em `CONTEUDO-PAGINAS.md` diretamente.
+- **Sempre que o conteúdo textual do site mudar** (edição em `/src/pages/` ou `/partials/`), o arquivo deve ser regenerado manualmente: rodar `npm run build` primeiro (garante que o HTML gerado está sincronizado com as fontes), depois recompor `CONTEUDO-PAGINAS.md` lendo as fontes atualizadas e reescrevendo o arquivo por completo (não é um diff incremental).
+- **Critério de extração:** apenas texto visível ao visitante (títulos, parágrafos, listas, CTAs, texto de cards, estatísticas, depoimentos, texto de links, perguntas/respostas completas do FAQ, rótulos/placeholders/opções de formulário, mensagens de sucesso/erro, textos alternativos relevantes) + metadados de SEO especificados (`<title>`, `meta description`, `canonical`, `datePublished` de artigos). Nunca incluir HTML, CSS, JS, tags, scripts, JSON-LD bruto ou comentários de código.
+- **Preservação literal:** o texto deve ser copiado exatamente como aparece no código-fonte — nunca reescrito, resumido ou "melhorado". Formatação em negrito/itálico só é aplicada se já existir no original (`<strong>`, `<em>`).
+- **Elementos compartilhados** (header, footer, banner de cookies, botão/mensagem do WhatsApp) ficam em uma única seção dedicada ("Elementos Compartilhados"), não repetidos por página.
+- Marcadores `<!-- PREENCHER -->` encontrados no texto devem aparecer inline como `**[PREENCHER]**` e também ser listados na seção final "Pendências de Preenchimento".
+- Marcadores `<!-- REVISAR COM CASSIA: ... -->` encontrados no código devem ser listados na seção final "Pendências de Revisão pela Cassia", junto com os itens de revisão técnica já documentados neste CLAUDE.md.
+- Inconsistências encontradas durante a extração (ex.: texto que viola regras deste CLAUDE.md, divergências entre páginas) devem ser **listadas, nunca corrigidas**, na seção final "Inconsistências Encontradas", com arquivo + trecho exato.
+- Se uma nova página for adicionada em `src/pages/`, adicione também uma entrada no array `PAGE_ORDER` de `generate-content-md.js` (para o rascunho automático) e uma seção correspondente na próxima recomposição manual do arquivo rico.
+- O arquivo serve como referência textual completa do conteúdo do site para revisão de copy, auditoria de SEO e contexto em conversas futuras.
 
 ### Regra: sem aparência de texto gerado por IA
 
