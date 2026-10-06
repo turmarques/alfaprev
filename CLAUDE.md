@@ -233,16 +233,23 @@ alfaprev/
 - Teste Hidrostático: renomeado para "Teste hidrostático de mangueiras de incêndio"
 - FAQ: frequência de manutenção de mangueiras agora sem prazo fixo; PPCI com nomenclatura correta
 - Citações legais/normativas corrigidas (set/2026): Decreto 56.819/2011 → 69.118/2024; Lei 16.213/2016 (inexistente) → LC 1.257/2015; NBR 11861 → NBR 12779; NBR 13434 → NBR 16820:2020
-- Artigo "Lei Kiss": renomeado para `lei-kiss-decreto-69118.html`, linha do tempo normativa (56.819 → 63.911 → 69.118) adicionada
+- Artigo "Lei Kiss": renomeado para `lei-kiss-decreto-69118.html`, linha do tempo normativa (56.819 → 63.911 → 69.118) adicionada — **removido do site em out/2026, ver item abaixo**
+- **(out/2026) Artigo "Lei Kiss e Decreto 69.118/2024" removido do Blog SCI**: arquivo-fonte, arquivo gerado, card no hub, entrada no `sitemap.xml` e entrada no `PAGE_ORDER` de `generate-content-md.js` foram todos removidos. O hub (`blog-sci.html`) ficou com 2 cards de artigo (AVCB/CLCB e Vencimento). O texto de introdução do hub ainda cita "o Decreto Estadual nº 69.118/2024 e suas Instruções Técnicas" como conteúdo disponível, mas não há mais artigo dedicado a isso — ver `CONTEUDO-PAGINAS.md` seção 4 para a inconsistência registrada.
+- **(out/2026) Artigo `avcb-clcb.html` reescrito em pontos-chave**: processo do AVCB detalhado (PPCI → vistoria → emissão); processo do CLCB reescrito para não mais exigir aprovação prévia de projeto, mas reforçando que extintores/sinalização/saídas precisam estar corretos mesmo sem aprovação prévia; seção "Quando consultar um profissional" removida do final do artigo; parágrafo de validade do AVCB simplificado.
+- **(out/2026) Regra de validade do AVCB:** a validade do AVCB (geralmente entre 1 e 3 anos) depende apenas do **grupo de ocupação** da edificação. Removida toda menção a "grupo de risco" ou "complexidade" como fator de validade — essa vinculação era usada antes em `avcb-clcb.html`, `faq.html` e trechos do site, e foi corrigida para citar apenas ocupação. **Pendente de confirmação com a Cassia** a faixa "entre 1 e 3 anos" (ver seção de pendências abaixo).
+- **(out/2026) Página FAQ ocultada do site publicado** sem remover o conteúdo-fonte. Ver seção "FAQ oculto (out/2026)" mais abaixo para detalhes e instruções de reativação.
+- **(out/2026) Select "Ocupação" do formulário de contato ajustado**: removidas as opções "Condomínio Comercial" e "Digitalização de Plantas / Projetos"; adicionada a opção "Escritórios" (valor `escritorios`). Nenhuma dependência encontrada em `script.js` ou `supabase-schema.sql` que precisasse de ajuste.
 
 ### ⚠️ Pendências de revisão técnica com a Cassia — OBRIGATÓRIO antes de considerar definitivo
 
 > **Contexto:** as correções de citações legais/normativas abaixo foram feitas com base em pesquisa externa, NÃO em confirmação direta da responsável técnica. Conteúdo de lei e norma é o tipo de informação que mais compromete a credibilidade da empresa se estiver errado. Estes itens devem ser revisados pela Cassia antes da publicação do site ou de qualquer divulgação do Blog SCI.
 
-1. **Numeração das Instruções Técnicas (ITs)** — confirmar se a numeração IT-01, IT-11, IT-18, IT-20, IT-21, IT-22 permanece igual com o Decreto 69.118/2024 ou se houve renumeração. Localização: artigo `src/pages/blog-sci/lei-kiss-decreto-69118.html`.
-2. **NBR 12962 (Extintores, edição 2016)** — verificar se a edição 2016 continua vigente ou foi cancelada/substituída. Foram encontrados sinais ambíguos em fontes secundárias, mas sem confirmação. Não alterar a citação enquanto não houver confirmação. Localização: `src/pages/servicos.html` (tag do card Extintores).
-3. **VIA-FÁCIL e TAACB** — plataforma digital de licenciamento e novo documento citados em fontes de terceiros como novidades do Decreto 69.118/2024. Não foram adicionados ao site. Confirmar com a Cassia se já fazem parte do fluxo de trabalho real da Alfa Prev — podem ser conteúdo relevante para o Blog SCI se confirmados.
-4. **Outros impactos do Decreto 69.118/2024** — verificar se há algum outro processo, prazo ou terminologia que mudou com o decreto e que afete a descrição dos serviços da Alfa Prev no site.
+1. **Órfão desde out/2026 — Numeração das Instruções Técnicas (ITs)** — confirmar se a numeração IT-01, IT-11, IT-18, IT-20, IT-21, IT-22 permanece igual com o Decreto 69.118/2024 ou se houve renumeração. O artigo que citava essas ITs (`lei-kiss-decreto-69118.html`) foi removido do site em out/2026 — este item não tem mais localização ativa, mantido aqui apenas como registro histórico até confirmação definitiva (caso o artigo seja reescrito/reativado no futuro).
+2. **Órfão desde out/2026 — NBR 12962 (Extintores, edição 2016)** — verificar se a edição 2016 continua vigente ou foi cancelada/substituída. Foram encontrados sinais ambíguos em fontes secundárias, mas sem confirmação. Não alterar a citação enquanto não houver confirmação. Localização: `src/pages/servicos.html` (tag do card Extintores). *(Mantido como "ainda ativo" — a citação continua presente em `servicos.html`, diferente dos itens 1 e 3-4 que dependiam do artigo removido.)*
+3. **Ainda ativo — VIA-FÁCIL e TAACB** — plataforma digital de licenciamento e novo documento citados em fontes de terceiros como novidades do Decreto 69.118/2024. Não foram adicionados ao site. Confirmar com a Cassia se já fazem parte do fluxo de trabalho real da Alfa Prev — podem ser conteúdo relevante para o Blog SCI se confirmados.
+4. **Ainda ativo — Outros impactos do Decreto 69.118/2024** — verificar se há algum outro processo, prazo ou terminologia que mudou com o decreto e que afete a descrição dos serviços da Alfa Prev no site.
+5. **(out/2026) Faixa de validade do AVCB ("entre 1 e 3 anos")** — o artigo `avcb-clcb.html` e outros trechos do site afirmam que a validade do AVCB varia "geralmente entre 1 e 3 anos" conforme o grupo de ocupação. Essa faixa numérica não foi confirmada diretamente com a Cassia — precisa de validação antes de qualquer divulgação do Blog SCI, já que está vinculada à regra de "validade depende apenas da ocupação" também adicionada em out/2026.
+6. **(out/2026) Inconsistência CLCB declaração vs. aprovação prévia** — o processo de obtenção do CLCB em `avcb-clcb.html` foi reescrito para não exigir mais aprovação prévia de projeto, mas as seções "O que é o CLCB", "A diferença essencial" (no mesmo artigo) e o artigo `vencimento-avcb-clcb.html` continuam descrevendo o CLCB como documento "declaratório". Essa divergência não foi corrigida (fora do escopo da tarefa que gerou a reescrita) — avaliar com a Cassia qual framing é o correto e unificar.
 
 ### Pendente antes de publicar 🔴
 - [x] Registrar domínio — `alfaprev-sci.com.br` registrado via Locaweb (ativo, expira 08/09/2027)
@@ -308,32 +315,29 @@ alfaprev/
 ├── blog-sci.html           # GERADO — não edite diretamente
 ├── blog-sci/               # GERADO — não edite diretamente
 │   ├── avcb-clcb.html
-│   ├── lei-kiss-decreto-56819.html
 │   └── vencimento-avcb-clcb.html
-├── faq.html                # GERADO — não edite diretamente
 ├── contato.html            # GERADO — não edite diretamente
-├── build.js                # Script de build (Node.js nativo — sem dependências)
-├── generate-content-md.js # Extrai texto das páginas e gera CONTEUDO-PAGINAS.md
-├── CONTEUDO-PAGINAS.md     # GERADO — conteúdo textual de todas as páginas (não edite)
+├── build.js                # Script de build (Node.js nativo — sem dependências; SKIP_FILES ignora faq.html, ver "FAQ oculto")
+├── generate-content-md.js # Extrai texto das páginas e gera o rascunho simples de CONTEUDO-PAGINAS.md
+├── CONTEUDO-PAGINAS.md     # GERADO (rascunho) + recomposto manualmente (versão rica) — não edite
 ├── package.json            # {"scripts": {"build": "node build.js && node generate-content-md.js"}}
 ├── partials/
 │   ├── head-common.html    # Tailwind CDN, Inter font, tailwind.config, styles.css
-│   ├── header.html         # Header com navegação completa (editar aqui)
-│   ├── footer.html         # Footer com links e dados institucionais (editar aqui)
+│   ├── header.html         # Header com navegação completa (editar aqui) — link FAQ comentado (oculto)
+│   ├── footer.html         # Footer com links e dados institucionais (editar aqui) — link FAQ comentado (oculto)
 │   ├── whatsapp-float.html # Botão WhatsApp flutuante
 │   ├── cookie-banner.html  # Banner LGPD de cookies
 │   └── scripts.html        # Tags <script> de config.js e script.js
 └── src/
     └── pages/
         ├── index.html         # Home: Hero + teasers de serviços, blog SCI e quem somos
-        ├── servicos.html      # Todos os 6 serviços com descrições completas
+        ├── servicos.html      # Todos os 6 serviços com descrições completas — CTA ao FAQ comentado (oculto)
         ├── quem-somos.html    # Texto institucional + responsável técnica + dados da empresa
-        ├── blog-sci.html      # Hub do Blog SCI (artigos sobre normas e regularização)
+        ├── blog-sci.html      # Hub do Blog SCI (artigos sobre normas e regularização) — 2 cards (Lei Kiss removido em out/2026)
         ├── blog-sci/
         │   ├── avcb-clcb.html
-        │   ├── lei-kiss-decreto-56819.html
         │   └── vencimento-avcb-clcb.html
-        ├── faq.html           # 7 perguntas/respostas com accordion (Schema FAQPage)
+        ├── faq.html           # 7 perguntas/respostas com accordion (Schema FAQPage) — NÃO gerado no build (ver "FAQ oculto")
         └── contato.html       # Formulário de orçamento, mapa, contatos, privacidade
 ```
 
@@ -496,3 +500,32 @@ Removidos: "Projetos 100% Adequados às Normas Técnicas" e "Atendimento Persona
 5. **Rodar `npm run build`** — o `processDir()` do `build.js` percorre recursivamente `src/pages/` incluindo subdiretórios.
 
 6. **Verificar**: abrir o arquivo gerado na raiz (ex: `blog-sci/nome-do-artigo.html`) e confirmar que `cdn.tailwindcss.com` está presente no `<head>` (sinal de que o `<!-- INCLUDE:head-common -->` foi expandido corretamente).
+
+---
+
+## FAQ oculto (out/2026)
+
+A página de FAQ foi **ocultada do site publicado sem remover o conteúdo-fonte**. O conteúdo (7 perguntas/respostas, accordion, Schema `FAQPage`) continua intacto em `src/pages/faq.html`, apenas não é mais gerado nem linkado.
+
+### O que foi feito
+
+1. **`build.js`** — adicionado um array `SKIP_FILES` (lista arquivos relativos a `src/pages/` que o `processDir()` deve ignorar ao gerar a saída). `faq.html` foi incluído nessa lista. Essa abordagem foi escolhida em vez de comentar o arquivo-fonte inteiro (risco de conflito com comentários HTML já existentes dentro do próprio arquivo).
+2. **`faq.html` na raiz** (gerado) — removido, já que o build não o gera mais enquanto estiver em `SKIP_FILES`.
+3. **`partials/header.html`** — link de navegação "FAQ" (desktop e mobile) comentado com `<!-- -->`.
+4. **`partials/footer.html`** — link "FAQ" comentado com `<!-- -->`.
+5. **`src/pages/servicos.html`** — seção de CTA "Dúvidas sobre qual serviço? Consulte o FAQ" comentada.
+6. **`sitemap.xml`** — entrada de `faq.html` removida.
+7. **`CONTEUDO-PAGINAS.md`** — seção 5 (FAQ) substituída por uma nota explicando a ocultação (o conteúdo completo das perguntas não aparece mais no documento rico, já que não é mais público).
+
+### Por quê
+
+Decisão de negócio para remover a página de FAQ do site publicado temporariamente, sem perder o trabalho de conteúdo já feito (schema, copy, accordion) caso seja reativada no futuro.
+
+### Como reativar
+
+1. Remover `'faq.html'` do array `SKIP_FILES` em `build.js`.
+2. Descomentar o link "FAQ" em `partials/header.html` (desktop e mobile) e `partials/footer.html`.
+3. Descomentar a seção de CTA ao FAQ em `src/pages/servicos.html`.
+4. Adicionar de volta a entrada de `faq.html` em `sitemap.xml` (`changefreq: monthly`, `priority: 0.7` — ou valor condizente com as demais páginas).
+5. Rodar `npm run build`.
+6. Recompor `CONTEUDO-PAGINAS.md` manualmente, restaurando a seção 5 com o conteúdo completo das 7 perguntas/respostas (ler `src/pages/faq.html` diretamente, já que a versão rica anterior ao out/2026 tem o texto literal).
