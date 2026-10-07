@@ -1,0 +1,135 @@
+# ====================================================================
+# ALFA PREV — publicacao/modelos/.htaccess
+# ====================================================================
+# Modelo de configuração Apache para a hospedagem Locaweb (ou qualquer
+# hospedagem compartilhada Linux/Apache). Equivalente, em headers HTTP,
+# ao que já está em netlify.toml (usado como referência caso a hospedagem
+# final seja Netlify em vez de Apache).
+#
+# Este arquivo é copiado automaticamente para dist-locaweb/.htaccess por
+# "npm run empacotar" (scripts/empacotar-locaweb.js). Editar SEMPRE aqui,
+# nunca direto dentro de dist-locaweb/ (que é sobrescrito a cada empacotamento).
+#
+# Todos os blocos que dependem de um módulo Apache opcional (mod_deflate,
+# mod_expires, mod_headers) estão dentro de <IfModule ...> — se o módulo não
+# existir no servidor, o bloco é simplesmente ignorado em vez de causar erro 500.
+# ====================================================================
+
+
+# ====================================================================
+# BLOCO 1 — ATIVO DESDE O PRIMEIRO UPLOAD
+# ====================================================================
+
+# --- Compressão de texto (menor tempo de download) ---
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/css text/plain text/xml
+  AddOutputFilterByType DEFLATE application/javascript application/json
+  AddOutputFilterByType DEFLATE image/svg+xml
+</IfModule>
+
+# --- Cache de navegador: assets estáticos por 1 ano, HTML por 1 hora ---
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType text/css                "access plus 1 day"
+  ExpiresByType application/javascript  "access plus 1 day"
+  ExpiresByType image/jpeg              "access plus 1 year"
+  ExpiresByType image/png               "access plus 1 year"
+  ExpiresByType image/svg+xml           "access plus 1 year"
+  ExpiresByType image/x-icon            "access plus 1 year"
+  ExpiresByType font/woff2              "access plus 1 year"
+  ExpiresByType text/html               "access plus 1 hour"
+</IfModule>
+
+# --- Headers de segurança básicos (equivalentes ao bloco [[headers]] "/*" do netlify.toml) ---
+<IfModule mod_headers.c>
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  Header always set Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=()"
+  Header always set X-Frame-Options "SAMEORIGIN"
+
+  # CSP rígida para a página /leads (painel administrativo oculto) — ver
+  # docs/DASHBOARD-LEADS.md. O domínio Supabase final ainda não está definido
+  # no código (assets/js/config.js tem SUPABASE_URL como placeholder em
+  # out/2026) — por isso o wildcard https://*.supabase.co é usado aqui, igual
+  # ao já adotado em netlify.toml e publicacao/modelos/leads.htaccess. Se o
+  # projeto Supabase final usar outro domínio, ajuste aqui também.
+  <FilesMatch "^leads\.html$">
+    Header set Content-Security-Policy "default-src 'none'; script-src 'self'; style-src 'self'; font-src 'self'; img-src 'self'; connect-src 'self' https://*.supabase.co; base-uri 'none'; form-action 'none'; frame-ancestors 'none';"
+    Header set X-Robots-Tag "noindex, nofollow, noarchive"
+    Header set Referrer-Policy "no-referrer"
+    Header set Cache-Control "no-store"
+    Header unset X-Frame-Options
+    Header set X-Frame-Options "DENY"
+  </FilesMatch>
+</IfModule>
+
+# --- Bloqueio de arquivos ocultos e extensões que nunca devem ser públicas ---
+<IfModule mod_authz_core.c>
+  <FilesMatch "^\.">
+    Require all denied
+  </FilesMatch>
+  <FilesMatch "\.(md|sql|log|env|bak|zip)$">
+    Require all denied
+  </FilesMatch>
+</IfModule>
+<IfModule !mod_authz_core.c>
+  # Apache 2.2 (sintaxe antiga — mantido como fallback; a maioria das hospedagens
+  # atuais já usa mod_authz_core/2.4, mas isso evita erro 500 em servidores mais antigos)
+  <FilesMatch "^\.">
+    Order allow,deny
+    Deny from all
+  </FilesMatch>
+  <FilesMatch "\.(md|sql|log|env|bak|zip)$">
+    Order allow,deny
+    Deny from all
+  </FilesMatch>
+</IfModule>
+
+# --- Página 404 customizada — SOMENTE se 404.html existir no pacote.
+# Nesta publicação, 404.html NÃO existe ainda (ver PUBLICACAO-LOCAWEB.md, bloqueadores).
+# Descomente a linha abaixo se/quando um 404.html for criado e incluído no pacote.
+# ErrorDocument 404 /404.html
+
+
+# ====================================================================
+# BLOCO 2 — DEIXAR COMENTADO. SÓ ATIVAR DEPOIS QUE O HTTPS JÁ ESTIVER
+# FUNCIONANDO (certificado emitido e testado). Ativar antes disso quebra
+# o acesso ao site (loop de redirecionamento ou erro de certificado).
+# ====================================================================
+
+# <IfModule mod_rewrite.c>
+#   RewriteEngine On
+#
+#   # 1) Força HTTPS
+#   RewriteCond %{HTTPS} off
+#   RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+#
+#   # 2) Força o host canônico SEM www (ver PUBLICACAO-LOCAWEB.md §0.5 —
+#   #    todo o site usa https://alfaprev-sci.com.br, sem www, em canonical/
+#   #    OG/JSON-LD/sitemap.xml). Se a decisão final for usar www, inverta
+#   #    esta regra.
+#   RewriteCond %{HTTP_HOST} ^www\.alfaprev-sci\.com\.br$ [NC]
+#   RewriteRule ^(.*)$ https://alfaprev-sci.com.br/$1 [L,R=301]
+#
+#   # 3) Remove "/index.html" explícito da URL (preferir "/")
+#   RewriteCond %{THE_REQUEST} ^[A-Z]{3,}\s/+index\.html[?\s]
+#   RewriteRule ^index\.html$ / [L,R=301]
+# </IfModule>
+
+
+# ====================================================================
+# BLOCO 3 — /leads (documentado acima dentro do Bloco 1, FilesMatch
+# "^leads\.html$"). Mantido como bloco único porque leads.html é um ARQUIVO
+# na raiz do site, não uma subpasta — não existe "leads/" neste projeto.
+# Reforços adicionais específicos de /leads, fora do mod_headers:
+# ====================================================================
+
+# Nunca usar HTTP Basic Auth aqui — abriria um diálogo de autenticação do
+# próprio navegador ANTES da tela de login da aplicação (login real é via
+# Supabase Auth + is_admin(), ver docs/DASHBOARD-LEADS.md). Isso quebraria a
+# UX da tela de login com fundo desfocado. Não adicionar <AuthType Basic> a
+# este arquivo.
+
+# Não há "RewriteRule" dedicada para /leads -> /leads/: a página existe como
+# arquivo único (leads.html). O acesso correto e único é "/leads.html"; não
+# criar nem documentar uma URL "/leads/" neste projeto (não existe esse recurso).

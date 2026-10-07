@@ -545,3 +545,51 @@ Documentação técnica completa em `docs/DASHBOARD-LEADS.md` — leia-a antes d
   - Os três primeiros módulos (`bloqueio.js`, `telefone.js`, `csv.js`) são puros e testados em `test/*.test.js` (`npm test`, zero dependências, `node --test` nativo). Qualquer alteração nesses três arquivos deve manter os testes passando.
   - Nunca linkar `/leads.html` em `robots.txt`, `sitemap.xml` ou qualquer `partial` público — a proteção real é Supabase Auth + RLS (`is_admin()`), não a obscuridade da URL (que também tem `meta robots noindex, nofollow` e `X-Robots-Tag` via header).
 - **Dependência nova:** `@supabase/supabase-js@2.117.2` (MIT, versão fixada) — vendorizado em `assets/vendor/supabase-js/supabase.js` (cópia do UMD bundle, nunca carregado via CDN em runtime). Usado exclusivamente em `/leads`.
+
+---
+
+## Publicação na Locaweb e Auditoria de SEO (adicionado out/2026)
+
+Levantamento completo de empacotamento, configuração de servidor, guia de publicação e auditoria
+de SEO/performance, feito como investigação e documentação — **sem alterar conteúdo, design ou
+comportamento do site**. Três documentos de referência em `publicacao/`:
+
+- **`publicacao/PUBLICACAO-LOCAWEB.md`** — bloqueadores antes de publicar (chaves placeholder,
+  Supabase não configurado, pendências de confirmação com a Cassia), resultado da checagem de DNS
+  de `alfaprev-sci.com.br` e `alfasci.com.br` (ambos já apontam para servidores de nome/MX/SPF da
+  Locaweb, nenhum dos dois tem registro A ainda — hospedagem não apontada), confirmação de que o
+  host canônico (`https://alfaprev-sci.com.br`, sem `www`) é 100% consistente em todo o código, e
+  o guia passo a passo completo de publicação (DNS, FTP, SSL, testes pós-publicação, reconfiguração
+  do Web3Forms, checklist de produção do Supabase, cadastro em Search Console/Bing/Google Business
+  Profile).
+- **`publicacao/modelos/.htaccess`** — modelo de configuração Apache para hospedagem Locaweb
+  (equivalente em headers HTTP ao `netlify.toml`), com blocos claramente separados: compressão/
+  cache/headers de segurança (ativo desde o primeiro upload), força de HTTPS/host sem `www`
+  (**mantido comentado** até o certificado SSL estar confirmado funcionando — ativar antes disso
+  quebra o acesso ao site), e headers reforçados de `/leads.html`. Não existe `web.config`
+  equivalente ainda — bloqueado em confirmar se o plano Locaweb final será Linux ou Windows.
+- **`scripts/empacotar-locaweb.js`** (`npm run empacotar`) — gera `dist-locaweb/` a partir da saída
+  de `npm run build`: copia só os arquivos de produção (HTML/CSS/JS/assets necessários, nunca
+  `src/`, `node_modules/`, documentação `.md`, scripts internos), remove comentários HTML da cópia,
+  bloqueia o empacotamento se detectar qualquer chave `service_role` do Supabase (decodificando
+  JWTs encontrados no conteúdo), placeholder não preenchido, ou link apontando para `localhost`,
+  copia os modelos de servidor para a raiz do pacote, gera um manifesto SHA-256 por arquivo
+  (`publicacao/MANIFESTO-PACOTE.txt`, gitignored) e tenta gerar um `.zip` (`alfaprev-site-*.zip`,
+  gitignored, nunca commitado).
+- **`publicacao/AUDITORIA-SEO.md`** — auditoria de SEO/performance/dados estruturados/E-E-A-T/
+  segurança, com métricas reais medidas via Lighthouse local (não PageSpeed Insights, já que o site
+  ainda não está publicado) contra o build estático. **Achado principal, medido e com maior
+  impacto: Performance mobile 36/100 (desktop 99/100)**, causa raiz isolada no Tailwind CSS via
+  CDN (`cdn.tailwindcss.com`) — confirma com número real a pendência já listada acima em
+  "Pendente após publicar" (critério "< 70 mobile" foi atingido). Demais achados (prioridade média/
+  baixa): nome da empresa inconsistente em 3 arquivos ("Alfa Prev - Segurança Contra Incêndios" em
+  vez de "Alfa Prev", violando a convenção de marca e de terminologia já documentadas neste
+  arquivo), `quem-somos.html` sem bloco `ProfessionalService` dedicado no JSON-LD, registro CAU/SP
+  da Cassia ausente do `Person` estruturado, `Article.publisher` sem campo `logo`, mismatch de
+  `aria-label` no botão de WhatsApp flutuante, contraste de cor insuficiente em elementos do
+  footer (achados do Lighthouse accessibility). Nenhum destes foi corrigido nesta auditoria —
+  lista completa com arquivo/esforço estimado na seção "Plano de ação priorizado" do documento.
+
+**Nenhum destes três documentos nem o script de empacotamento alteram `/src/pages/`,
+`/partials/` ou `assets/`** — qualquer correção de conteúdo/copy/schema listada neles exige um
+prompt dedicado e decisão humana antes de ser implementada.

@@ -4,7 +4,8 @@
   "description": "Site estático da Alfa Prev — processo de build para includes de partials",
   "scripts": {
     "build": "node build.js && node generate-content-md.js",
-    "test": "node --test test/*.test.js"
+    "test": "node --test test/*.test.js",
+    "empacotar": "node scripts/empacotar-locaweb.js"
   },
   "dependencies": {
     "@supabase/supabase-js": "2.117.2"
