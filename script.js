@@ -259,14 +259,6 @@ if (form) {
 
     if (!validateForm()) return;
 
-    // Rastreamento GA4
-    if (window.gtag) {
-      window.gtag('event', 'form_submit', {
-        event_category: 'Lead',
-        event_label: 'Formulário de Orçamento'
-      });
-    }
-
     submitBtn.disabled = true;
     btnText.textContent = 'Enviando...';
     success.classList.add('hidden');
@@ -312,28 +304,41 @@ if (form) {
       console.error('[Alfa Prev] Falha no envio por e-mail (Web3Forms):', err);
     }
 
-    // ── 7b. Gravação no banco via Supabase ───────────────
-    // Só tenta se config.js estiver preenchido com a URL real do projeto
+    // ── 7b. Gravação no banco via função registrar_lead() ───
+    // Nunca faz INSERT direto na tabela: a função valida campos/consentimento no servidor,
+    // normaliza o telefone, aplica rate limit e grava origem/UTMs/sessão (ver supabase-schema.sql).
+    // Só tenta se config.js estiver preenchido com a URL real do projeto.
     if (typeof SUPABASE_URL !== 'undefined' && SUPABASE_URL.startsWith('https://')) {
       try {
-        const res = await fetch(`${SUPABASE_URL}/rest/v1/leads`, {
+        const origem = (window.AlfaPrevMetricas && window.AlfaPrevMetricas.origemSessao())
+          || { origem: 'direto' };
+        const sessaoId = window.AlfaPrevMetricas ? window.AlfaPrevMetricas.sessaoId() : null;
+
+        const res = await fetch(`${SUPABASE_URL}/rest/v1/rpc/registrar_lead`, {
           method: 'POST',
           headers: {
             'Content-Type':  'application/json',
             'apikey':        SUPABASE_ANON_KEY,
             'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
-            'Prefer':        'return=minimal',
           },
           body: JSON.stringify({
-            nome,
-            email,
-            telefone,
-            tipo_imovel:        tipo,
-            mensagem:           resumo,
-            consentimento_lgpd: true, // checkbox LGPD já validado pelo validateForm()
+            p_nome:               nome,
+            p_email:              email,
+            p_telefone:           telefone,
+            p_tipo_imovel:        tipo,
+            p_mensagem:           resumo,
+            p_consentimento_lgpd: true, // checkbox LGPD já validado pelo validateForm()
+            p_pagina_origem:      location.pathname,
+            p_utm_source:         origem.utm_source || null,
+            p_utm_medium:         origem.utm_medium || null,
+            p_utm_campaign:       origem.utm_campaign || null,
+            p_utm_term:           origem.utm_term || null,
+            p_utm_content:        origem.utm_content || null,
+            p_gclid:              origem.gclid || null,
+            p_sessao_id:          sessaoId,
           }),
         });
-        dbOk = res.status === 201;
+        dbOk = res.status >= 200 && res.status < 300;
         if (!dbOk) console.error('[Alfa Prev] Supabase retornou status inesperado:', res.status, await res.text());
       } catch (err) {
         console.error('[Alfa Prev] Erro de rede ao conectar ao Supabase:', err);
@@ -385,8 +390,6 @@ if (cookieAccept) {
   cookieAccept.addEventListener('click', () => {
     localStorage.setItem('alfaprev_cookie_pref', 'accepted');
     hideCookieBanner();
-    // Aqui você pode inicializar GA ou outros scripts de analytics
-    // if (window.gtag) { gtag('consent', 'update', { analytics_storage: 'granted' }); }
   });
 }
 
@@ -398,18 +401,10 @@ if (cookieReject) {
 }
 
 /* =====================================================
-   9. RASTREAMENTO GA4 — CLIQUES NO WHATSAPP
+   9. (removido) Rastreamento de cliques no WhatsApp agora é feito por
+      assets/js/metricas.js (evento anônimo whatsapp_click via Supabase,
+      sem Google Analytics/Tag Manager — ver docs/DASHBOARD-LEADS.md).
    ===================================================== */
-document.querySelectorAll('a[class*="cta-whatsapp"]').forEach(el => {
-  el.addEventListener('click', () => {
-    if (window.gtag) {
-      window.gtag('event', 'whatsapp_click', {
-        event_category: 'Lead',
-        event_label: el.id || el.className,
-      });
-    }
-  });
-});
 
 /* =====================================================
    10. SMOOTH SCROLL POLYFILL (para navegadores que não suportam CSS scroll-behavior)
