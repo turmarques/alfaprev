@@ -32,7 +32,7 @@ Todos os `<title>`, `<meta name="description">`, OG, Twitter Card e JSON-LD fora
 ## 3. robots.txt
 
 **OK — sem alteração necessária.**
-Permite todos os crawlers e aponta corretamente para `https://alfaprev-sci.com.br/sitemap.xml`.
+Permite todos os crawlers e aponta corretamente para `https://alfasci.com.br/sitemap.xml`.
 
 ---
 

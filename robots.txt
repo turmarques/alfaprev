@@ -3,4 +3,4 @@ User-agent: *
 Allow: /
 
 # Sitemap
-Sitemap: https://alfaprev-sci.com.br/sitemap.xml
+Sitemap: https://alfasci.com.br/sitemap.xml

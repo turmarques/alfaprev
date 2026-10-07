@@ -12,7 +12,7 @@ Separe antes de iniciar:
 
 - [ ] Acesso ao e-mail da empresa (`cassia.marques@alfaseguranca.com`) para confirmações e cadastros
 - [ ] Cartão de crédito ou conta bancária (para pagar o domínio — custo anual de ~R$ 40)
-- [x] Domínio `alfaprev-sci.com.br` — **já registrado via Locaweb** (ativo, expira 08/09/2027)
+- [x] Domínio `alfasci.com.br` — domínio final do site (decisão out/2026, mesmo domínio do e-mail). O domínio `alfaprev-sci.com.br`, registrado via Locaweb (ativo, expira 08/09/2027), foi abandonado.
 - [ ] Acesso ao código do site (a pasta do projeto no computador)
 - [ ] Cerca de 2–4 horas para concluir todos os passos
 
@@ -20,7 +20,7 @@ Separe antes de iniciar:
 
 ## Passo 1 — Registrar o domínio (o endereço do site)
 
-> **✅ JÁ CONCLUÍDO** — O domínio `alfaprev-sci.com.br` foi registrado via **Locaweb** em setembro/2026. Expira em **08/09/2027** (renovação anual obrigatória — anotar no calendário).
+> **✅ DECIDIDO** — O domínio final do site é `alfasci.com.br` (mesmo domínio do e-mail da empresa, decisão de out/2026). O domínio `alfaprev-sci.com.br` foi registrado via **Locaweb** em setembro/2026 e expira em **08/09/2027**, mas está abandonado e não será usado.
 
 ### O que é um domínio?
 É o endereço que as pessoas digitam para acessar o site. Sem um domínio registrado no seu nome, o site não tem um endereço fixo na internet.
@@ -29,7 +29,7 @@ Separe antes de iniciar:
 O domínio está na conta Locaweb. Acesse o painel em [locaweb.com.br](https://www.locaweb.com.br) com as credenciais da empresa para gerenciar renovação e DNS.
 
 ### Sobre www vs. sem-www:
-- O código do site usa `https://alfaprev-sci.com.br` (sem www) como padrão provisório.
+- O código do site usa `https://alfasci.com.br` (sem www) como padrão.
 - Após escolher a hospedagem, decida o padrão definitivo e configure um redirecionamento 301 do outro para evitar conteúdo duplicado.
 - A configuração de DNS do Passo 4 depende desta decisão.
 
@@ -144,14 +144,14 @@ O DNS é configurado no painel do **Registro.br** (onde você registrou o domín
 ### Como fazer no Netlify:
 1. No painel do Netlify, acesse seu site publicado
 2. Vá em **"Domain settings"** → **"Add custom domain"**
-3. Digite `alfaprev-sci.com.br` e clique em confirmar
+3. Digite `alfasci.com.br` e clique em confirmar
 4. O Netlify vai mostrar os servidores de DNS dele (chamados de "nameservers"), algo como:
    - `dns1.p04.nsone.net`
    - `dns2.p04.nsone.net`
 
 **Caminho A — Delegar o DNS inteiro para o Netlify (mais simples):**
 5. Acesse o painel da Locaweb
-6. Vá em "Meus Domínios" → selecione `alfaprev-sci.com.br` → "Alterar servidores DNS (nameservers)"
+6. Vá em "Meus Domínios" → selecione `alfasci.com.br` → "Alterar servidores DNS (nameservers)"
 7. Substitua os servidores atuais pelos fornecidos pelo Netlify
 8. Salve. Aguarde propagação (1–48h). O Netlify cuida do HTTPS automaticamente.
 
@@ -159,7 +159,7 @@ O DNS é configurado no painel do **Registro.br** (onde você registrou o domín
 5. No Netlify, em vez de nameservers, copie o **endereço IP** ou o **CNAME** fornecido para o domínio
 6. Acesse o painel da Locaweb → "Meus Domínios" → "Zona DNS" do domínio
 7. Edite (ou crie) os registros:
-   - Para o domínio raiz (`alfaprev-sci.com.br`): adicione um registro **A** apontando para o IP fornecido pelo Netlify
+   - Para o domínio raiz (`alfasci.com.br`): adicione um registro **A** apontando para o IP fornecido pelo Netlify
    - Para `www`: adicione um registro **CNAME** apontando para o endereço `.netlify.app` do seu site
 8. Salve. Aguarde propagação (1–48h).
 
@@ -230,7 +230,7 @@ Sem Search Console, o Google pode levar semanas ou meses para "descobrir" que se
 1. Acesse [search.google.com/search-console](https://search.google.com/search-console)
 2. Faça login com a conta Google da empresa (ou crie uma)
 3. Clique em **"Adicionar propriedade"**
-4. Escolha **"Prefixo de URL"** e digite: `https://alfaprev-sci.com.br/`
+4. Escolha **"Prefixo de URL"** e digite: `https://alfasci.com.br/`
 5. O Google vai pedir para verificar que você é o dono do site. Escolha o método de **tag HTML**:
    - Copie o código fornecido (algo como `<meta name="google-site-verification" content="..." />`)
    - Abra o `index.html` do projeto
@@ -264,7 +264,7 @@ Após submeter o sitemap, geralmente entre 3 e 14 dias para a primeira indexaç�
    - **Categoria:** "Empresa de segurança contra incêndio" ou "Engenheiro"
    - **Endereço:** o endereço da empresa (confirmar com a Cassia se deve ser exibido no perfil)
    - **Telefone:** (11) 94566-5263
-   - **Site:** https://alfaprev-sci.com.br
+   - **Site:** https://alfasci.com.br
 
 ### Verificação (etapa obrigatória):
 O Google precisa confirmar que o endereço é real. Métodos disponíveis:
@@ -344,7 +344,7 @@ Execute cada item abaixo antes de compartilhar o site publicamente:
 
 ### SEO e rastreamento
 - [ ] O Search Console está configurado e o sitemap enviado
-- [ ] O link canônico no HTML aponta para o domínio correto (`https://alfaprev-sci.com.br/`)
+- [ ] O link canônico no HTML aponta para o domínio correto (`https://alfasci.com.br/`)
 - [ ] O HTTPS está ativo (cadeado visível na barra de endereços)
 
 ---

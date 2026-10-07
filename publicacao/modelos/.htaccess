@@ -117,11 +117,11 @@
 #   RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 #
 #   # 2) Força o host canônico SEM www (ver PUBLICACAO-LOCAWEB.md §0.5 —
-#   #    todo o site usa https://alfaprev-sci.com.br, sem www, em canonical/
+#   #    todo o site usa https://alfasci.com.br, sem www, em canonical/
 #   #    OG/JSON-LD/sitemap.xml). Se a decisão final for usar www, inverta
 #   #    esta regra.
-#   RewriteCond %{HTTP_HOST} ^www\.alfaprev-sci\.com\.br$ [NC]
-#   RewriteRule ^(.*)$ https://alfaprev-sci.com.br/$1 [L,R=301]
+#   RewriteCond %{HTTP_HOST} ^www\.alfasci\.com\.br$ [NC]
+#   RewriteRule ^(.*)$ https://alfasci.com.br/$1 [L,R=301]
 #
 #   # 3) Remove "/index.html" explícito da URL (preferir "/")
 #   RewriteCond %{THE_REQUEST} ^[A-Z]{3,}\s/+index\.html[?\s]

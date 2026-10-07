@@ -27,7 +27,7 @@ públicas — não medido individualmente nesta rodada.
 
 | Página | `<title>` (chars) | `meta description` (chars) | `<h1>` (qtd) | Canonical | Palavras (aprox.) |
 |---|---|---|---|---|---|
-| `index.html` | 94 — "Alfa Prev \| Projetos de Prevenção e Combate a Incêndio, AVCB e Segurança Contra Incêndio em SP" | 172 | 1 | `https://alfaprev-sci.com.br/` | ~670 |
+| `index.html` | 94 — "Alfa Prev \| Projetos de Prevenção e Combate a Incêndio, AVCB e Segurança Contra Incêndio em SP" | 172 | 1 | `https://alfasci.com.br/` | ~670 |
 | `servicos.html` | 82 — "Serviços de Prevenção e Combate a Incêndio \| PPCI, AVCB, Extintores \| Alfa Prev SP" | 189 | 1 | `.../servicos.html` | ~1.047 |
 | `quem-somos.html` | 60 — "Quem Somos \| Alfa Prev \| Engenharia de Incêndio em São Paulo" | 139 | 1 | `.../quem-somos.html` | ~664 |
 | `blog-sci.html` | 61 — "Blog SCI \| Engenharia de Incêndio, Normas e Dicas \| Alfa Prev" | 136 | 1 | `.../blog-sci.html` | ~390 |
@@ -186,7 +186,7 @@ válido em todas as 6 páginas — zero erro de sintaxe):
   `Organization`, mas sem o campo `logo`.** O Google documenta `publisher.logo` como recomendado
   para rich results de `Article` (ajuda a exibir a marca corretamente nos resultados). Hoje
   `publisher` só tem `@type`, `name` e `url`. **Fix sugerido:** adicionar
-  `"logo": {"@type": "ImageObject", "url": "https://alfaprev-sci.com.br/assets/logo/logo-color.svg"}`
+  `"logo": {"@type": "ImageObject", "url": "https://alfasci.com.br/assets/logo/logo-color.svg"}`
   (ou uma versão raster, já que alguns validadores de rich snippet preferem PNG/JPG a SVG para
   logos — **[HIPÓTESE]**, não confirmado se o Google aceita SVG aqui). **Esforço estimado:** baixo.
 
@@ -501,9 +501,9 @@ futuros, a critério do Artur.
 - **Nenhuma destas correções garante uma posição específica no Google.** SEO on-page (o que esta
   auditoria cobre) é necessário mas não suficiente — ranqueamento também depende de fatores fora
   do controle do código (autoridade de domínio, backlinks, idade do domínio, concorrência local,
-  sinais de comportamento do usuário ao longo do tempo). O domínio `alfaprev-sci.com.br` é novo
-  (registrado em set/2026), então **[HIPÓTESE]** é esperado um período de indexação/ranking mais
-  lento nos primeiros meses, independentemente da qualidade técnica do site.
+  sinais de comportamento do usuário ao longo do tempo). O site ainda não foi publicado sob o
+  domínio final `alfasci.com.br`, então **[HIPÓTESE]** é esperado um período de indexação/ranking
+  mais lento nos primeiros meses, independentemente da qualidade técnica do site.
 - **O achado de prioridade ALTA (performance mobile) é o único com impacto comprovadamente grande
   e mensurável** nesta auditoria — os demais são, na pior hipótese, pequenos ganhos incrementais
   de consistência/robustez de dados estruturados, não mudanças que por si só movem posições de

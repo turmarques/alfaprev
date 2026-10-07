@@ -3,7 +3,7 @@
 > Arquivo gerado automaticamente por `generate-content-md.js` via `npm run build`.
 > **Não edite manualmente.** Edite o conteúdo em `src/pages/` e rode `npm run build`.
 
-Gerado em: 2026-10-07T01:24:25.805Z
+Gerado em: 2026-10-07T12:14:37.513Z
 
 ---
 

@@ -10,7 +10,7 @@ Este arquivo documenta o estado atual do site da Alfa Prev, o que foi feito na s
 **Site:** Alfa Prev (ALFA SEGURANÇA CONTRA INCÊNDIO LTDA)
 **Segmento:** Engenharia de prevenção e combate a incêndio em São Paulo
 **Stack:** HTML/CSS/JS vanilla + Tailwind CDN + Web3Forms (formulário) + Supabase (leads)
-**Domínio:** https://alfaprev-sci.com.br
+**Domínio:** https://alfasci.com.br (atualizado out/2026 — ver nota abaixo)
 **Repositório local:** C:\Users\artur\dev\repository\alfaprev
 
 ### Arquitetura
@@ -37,7 +37,7 @@ Arquivos editados:
 2. Criar uma nova chave de acesso registrada com `contato@alfasci.com.br`
 3. Substituir o valor de `ACCESS_KEY` em `script.js`
 
-Também confirmar que a caixa `contato@alfasci.com.br` está criada e recebendo mensagens. O domínio do e-mail (`alfasci.com.br`) é diferente do domínio do site (`alfaprev-sci.com.br`).
+Também confirmar que a caixa `contato@alfasci.com.br` está criada e recebendo mensagens. Na época desta sessão (set/2026), o domínio do e-mail (`alfasci.com.br`) era diferente do domínio do site (`alfaprev-sci.com.br`); em out/2026 o cliente decidiu unificar os dois no mesmo domínio `alfasci.com.br` (ver `CLAUDE.md`).
 
 ---
 

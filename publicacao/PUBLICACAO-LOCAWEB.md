@@ -27,7 +27,7 @@ Lista completa e atualizada de tudo que impede a publicação agora. Itens marca
 | 7 | 6 blocos de texto sobre cookies/rastreamento marcados `<!-- REVISAR COM CASSIA -->` em todas as páginas (footer de política de privacidade) | `index.html`, `servicos.html`, `quem-somos.html`, `contato.html`, `blog-sci.html`, `blog-sci/avcb-clcb.html` | Precisa validação da Cassia |
 | 8 | Faixa de validade do AVCB ("entre 1 e 3 anos") não confirmada com a Cassia | já registrado em `CLAUDE.md`, pendência nº 5 | Precisa validação da Cassia |
 | 9 | Citações legais/normativas (ITs, NBR 12962) ainda pendentes de validação técnica | já registrado em `CLAUDE.md`, pendências nº 1-4 e 6 | Precisa validação da Cassia |
-| 10 | Domínio de e-mail do site (`alfasci.com.br`) é diferente do domínio do site (`alfaprev-sci.com.br`) — ver DNS abaixo | todas as páginas, JSON-LD, `script.js` | Ver seção DNS — mailbox real só Artur confirma |
+| 10 | Caixa `contato@alfasci.com.br` ainda não confirmada como criada/ativa no painel Locaweb — ver DNS abaixo | todas as páginas, JSON-LD, `script.js` | Sim — só Artur confirma no painel Locaweb |
 
 **Não encontrados** (checados e ausentes, portanto NÃO bloqueiam):
 - Nenhum `[PREENCHER]` ou `TODO`/`FIXME`/`lorem ipsum` em texto visível de página publicada (o único resultado de busca por "preencher" textual foi o rótulo de exemplo `joao@empresa.com` em um `placeholder` de formulário, que é comportamento esperado de um campo de e-mail, não um dado real preenchido incorretamente).
@@ -40,28 +40,23 @@ Lista completa e atualizada de tudo que impede a publicação agora. Itens marca
 - `leads.html` está corretamente fora de `sitemap.xml`, `robots.txt` e de qualquer link interno (header/footer/qualquer página) — ver seção "Páginas Publicadas" abaixo.
 - Nenhum resíduo de link/sitemap/JSON-LD para `faq.html`, artigo "Lei Kiss" ou "vencimento sem renovação" (todos removidos do site em out/2026 — os únicos resquícios são links `/faq.html` **comentados** em HTML, que são removidos automaticamente do pacote publicado, ver §1.3).
 
-### 0.4 — Domínio do e-mail vs. domínio do site (DNS, somente leitura)
+### 0.4 — Domínio do site e do e-mail (DNS, somente leitura)
 
-O site usa o e-mail `contato@alfasci.com.br` (atualizado em set/2026), mas o domínio do
-site é `alfaprev-sci.com.br` (registrado na Locaweb, ativo até 08/09/2027). São domínios
-diferentes. Consulta DNS pública (`nslookup`, somente leitura, sem alterar nada) feita em
-2026-10-07:
+**(Atualizado out/2026)** Por decisão do cliente, `alfasci.com.br` passou a ser o domínio
+final e único do site (o mesmo já usado para o e-mail `contato@alfasci.com.br`). O domínio
+`alfaprev-sci.com.br` (registrado na Locaweb em set/2026, ativo até 08/09/2027) foi
+abandonado: não é mais referenciado em nenhum arquivo do código e não há redirecionamento
+dele para `alfasci.com.br` configurado ou planejado. Consulta DNS pública (`nslookup`,
+somente leitura, sem alterar nada) feita em 2026-10-07 para `alfasci.com.br`:
 
-**`alfaprev-sci.com.br`:**
 - NS: `ns1.locaweb.com.br`, `ns2.locaweb.com.br`, `ns3.locaweb.com.br`
 - MX: `mx.core.locaweb.com.br` (pref. 10), `mx.b.locaweb.com.br` (pref. 10), `mx.a.locaweb.com.br` (pref. 20), `mx.jk.locaweb.com.br` (pref. 20)
 - TXT (SPF): `v=spf1 include:_spf.locaweb.com.br -all`
 - A: sem resposta de endereço IPv4 no momento da consulta (domínio ainda sem hospedagem apontada — esperado, já que o site ainda não foi publicado)
 
-**`alfasci.com.br`:**
-- NS: idênticos (`ns1/ns2/ns3.locaweb.com.br`)
-- MX: idênticos em mecanismo (`mx.core`, `mx.b`, `mx.jk`, `mx.a`, mesmas preferências)
-- TXT (SPF): idêntico (`v=spf1 include:_spf.locaweb.com.br -all`)
-- A: sem resposta de endereço IPv4
-
-**O que isso prova e o que NÃO prova:** os dois domínios têm nameservers e MX apontando
-para a infraestrutura de e-mail da Locaweb, o que é consistente com ambos terem sido
-registrados/configurados na mesma conta Locaweb. **Isso não comprova que a caixa
+**O que isso prova e o que NÃO prova:** o domínio tem nameservers e MX apontando para a
+infraestrutura de e-mail da Locaweb, consistente com estar configurado na mesma conta
+Locaweb que será usada para a hospedagem. **Isso não comprova que a caixa
 `contato@alfasci.com.br` existe e está ativa** — DNS/MX só mostra para onde o e-mail
 *seria roteado*, não se a caixa foi criada no painel. **Bloqueador a confirmar por Artur**:
 entrar no painel Locaweb → E-mails e confirmar que a caixa `contato@alfasci.com.br` existe,
@@ -70,10 +65,10 @@ não confirmado, o formulário de contato pode enviar e-mails para uma caixa que
 
 ### 0.5 — Host canônico (www vs. sem-www)
 
-**Verificado no código**: todas as páginas usam consistentemente `https://alfaprev-sci.com.br`
+**Verificado no código**: todas as páginas usam consistentemente `https://alfasci.com.br`
 (sem `www`) em `<link rel="canonical">`, `<meta property="og:url">`, todo campo `"url"` de
 JSON-LD, e em `sitemap.xml`. **Nenhuma inconsistência encontrada** — não há nenhum arquivo
-usando `www.alfaprev-sci.com.br`. Decisão adotada por este documento: **manter sem `www`**
+usando `www.alfasci.com.br`. Decisão adotada por este documento: **manter sem `www`**
 como host canônico, por já ser o padrão 100% consistente no código atual.
 
 ---
@@ -215,7 +210,7 @@ revertidos imediatamente após o teste — os placeholders reais em `assets/js/c
 - ✅ **`/leads` oculto confirmado no pacote**: `leads.html` não aparece em `sitemap.xml`, não é
   referenciado por nenhum `href` em nenhuma outra página do pacote, e mantém
   `<meta name="robots" content="noindex, nofollow, noarchive">`.
-- ✅ **Canonical/OG/JSON-LD**: todos usam `https://alfaprev-sci.com.br` (sem www), consistente
+- ✅ **Canonical/OG/JSON-LD**: todos usam `https://alfasci.com.br` (sem www), consistente
   com a decisão de host canônico (§0.5).
 
 **Estatísticas do pacote de teste** (valores reais; o pacote final terá peso ligeiramente
@@ -319,7 +314,9 @@ ao sistema operacional da hospedagem.
 - [ ] Confirme que a Cassia validou o conteúdo técnico/legal pendente (bloqueadores 6-9).
 
 ### 1. Confirme o que foi contratado
-- [ ] **Domínio**: `alfaprev-sci.com.br`, registrado via Locaweb, ativo até 08/09/2027 — confirmado.
+- [ ] **Domínio**: `alfasci.com.br` — domínio final e único do site (decisão out/2026, mesmo
+  domínio já usado para e-mail). O domínio `alfaprev-sci.com.br` (registrado via Locaweb, ativo
+  até 08/09/2027) foi abandonado e não deve mais ser usado.
 - [x] **Plano de hospedagem**: **Linux, confirmado em 2026-10-07.** O modelo de servidor a usar é
   o `.htaccess` (`publicacao/modelos/.htaccess`), já pronto e validado — não é necessário
   `web.config`/IIS.
@@ -338,7 +335,7 @@ ao sistema operacional da hospedagem.
 - [ ] A zona DNS é gerenciada no mesmo painel Locaweb (seção DNS/Zona DNS, **confirmar no painel**
   o caminho exato do menu).
 - [ ] **O que mudar**: se o domínio ainda não está apontado para a hospedagem (a consulta DNS
-  feita nesta sessão não encontrou registro A para `alfaprev-sci.com.br`), será necessário criar/
+  feita nesta sessão não encontrou registro A para `alfasci.com.br`), será necessário criar/
   ajustar o registro A (ou usar a opção "ativar hospedagem neste domínio" se o painel tiver essa
   automação — **confirmar no painel**).
 - [ ] **O que NÃO tocar**: os registros **MX** (já existem e apontam para o e-mail Locaweb —
@@ -346,14 +343,13 @@ ao sistema operacional da hospedagem.
   (`v=spf1 include:_spf.locaweb.com.br -all` — removê-lo pode fazer e-mails enviados pelo
   domínio caírem em spam).
 - [ ] **Tempo de propagação**: minutos a 24-48h (padrão de DNS). Verificar com `nslookup
-  alfaprev-sci.com.br` (Windows) ou qualquer ferramenta de lookup DNS online, até o endereço IP
+  alfasci.com.br` (Windows) ou qualquer ferramenta de lookup DNS online, até o endereço IP
   retornado corresponder ao servidor da Locaweb.
 
 ### 3. Confirme o e-mail de contato
-- [ ] **Bloqueador nº 10 acima**: `contato@alfasci.com.br` é o e-mail exibido no site, mas o
-  domínio do e-mail (`alfasci.com.br`) é diferente do domínio do site (`alfaprev-sci.com.br`).
-  A consulta DNS confirma que ambos os domínios estão configurados na infraestrutura de e-mail
-  da Locaweb (mesmos servidores MX), mas **não prova que a caixa existe**.
+- [ ] **Bloqueador nº 10 acima**: `contato@alfasci.com.br` é o e-mail exibido no site, e desde
+  out/2026 é também o mesmo domínio usado para o site. A consulta DNS confirma que o domínio
+  está configurado na infraestrutura de e-mail da Locaweb, mas **não prova que a caixa existe**.
 - [ ] **Ação**: entrar no painel Locaweb → seção de e-mails do domínio `alfasci.com.br` →
   confirmar que a caixa `contato@alfasci.com.br` existe e está ativa (ou criá-la, se ainda não
   existir).
@@ -393,7 +389,7 @@ ao sistema operacional da hospedagem.
   Se não estiver ativo, há um botão "Ativar SSL" no painel (**confirmar no painel** o texto
   exato do botão).
 - [ ] Aguarde a emissão do certificado (pode levar alguns minutos a algumas horas).
-- [ ] **Só depois** que o HTTPS estiver funcionando e testado (abrir `https://alfaprev-sci.com.br`
+- [ ] **Só depois** que o HTTPS estiver funcionando e testado (abrir `https://alfasci.com.br`
   no navegador sem erro de certificado), descomente o **Bloco 2** do `.htaccess`
   (`publicacao/modelos/.htaccess`) e reenvie esse arquivo. Ativar esse bloco antes do certificado
   pronto causa erro de redirecionamento/certificado para todos os visitantes.
@@ -404,9 +400,9 @@ ao sistema operacional da hospedagem.
 ### 7. Checklist de teste pós-publicação
 - [ ] Todas as páginas abrem via **HTTPS** sem aviso de certificado.
 - [ ] As quatro variantes de URL (`http`/`https` × com/sem `www`) terminam na versão canônica
-  (`https://alfaprev-sci.com.br`, sem `www`) — isso só funciona depois que o Bloco 2 do
+  (`https://alfasci.com.br`, sem `www`) — isso só funciona depois que o Bloco 2 do
   `.htaccess` (passo 6) estiver ativo.
-- [ ] `https://alfaprev-sci.com.br/robots.txt` e `/sitemap.xml` abrem corretamente.
+- [ ] `https://alfasci.com.br/robots.txt` e `/sitemap.xml` abrem corretamente.
 - [ ] Uma URL inexistente (ex: `/pagina-que-nao-existe`) retorna 404 (comportamento padrão do
   Apache sem página customizada, já que `404.html` não existe no pacote — ver Parte 2).
 - [ ] **Formulário de contato**: enviar um teste real e confirmar (a) chegada do e-mail em
@@ -423,14 +419,14 @@ ao sistema operacional da hospedagem.
 - [ ] **`/leads`**: o diálogo de login abre com fundo desfocado; login funciona com a conta
   admin criada (bloqueador 5); 3 erros consecutivos de senha bloqueiam por 5 minutos; acessar
   sem estar logado (outro navegador/pessoa) não mostra nenhum dado; a página **não aparece em
-  buscas** (`site:alfaprev-sci.com.br/leads.html` no Google só é confiável depois de alguns dias;
+  buscas** (`site:alfasci.com.br/leads.html` no Google só é confiável depois de alguns dias;
   a verificação correta e imediata é pela ferramenta "Inspeção de URL" do Search Console, que
   deve mostrar `noindex` detectado).
 
 ### 8. Serviços externos a reconfigurar para o domínio final
 - [ ] **Web3Forms**: criar nova chave de acesso registrada com `contato@alfasci.com.br` (ver
   bloqueador 1) e, se o painel do Web3Forms tiver uma lista de domínios permitidos, adicionar
-  `alfaprev-sci.com.br`.
+  `alfasci.com.br`.
 - [ ] Qualquer outra chave/domínio permitido de serviço de terceiro usado pelo site (no momento,
   só Web3Forms e Supabase se aplicam).
 

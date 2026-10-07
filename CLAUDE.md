@@ -28,13 +28,13 @@ Fonte única de contexto do projeto para o Claude Code. Leia este arquivo no in�
 | CNPJ | 62.088.739/0001-54 |
 | Endereço | NÃO USAR ENDEREÇO EM LUGAR NENHUM DO SITE — o atendimento é 100% no local do cliente (a Alfa Prev vai até o imóvel). Nunca colocar mapa, endereço físico ou qualquer dado de localização da empresa no site. |
 | Telefone/WhatsApp | +55 11 98932-5513 / (11) 98932-5513 — atualizado em set/2026 |
-| E-mail | contato@alfasci.com.br — atualizado em set/2026 (domínio diferente do site: alfasci.com.br vs alfaprev-sci.com.br) |
+| E-mail | contato@alfasci.com.br — atualizado em set/2026 |
 | Instagram | @alfaprev_sci |
 | Facebook | https://www.facebook.com/profile.php?id=61594085214860 |
 | LinkedIn | https://www.linkedin.com/in/alfaprev/ |
 | Horário | Segunda a Sexta das 09h às 17h (emergências fora do horário também atendidas) |
 | Área de atendimento | Todo o Estado de São Paulo |
-| Domínio | alfaprev-sci.com.br — registrado via Locaweb em set/2026, expira 08/09/2027. www vs. sem-www pendente (depende do hosting). Usar sempre `https://alfaprev-sci.com.br` no código até decisão final. |
+| Domínio | alfasci.com.br — domínio final e único do site, decidido em out/2026 (mesmo domínio já usado para e-mail). Sem `www`. Usar sempre `https://alfasci.com.br` no código. O domínio `alfaprev-sci.com.br`, registrado via Locaweb em set/2026 (expira 08/09/2027), foi abandonado por decisão do cliente — não está mais em uso em nenhum lugar do código e não há redirecionamento configurado dele para `alfasci.com.br`. |
 
 **Responsável Técnica:**
 - Nome: Cassia Élica Spinelli Marques
@@ -73,7 +73,7 @@ alfaprev/
 ├── script.js               # Toda a lógica JS (10 módulos — ver seção abaixo)
 ├── styles.css              # Complementos ao Tailwind (scroll, focus, print)
 ├── robots.txt              # Permite todos os crawlers; referencia sitemap
-├── sitemap.xml             # Referencia https://alfaprev-sci.com.br/
+├── sitemap.xml             # Referencia https://alfasci.com.br/
 ├── netlify.toml            # Headers de segurança + configuração de cache (Netlify)
 ├── server.ps1              # Servidor local PowerShell
 ├── CLAUDE.md               # Este arquivo
@@ -180,7 +180,7 @@ alfaprev/
 | Schema SQL Supabase | `supabase-schema.sql` | **PENDENTE** — rodar no SQL Editor do painel |
 | Script GA4 | Não adicionado ainda ao `index.html` | **PENDENTE** — adicionar após decidir conta GA4 |
 | Measurement ID GA4 | Inexistente | **PENDENTE** |
-| Canonical URL | Todas as páginas → `https://alfaprev-sci.com.br/[pagina]` | OK — atualizado para domínio real |
+| Canonical URL | Todas as páginas → `https://alfasci.com.br/[pagina]` | OK — atualizado para domínio final (out/2026) |
 | Link do Facebook | `index.html` footer | OK — `https://www.facebook.com/profile.php?id=61594085214860` |
 | og:image | `index.html` → `assets/images/logo-dark-bg.jpg` | Funcional; ideal criar imagem 1200×630 |
 | Google Maps iframe | `index.html` seção `#localizacao` | OK — embed do endereço confirmado |
@@ -253,7 +253,7 @@ alfaprev/
 6. **Ainda ativo — Inconsistência CLCB declaração vs. aprovação prévia** — o processo de obtenção do CLCB em `avcb-clcb.html` foi reescrito para não exigir mais aprovação prévia de projeto, mas as seções "O que é o CLCB" e "A diferença essencial" (no mesmo artigo) continuam descrevendo o CLCB como documento "declaratório". Essa divergência não foi corrigida — avaliar com a Cassia qual framing é o correto e unificar. *(A segunda ocorrência desse mesmo problema estava no artigo `vencimento-avcb-clcb.html`, removido do site em out/2026 — ver item "Tópico ... removido do site" no histórico "Feito" acima.)*
 
 ### Pendente antes de publicar 🔴
-- [x] Registrar domínio — `alfaprev-sci.com.br` registrado via Locaweb (ativo, expira 08/09/2027)
+- [x] Registrar domínio — domínio final do site é `alfasci.com.br` (decisão out/2026, mesmo domínio do e-mail). `alfaprev-sci.com.br` foi registrado via Locaweb em set/2026 (ativo, expira 08/09/2027) mas está abandonado, sem uso no site e sem redirecionamento configurado.
 - [ ] Escolher hospedagem (Netlify recomendado — `netlify.toml` já pronto)
 - [ ] Criar projeto no Supabase, rodar `supabase-schema.sql` e preencher `assets/js/config.js`
 - [ ] Configurar chave Web3Forms em `script.js` — criar nova chave no painel do Web3Forms registrada com `contato@alfasci.com.br` (e-mail de contato atualizado em set/2026)
@@ -556,10 +556,10 @@ comportamento do site**. Três documentos de referência em `publicacao/`:
 
 - **`publicacao/PUBLICACAO-LOCAWEB.md`** — bloqueadores antes de publicar (chaves placeholder,
   Supabase não configurado, pendências de confirmação com a Cassia), resultado da checagem de DNS
-  de `alfaprev-sci.com.br` e `alfasci.com.br` (ambos já apontam para servidores de nome/MX/SPF da
-  Locaweb, nenhum dos dois tem registro A ainda — hospedagem não apontada), confirmação de que o
-  host canônico (`https://alfaprev-sci.com.br`, sem `www`) é 100% consistente em todo o código, e
-  o guia passo a passo completo de publicação (DNS, FTP, SSL, testes pós-publicação, reconfiguração
+  de `alfasci.com.br` (apontando para servidores de nome/MX/SPF da Locaweb, ainda sem registro A —
+  hospedagem não apontada), confirmação de que o host canônico (`https://alfasci.com.br`, sem
+  `www`, domínio final único decidido em out/2026) é 100% consistente em todo o código, e o guia
+  passo a passo completo de publicação (DNS, FTP, SSL, testes pós-publicação, reconfiguração
   do Web3Forms, checklist de produção do Supabase, cadastro em Search Console/Bing/Google Business
   Profile).
 - **`publicacao/modelos/.htaccess`** — modelo de configuração Apache para hospedagem Locaweb
