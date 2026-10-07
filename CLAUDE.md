@@ -528,3 +528,20 @@ Decisão de negócio para remover a página de FAQ do site publicado temporariam
 4. Adicionar de volta a entrada de `faq.html` em `sitemap.xml` (`changefreq: monthly`, `priority: 0.7` — ou valor condizente com as demais páginas).
 5. Rodar `npm run build`.
 6. Recompor `CONTEUDO-PAGINAS.md` manualmente, restaurando a seção 5 com o conteúdo completo das 7 perguntas/respostas (ler `src/pages/faq.html` diretamente, já que a versão rica anterior ao out/2026 tem o texto literal).
+
+---
+
+## Métricas, Leads e Painel Administrativo /leads (adicionado out/2026)
+
+Documentação técnica completa em `docs/DASHBOARD-LEADS.md` — leia-a antes de tocar em qualquer arquivo citado abaixo. Resumo operacional:
+
+- **Métricas anônimas do site público:** `assets/js/metricas.js` (sem dependências, carregado via `partials/scripts.html`). Sem cookies, sem GA/GTM (removidos nesta implementação — não reintroduzir). `page_view` e `whatsapp_click` (delegado em `a[class*="cta-whatsapp"]`) são enviados à função SQL `registrar_evento` via RPC.
+- **Formulário de contato:** `script.js` (módulo 7b) chama a função SQL `registrar_lead` via RPC (`/rest/v1/rpc/registrar_lead`) em vez de `INSERT` direto na tabela `leads`. Nunca reverter para `INSERT` direto — a função valida, normaliza telefone, exige consentimento e aplica rate limit no banco.
+- **Banco:** `supabase-schema.sql` é idempotente e aditivo — sempre `DROP ... IF EXISTS` + `CREATE`/`ADD`, nunca editado destrutivamente. Nunca retipar colunas existentes de `leads` (usar `CHECK (char_length(...))` em vez de `ALTER COLUMN ... TYPE`). `supabase-admin.sql` é só um template (nunca commitar e-mail real de admin). Rodar `scripts/testar-supabase-rls.js` (variáveis de ambiente, nunca chave hardcoded) após qualquer mudança no schema.
+- **Painel `/leads` (`src/pages/leads.html` → `leads.html` gerado):**
+  - **Não usa os partials públicos nem Tailwind CDN** — CSS próprio em `assets/css/leads.css`, fonte self-hosted em `assets/fonts/inter-var.woff2`. CSP própria e mais restrita que a do site público, aplicada via `<meta http-equiv>` na própria página **e** via header HTTP (`netlify.toml` → bloco `for = "/leads.html"`; modelo Apache em `publicacao/modelos/leads.htaccess` se a hospedagem não for Netlify).
+  - `build.js` tem uma exceção (`ehPaginaLeads`) que isenta `leads.html`/`leads/**` do check "precisa ter `cdn.tailwindcss.com`" e adiciona o check inverso ("não pode ter `cdn.tailwindcss.com`"). Não remover essa exceção nem apontar `leads.html` para `head-common.html`.
+  - Lógica em `assets/js/leads/`: `bloqueio.js` (bloqueio de tentativas, só UX — ver aviso no topo do arquivo), `telefone.js` (formatação, não validação), `csv.js` (exportação com neutralização de injeção de fórmula OWASP), `auth.js` (Supabase Auth + `is_admin()` + sessão com timeout de inatividade), `dashboard.js` (gráficos em SVG puro, sem biblioteca), `grade.js` (grid de leads, filtros/paginação server-side via `listar_leads`), `app.js` (bootstrap).
+  - Os três primeiros módulos (`bloqueio.js`, `telefone.js`, `csv.js`) são puros e testados em `test/*.test.js` (`npm test`, zero dependências, `node --test` nativo). Qualquer alteração nesses três arquivos deve manter os testes passando.
+  - Nunca linkar `/leads.html` em `robots.txt`, `sitemap.xml` ou qualquer `partial` público — a proteção real é Supabase Auth + RLS (`is_admin()`), não a obscuridade da URL (que também tem `meta robots noindex, nofollow` e `X-Robots-Tag` via header).
+- **Dependência nova:** `@supabase/supabase-js@2.117.2` (MIT, versão fixada) — vendorizado em `assets/vendor/supabase-js/supabase.js` (cópia do UMD bundle, nunca carregado via CDN em runtime). Usado exclusivamente em `/leads`.
