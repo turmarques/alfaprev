@@ -4,7 +4,7 @@
 > Extraído manualmente a partir de `/src/pages/` + `/partials/` (fonte de verdade), com o site previamente sincronizado via `npm run build`.
 > **Não editar o conteúdo do site aqui.** Qualquer alteração de texto deve ser feita em `/src/pages/` ou `/partials/`, seguida de `npm run build`.
 >
-> Gerado em: 2026-10-05
+> Gerado em: 2026-10-06
 
 ---
 
@@ -15,7 +15,6 @@
 3. [Quem Somos](#3-quem-somos-quem-somoshtml)
 4. [Blog SCI — Hub](#4-blog-sci--hub-blog-scihtml)
    - 4.1 [Artigo: AVCB e CLCB](#41-artigo-avcb-e-clcb-blog-sciavcb-clcbhtml)
-   - 4.2 [Artigo: Vencimento AVCB/CLCB](#42-artigo-vencimento-avcbclcb-blog-scivencimento-avcb-clcbhtml)
 5. [FAQ (oculto)](#5-faq-oculto-faqhtml)
 6. [Contato](#6-contato-contatohtml)
 7. [Política de Privacidade](#7-política-de-privacidade-dentro-de-contatohtml)
@@ -259,9 +258,10 @@ Informação técnica para ajudar você a entender, prevenir e manter sua edific
 
 > **Nota (out/2026):** este texto de introdução cita nominalmente "o Decreto Estadual nº 69.118/2024 e suas Instruções Técnicas" como conteúdo disponível no hub, mas o artigo dedicado ao decreto ("Lei Kiss e o Decreto Estadual nº 69.118/2024") foi removido do Blog SCI em out/2026 (ver seção 11 do CLAUDE.md e item 237 do histórico "Feito"). Não há mais nenhum artigo que aborde esse tema especificamente. Esta divergência está registrada na seção 12 (Inconsistências Encontradas) e não foi corrigida.
 
-### Cards de artigo (2, H3 cada)
+### Cards de artigo (1, H3)
 1. Tag: Documentação — **AVCB e CLCB: qual é a diferença e qual o seu imóvel precisa** — Os dois documentos têm força legal equivalente, mas processo, abrangência e critérios de exigência diferentes. Entenda qual se aplica ao seu caso. → Link: Ler artigo
-2. Tag: Consequências — **O que acontece quando o AVCB ou CLCB vence sem renovação** — Multas progressivas, risco de interdição, exclusões de cobertura securitária e responsabilidade civil. As consequências do vencimento não são hipotéticas. → Link: Ler artigo
+
+> **Nota (out/2026):** o card do artigo "O que acontece quando o AVCB ou CLCB vence sem renovação" foi removido junto com o artigo (ver seção 11 do CLAUDE.md, item "Tópico ... removido do site"). O tópico de "consequências do vencimento sem renovação" é assunto fora do site por decisão do cliente.
 
 Nota de rodapé do hub: Novos artigos são publicados regularmente. Acompanhe ou entre em contato para dúvidas específicas.
 
@@ -350,90 +350,7 @@ A Alfa Prev conduz todo o processo: do projeto técnico à vistoria do Corpo de 
 
 ---
 
-### 4.2 Artigo: Vencimento AVCB/CLCB (`blog-sci/vencimento-avcb-clcb.html`)
-
-**Título:** O que acontece quando o AVCB ou CLCB vence sem renovação | Alfa Prev
-**Meta description:** Multas progressivas, risco de interdição, exclusão de cobertura de seguro e responsabilidade civil. Entenda as consequências reais do vencimento do AVCB ou CLCB em São Paulo.
-**Canonical:** https://alfaprev-sci.com.br/blog-sci/vencimento-avcb-clcb.html
-**Data de publicação (JSON-LD `datePublished`):** 2026-09-12 · Autor: Alfa Prev
-
-Breadcrumb: Home / Blog SCI / Vencimento do AVCB e CLCB
-Tag de seção: Consequências & Renovação
-
-### O que acontece quando o AVCB ou CLCB vence sem renovação (H1)
-Publicado em setembro de 2026 · Alfa Prev
-
-O vencimento do AVCB ou do CLCB sem a devida renovação não é apenas uma pendência administrativa: é o início de uma série de consequências que vão de multas progressivas ao risco de interdição do imóvel, passando por exclusões de cobertura securitária e exposição à responsabilidade civil e criminal dos responsáveis.
-
-Este artigo detalha o que acontece, na prática, quando a renovação não é feita a tempo, e o que fazer se o prazo já passou.
-
-**Irregularidade imediata, sem período de carência**
-No dia seguinte ao vencimento do AVCB ou CLCB, o imóvel já está em situação irregular perante o Corpo de Bombeiros do Estado de São Paulo. A lei não prevê período de tolerância. A renovação não tem efeito retroativo: o intervalo entre o vencimento e a emissão do novo documento é um período de irregularidade.
-
-**Multas administrativas** (H2)
-A principal consequência imediata da irregularidade é a aplicação de multas pelo Corpo de Bombeiros, com base na Lei Complementar nº 1.257/2015 e no Decreto Estadual nº 69.118/2024. As penalidades são progressivas: quanto mais tempo o imóvel permanece irregular, maior o valor acumulado.
-
-As multas são aplicadas por auto de infração e podem ser lavradas durante vistorias de rotina, fiscalizações decorrentes de denúncia ou inspeções pós-sinistro. O fato de o imóvel estar em aparente bom estado de conservação não isenta o responsável da multa: a infração é o descumprimento do prazo legal, não a condição física do imóvel.
-
-Os valores das penalidades variam conforme o tipo de ocupação e o porte da edificação. A reincidência agrava o enquadramento. Em alguns casos, a multa pode ser convertida em obrigação de regularização, com prazo determinado pelo Corpo de Bombeiros. O descumprimento desse prazo resulta em novas sanções.
-
-**Risco de interdição** (H2)
-Além das multas, imóveis irregulares estão sujeitos à interdição parcial ou total durante uma fiscalização. A interdição determina a suspensão das atividades no local até que a regularização seja concluída e o novo AVCB ou CLCB seja emitido.
-
-Para estabelecimentos comerciais, o impacto é direto: fechamento forçado, perda de receita, ruptura de contratos e, em alguns casos, dano reputacional difícil de mensurar. Para condomínios residenciais, a situação pode resultar em restrições de uso de áreas comuns ou notificações que afetam a administração.
-
-O risco de interdição é maior em imóveis que recebem público, como comércios, academias, restaurantes, escolas e hospitais, por serem mais suscetíveis a fiscalizações e por estarem sujeitos a regulamentações adicionais de órgãos municipais e estaduais que consultam a situação junto ao Corpo de Bombeiros.
-
-**Exclusão de cobertura securitária** (H2)
-Este é o ponto que frequentemente surpreende proprietários e gestores: a maioria das apólices de seguro patrimonial (incêndio, danos estruturais, responsabilidade civil) contém cláusulas que condicionam a cobertura à manutenção das exigências legais de segurança contra incêndio.
-
-Na prática, isso significa que, em caso de sinistro ocorrido com o AVCB ou CLCB vencido, a seguradora pode acionar essas cláusulas para recusar ou reduzir indenizações. A perda de cobertura não é automática nem universal: cada contrato tem condições específicas. Mas o risco é real e documentado em precedentes judiciais.
-
-Vale verificar as condições gerais da apólice vigente. Em muitos casos, a simples irregularidade do AVCB ou CLCB é suficiente para caracterizar descumprimento de condição de manutenção da cobertura.
-
-> **Atenção ao contrato de seguro.** Não assuma que seu seguro cobre sinistros independentemente da regularidade do imóvel. Leia as condições gerais da apólice e verifique se há cláusulas vinculando a cobertura à manutenção de documentação de segurança contra incêndio em dia. Em caso de dúvida, consulte seu corretor antes de um sinistro acontecer.
-
-**Responsabilidade civil e criminal** (H2)
-A responsabilidade pelo cumprimento das exigências de segurança contra incêndio recai sobre o proprietário do imóvel e, nos casos de imóvel locado, pode recair também sobre o locatário, dependendo do que foi estabelecido no contrato de locação e das circunstâncias do caso.
-
-Em condomínios, o síndico, como responsável pela gestão do edifício, pode responder pessoalmente pela manutenção das obrigações de segurança. Da mesma forma, gestores prediais e administradores têm exposição relevante, especialmente se houver documentação demonstrando que foram alertados sobre o vencimento e não tomaram providências.
-
-Caso ocorra um sinistro em um imóvel com AVCB ou CLCB vencido, especialmente com vítimas, as investigações consideram o histórico de regularidade da edificação. A irregularidade pode fundamentar:
-- Ação de responsabilidade civil por danos materiais, pessoais ou morais sofridos por terceiros;
-- Indiciamento criminal por exposição de terceiros a risco ou, nos casos mais graves, lesão corporal culposa ou homicídio culposo.
-
-A Lei Federal 13.425/2017 (conhecida como Lei Kiss, em referência à tragédia de Santa Maria) reforçou as obrigações dos responsáveis por locais de reunião de público e estabeleceu penalidades específicas para descumprimento das normas de segurança contra incêndio. O espírito da lei é explícito: a irregularidade não é imprudência acidental: é omissão punível.
-
-**Quando iniciar a renovação** (H2)
-O principal equívoco na gestão do AVCB e CLCB é tratar a renovação como algo a ser iniciado próximo ao vencimento. O processo de renovação, especialmente do AVCB, pode levar vários meses, e iniciar tarde significa necessariamente um período de irregularidade.
-
-A recomendação prática é:
-- AVCB: iniciar o processo de renovação com pelo menos seis meses de antecedência em relação à data de vencimento. Isso cobre o tempo de análise do projeto pelo Corpo de Bombeiros, execução de eventuais adequações e agendamento da vistoria.
-- CLCB: iniciar com pelo menos dois a três meses de antecedência. Mesmo sendo um processo declaratório, adequações físicas podem ser necessárias antes de protocolar a declaração.
-
-O ideal é incluir a renovação no calendário anual de gestão do imóvel, com alerta programado, para que o prazo nunca seja uma surpresa.
-
-**O que fazer se o prazo já venceu** (H2)
-Se o AVCB ou CLCB já está vencido, a prioridade é iniciar o processo de renovação imediatamente. A boa notícia: o processo de renovação segue, em linhas gerais, o mesmo caminho da obtenção inicial. Não há um rito punitivo especial por ter deixado vencer. O que muda é que o imóvel permanece irregular até a emissão do novo documento.
-
-Os passos práticos são:
-1. Contatar um profissional técnico habilitado: arquiteto ou engenheiro com especialização em engenharia de incêndio para avaliar a situação atual do imóvel e identificar o que precisa ser adequado.
-2. Verificar se há autos de infração pendentes: checar a situação do imóvel junto ao Corpo de Bombeiros antes de iniciar o processo evita surpresas no meio do caminho.
-3. Elaborar ou atualizar o PPCI: o Projeto de Prevenção e Combate a Incêndio pode precisar de atualização se houver alterações na edificação desde o projeto anterior.
-4. Executar as adequações necessárias: extintores fora do prazo de recarga, hidrantes sem pressão adequada, sinalização deteriorada: qualquer item em desconformidade precisa ser corrigido antes da vistoria.
-5. Protocolar o processo e acompanhar: após o projeto aprovado e as adequações executadas, solicitar a vistoria (AVCB) ou protocolar a declaração (CLCB) o quanto antes.
-
-Quanto mais rápido o processo for iniciado, menor o período de irregularidade e menor a exposição a multas e fiscalizações.
-
-A irregularidade não desaparece sozinha: não há como retroativamente regularizar um período em que o imóvel estava com AVCB ou CLCB vencido. O único caminho é obter o novo documento o quanto antes e manter o cronograma de renovação para que isso não se repita.
-
-> **Nota (out/2026):** este artigo continua descrevendo o CLCB como "processo declaratório" ("Mesmo sendo um processo declaratório, adequações físicas podem ser necessárias antes de protocolar a declaração"). Essa descrição não foi atualizada para refletir a reescrita do processo de obtenção do CLCB em `avcb-clcb.html` (que passou a enfatizar a ausência de aprovação prévia de projeto, não a natureza declaratória). Ver seção 12, item 5.
-
-### CTA Final (H2: "AVCB ou CLCB vencido? Regularize agora.")
-A Alfa Prev conduz todo o processo de renovação: do diagnóstico inicial à emissão do novo documento. Atendimento em todo o Estado de São Paulo.
-- CTA: Solicitar avaliação gratuita
-
----
+> **(out/2026) Artigo "Vencimento AVCB/CLCB" removido.** O artigo que ocupava a seção 4.2 (`blog-sci/vencimento-avcb-clcb.html`, título "O que acontece quando o AVCB ou CLCB vence sem renovação") foi removido do site por decisão do cliente. O tópico "consequências do vencimento sem renovação" (multas, interdição, exclusão de cobertura securitária, responsabilidade civil e criminal) está fora do site. Termos de busca que esse artigo cobria e deixam de ter página dedicada: "o que acontece se o AVCB vencer", "AVCB vencido", "multa por AVCB vencido", "CLCB vencido", "consequências do vencimento do AVCB". Ver CLAUDE.md, histórico "Feito", para detalhes completos da remoção.
 
 ## 5. FAQ (oculto) (`faq.html`)
 
@@ -443,7 +360,9 @@ A Alfa Prev conduz todo o processo de renovação: do diagnóstico inicial à em
 >
 > **Como reativar:** ver seção "FAQ oculto (out/2026)" no `CLAUDE.md` para o passo a passo completo (remover `'faq.html'` de `SKIP_FILES`, descomentar os 3 links de navegação e a seção de CTA em `servicos.html`, readicionar a entrada em `sitemap.xml`, rodar `npm run build` e recompor esta seção com o conteúdo integral das perguntas).
 >
-> Uma única alteração de texto foi feita no conteúdo-fonte da pergunta 8 antes da ocultação: a frase final passou de "conforme o tipo de edificação e a classificação de risco" para "conforme o tipo de ocupação da edificação" (consistente com a regra de validade por ocupação, não por risco — ver seção 11 do CLAUDE.md).
+> Uma única alteração de texto foi feita no conteúdo-fonte da pergunta então-8 antes da ocultação: a frase final passou de "conforme o tipo de edificação e a classificação de risco" para "conforme o tipo de ocupação da edificação" (consistente com a regra de validade por ocupação, não por risco — ver seção 11 do CLAUDE.md).
+>
+> **(out/2026) Pergunta "O que acontece se o AVCB ou CLCB vencer sem ser renovado?" removida** do conteúdo-fonte de `faq.html` (JSON-LD `FAQPage` + item do accordion), junto com a remoção do artigo "Vencimento AVCB/CLCB" (ver nota ao final da seção 4). Mesmo oculta, a pergunta cobria exatamente o mesmo tópico de "consequências do vencimento sem renovação", hoje fora do site por decisão do cliente.
 
 ---
 
@@ -624,4 +543,4 @@ Nenhum marcador `<!-- PREENCHER -->` foi encontrado no texto visível das págin
 
 4. **"Tipos de Serviços" como campo de texto livre:** o rótulo do campo do formulário de contato é "Tipos de Serviços", mas o campo (`#resumo`) é um textarea de texto livre, não uma seleção múltipla de serviços — o rótulo pode gerar expectativa de um campo de seleção.
 
-5. **(out/2026) CLCB: declaração vs. ausência de aprovação prévia.** O processo de obtenção do CLCB em `avcb-clcb.html` foi reescrito para enfatizar que "não exige a aprovação prévia de um Projeto de Segurança Contra Incêndio pelo Corpo de Bombeiros", sem mais usar a palavra "declaração" para descrever o ato do responsável pelo imóvel. Porém, no mesmo artigo, as seções "O que é o CLCB" ("o CLCB é baseado em uma declaração de conformidade feita pelo próprio responsável pelo imóvel") e "A diferença essencial" ("O CLCB é emitido com base em declaração do responsável pelo imóvel") continuam usando o framing declaratório. O artigo `vencimento-avcb-clcb.html` também mantém esse framing ("Mesmo sendo um processo declaratório, adequações físicas podem ser necessárias..."). Não há contradição factual necessariamente, mas o tom e o nível de ênfase mudaram apenas em uma seção do artigo, criando uma leitura inconsistente dentro do próprio site sobre como o CLCB funciona. Ver também item 6 da seção 11.
+5. **(out/2026) CLCB: declaração vs. ausência de aprovação prévia.** O processo de obtenção do CLCB em `avcb-clcb.html` foi reescrito para enfatizar que "não exige a aprovação prévia de um Projeto de Segurança Contra Incêndio pelo Corpo de Bombeiros", sem mais usar a palavra "declaração" para descrever o ato do responsável pelo imóvel. Porém, no mesmo artigo, as seções "O que é o CLCB" ("o CLCB é baseado em uma declaração de conformidade feita pelo próprio responsável pelo imóvel") e "A diferença essencial" ("O CLCB é emitido com base em declaração do responsável pelo imóvel") continuam usando o framing declaratório. Não há contradição factual necessariamente, mas o tom e o nível de ênfase mudaram apenas em uma seção do artigo, criando uma leitura inconsistente dentro do próprio site sobre como o CLCB funciona. *(O artigo `vencimento-avcb-clcb.html`, que também mantinha esse framing declaratório, foi removido do site em out/2026 — essa inconsistência passou a ter apenas uma localização ativa.)* Ver também item 6 da seção 11.

@@ -239,6 +239,7 @@ alfaprev/
 - **(out/2026) Regra de validade do AVCB:** a validade do AVCB (geralmente entre 1 e 3 anos) depende apenas do **grupo de ocupação** da edificação. Removida toda menção a "grupo de risco" ou "complexidade" como fator de validade — essa vinculação era usada antes em `avcb-clcb.html`, `faq.html` e trechos do site, e foi corrigida para citar apenas ocupação. **Pendente de confirmação com a Cassia** a faixa "entre 1 e 3 anos" (ver seção de pendências abaixo).
 - **(out/2026) Página FAQ ocultada do site publicado** sem remover o conteúdo-fonte. Ver seção "FAQ oculto (out/2026)" mais abaixo para detalhes e instruções de reativação.
 - **(out/2026) Select "Ocupação" do formulário de contato ajustado**: removidas as opções "Condomínio Comercial" e "Digitalização de Plantas / Projetos"; adicionada a opção "Escritórios" (valor `escritorios`). Nenhuma dependência encontrada em `script.js` ou `supabase-schema.sql` que precisasse de ajuste.
+- **(out/2026) Tópico "o que acontece quando o AVCB/CLCB vence sem renovação" removido do site**: esse tópico não era uma seção dentro de um artigo maior, era o artigo inteiro (`blog-sci/vencimento-avcb-clcb.html` — título, meta, JSON-LD e 4 dos 6 H2 eram exatamente esse tópico). Removidos: arquivo-fonte (`src/pages/blog-sci/vencimento-avcb-clcb.html`), arquivo gerado (`blog-sci/vencimento-avcb-clcb.html`), card no hub (`src/pages/blog-sci.html`), entrada no `sitemap.xml`, entrada no `PAGE_ORDER` de `generate-content-md.js`, e a pergunta/resposta correspondente no FAQ oculto (`src/pages/faq.html`, pergunta "O que acontece se o AVCB ou CLCB vencer sem ser renovado?", JSON-LD + accordion). O hub (`blog-sci.html`) ficou com 1 card de artigo (AVCB/CLCB). **"Consequências do vencimento sem renovação" é assunto fora do site por decisão do cliente** — não reintroduzir esse conteúdo sem autorização explícita.
 
 ### ⚠️ Pendências de revisão técnica com a Cassia — OBRIGATÓRIO antes de considerar definitivo
 
@@ -249,7 +250,7 @@ alfaprev/
 3. **Ainda ativo — VIA-FÁCIL e TAACB** — plataforma digital de licenciamento e novo documento citados em fontes de terceiros como novidades do Decreto 69.118/2024. Não foram adicionados ao site. Confirmar com a Cassia se já fazem parte do fluxo de trabalho real da Alfa Prev — podem ser conteúdo relevante para o Blog SCI se confirmados.
 4. **Ainda ativo — Outros impactos do Decreto 69.118/2024** — verificar se há algum outro processo, prazo ou terminologia que mudou com o decreto e que afete a descrição dos serviços da Alfa Prev no site.
 5. **(out/2026) Faixa de validade do AVCB ("entre 1 e 3 anos")** — o artigo `avcb-clcb.html` e outros trechos do site afirmam que a validade do AVCB varia "geralmente entre 1 e 3 anos" conforme o grupo de ocupação. Essa faixa numérica não foi confirmada diretamente com a Cassia — precisa de validação antes de qualquer divulgação do Blog SCI, já que está vinculada à regra de "validade depende apenas da ocupação" também adicionada em out/2026.
-6. **(out/2026) Inconsistência CLCB declaração vs. aprovação prévia** — o processo de obtenção do CLCB em `avcb-clcb.html` foi reescrito para não exigir mais aprovação prévia de projeto, mas as seções "O que é o CLCB", "A diferença essencial" (no mesmo artigo) e o artigo `vencimento-avcb-clcb.html` continuam descrevendo o CLCB como documento "declaratório". Essa divergência não foi corrigida (fora do escopo da tarefa que gerou a reescrita) — avaliar com a Cassia qual framing é o correto e unificar.
+6. **Ainda ativo — Inconsistência CLCB declaração vs. aprovação prévia** — o processo de obtenção do CLCB em `avcb-clcb.html` foi reescrito para não exigir mais aprovação prévia de projeto, mas as seções "O que é o CLCB" e "A diferença essencial" (no mesmo artigo) continuam descrevendo o CLCB como documento "declaratório". Essa divergência não foi corrigida — avaliar com a Cassia qual framing é o correto e unificar. *(A segunda ocorrência desse mesmo problema estava no artigo `vencimento-avcb-clcb.html`, removido do site em out/2026 — ver item "Tópico ... removido do site" no histórico "Feito" acima.)*
 
 ### Pendente antes de publicar 🔴
 - [x] Registrar domínio — `alfaprev-sci.com.br` registrado via Locaweb (ativo, expira 08/09/2027)
@@ -314,8 +315,7 @@ alfaprev/
 ├── quem-somos.html         # GERADO — não edite diretamente (renomeado de sobre.html em set/2026)
 ├── blog-sci.html           # GERADO — não edite diretamente
 ├── blog-sci/               # GERADO — não edite diretamente
-│   ├── avcb-clcb.html
-│   └── vencimento-avcb-clcb.html
+│   └── avcb-clcb.html
 ├── contato.html            # GERADO — não edite diretamente
 ├── build.js                # Script de build (Node.js nativo — sem dependências; SKIP_FILES ignora faq.html, ver "FAQ oculto")
 ├── generate-content-md.js # Extrai texto das páginas e gera o rascunho simples de CONTEUDO-PAGINAS.md
@@ -333,10 +333,9 @@ alfaprev/
         ├── index.html         # Home: Hero + teasers de serviços, blog SCI e quem somos
         ├── servicos.html      # Todos os 6 serviços com descrições completas — CTA ao FAQ comentado (oculto)
         ├── quem-somos.html    # Texto institucional + responsável técnica + dados da empresa
-        ├── blog-sci.html      # Hub do Blog SCI (artigos sobre normas e regularização) — 2 cards (Lei Kiss removido em out/2026)
+        ├── blog-sci.html      # Hub do Blog SCI (artigos sobre normas e regularização) — 1 card (Lei Kiss e Vencimento removidos em out/2026)
         ├── blog-sci/
-        │   ├── avcb-clcb.html
-        │   └── vencimento-avcb-clcb.html
+        │   └── avcb-clcb.html
         ├── faq.html           # 7 perguntas/respostas com accordion (Schema FAQPage) — NÃO gerado no build (ver "FAQ oculto")
         └── contato.html       # Formulário de orçamento, mapa, contatos, privacidade
 ```
