@@ -1,8 +1,9 @@
 # ====================================================================
 # ALFA PREV — publicacao/modelos/.htaccess
 # ====================================================================
-# Modelo de configuração Apache para a hospedagem Locaweb (ou qualquer
-# hospedagem compartilhada Linux/Apache). Equivalente, em headers HTTP,
+# Modelo de configuração Apache para a hospedagem Locaweb — plano confirmado
+# em out/2026 como Linux/Apache (não é mais uma hipótese; não existe nem é
+# necessário um web.config/IIS para este site). Equivalente, em headers HTTP,
 # ao que já está em netlify.toml (usado como referência caso a hospedagem
 # final seja Netlify em vez de Apache).
 #
@@ -19,6 +20,17 @@
 # ====================================================================
 # BLOCO 1 — ATIVO DESDE O PRIMEIRO UPLOAD
 # ====================================================================
+
+# --- Tipos MIME explícitos (confirmado necessário para hospedagem Locaweb Linux
+# em out/2026 — servidores com mime.types mais antigo podem não reconhecer
+# .woff2/.svg corretamente, o que silenciosamente desativa a compressão/cache
+# desses arquivos nos blocos abaixo, mesmo sem gerar erro) ---
+<IfModule mod_mime.c>
+  AddType font/woff2 .woff2
+  AddType image/svg+xml .svg
+  AddType image/x-icon .ico
+  AddType application/javascript .js
+</IfModule>
 
 # --- Compressão de texto (menor tempo de download) ---
 <IfModule mod_deflate.c>

@@ -254,17 +254,57 @@ arquivo explicam cada regra):
   HTTP Basic Auth** nessa rota — abriria o diálogo de autenticação do navegador antes da tela
   de login real da aplicação, quebrando a UX do fundo desfocado.
 
-**`web.config` (IIS/Windows)**: **não criado nesta sessão** porque o tipo de plano/SO da
-Locaweb ainda não foi contratado/confirmado (ver Parte 3, passo 1). A pesquisa feita confirma
-que a Locaweb permite escolher Linux ou Windows por site dentro da mesma conta — a confirmação
-de qual SO foi escolhido é necessária antes de criar esse arquivo. **Ação futura:** se o plano
-contratado for Windows, criar `publicacao/modelos/web.config` equivalente ao `.htaccess` antes
-de publicar (sugestão de prompt: "Criar modelo web.config para Locaweb Windows equivalente ao
-.htaccess existente").
+**`web.config` (IIS/Windows): confirmado NÃO necessário.** O plano Locaweb contratado é **Linux**
+(confirmado em 2026-10-07) — o `.htaccess` acima é a configuração final e definitiva de
+servidor para este site, não um modelo provisório. Nenhum arquivo `web.config` precisa ser
+criado.
 
-`publicacao/modelos/leads.htaccess` (já existente, criado em sessão anterior) continua como
-documento de referência isolado — não é copiado automaticamente ao pacote porque o reforço de
-`/leads` já está embutido no `.htaccess` único da raiz.
+**Adaptação feita nesta sessão para o ambiente Linux real:** adicionado um bloco `mod_mime`
+explícito no início do Bloco 1 do `.htaccess` (`AddType font/woff2 .woff2`, `image/svg+xml .svg`,
+`image/x-icon .ico`, `application/javascript .js`). Motivo: os blocos `mod_deflate` (compressão)
+e `mod_expires` (cache) abaixo filtram por **Content-Type**, não por extensão de arquivo — em um
+servidor Apache com uma tabela `mime.types` desatualizada (comum em hospedagem compartilhada mais
+antiga), arquivos `.woff2` podem ser servidos sem o Content-Type correto, o que faz esses dois
+blocos simplesmente não encontrarem o tipo esperado e não aplicarem compressão/cache a esses
+arquivos — sem gerar nenhum erro visível, só uma degradação silenciosa de performance. O bloco
+`mod_mime` novo garante o Content-Type correto independentemente da versão da tabela MIME do
+servidor. **[VERIFICADO]** testado localmente: `npm run empacotar` continua copiando o
+`.htaccess` atualizado para `dist-locaweb/` sem erros após essa mudança.
+
+`publicacao/modelos/leads.htaccess` (já existente, criado em sessão anterior) foi marcado no
+próprio arquivo como **superado/redundante** — seu conteúdo já está embutido no `.htaccess` único
+da raiz (Bloco 1, `<FilesMatch "^leads\.html$">`). Mantido apenas como referência histórica
+isolada; não precisa ser copiado para lugar nenhum no deploy.
+
+**Checagem de compatibilidade Linux feita nesta sessão (2026-10-07):**
+- **[VERIFICADO]** `build.js` e `scripts/empacotar-locaweb.js` usam `path.join`/`path.sep` em
+  todo lugar (nunca uma barra invertida `\` hardcoded) — caminhos funcionam igual em Windows (dev)
+  e Linux (produção).
+- **[VERIFICADO]** Nova varredura de todos os `href`/`src`/`action`/`url()` internos do site
+  (HTML/CSS/JS gerados) comparados contra o nome exato (sensível a maiúsculas/minúsculas) de cada
+  arquivo no disco — **zero mismatch real** (os únicos resultados sem correspondência exata são
+  os links para `/faq.html` dentro de comentários HTML `<!-- -->`, intencionalmente comentados
+  pela decisão de ocultar o FAQ — não é um link ativo, não quebra nada).
+- **[VERIFICADO]** Nenhum arquivo do projeto tem extensão em maiúscula (ex.: `.JPG`, `.PNG`) —
+  elimina outra fonte comum de mismatch de case ao subir para Linux.
+- **[VERIFICADO]** A aplicação não depende de Node.js em produção — o `build.js` e o
+  `empacotar-locaweb.js` só rodam localmente (ou em CI, se adotado no futuro); o que sobe para a
+  hospedagem Locaweb é só o conteúdo estático de `dist-locaweb/` (HTML/CSS/JS/assets) mais o
+  `.htaccess`. Qualquer plano de hospedagem compartilhada Linux da Locaweb com suporte a Apache
+  (todos têm) é suficiente — não é necessário PHP, Node.js nem banco de dados no servidor (o banco
+  de leads é 100% externo, no Supabase).
+- **[VERIFICADO]** Todos os módulos Apache usados no `.htaccess` (`mod_deflate`, `mod_expires`,
+  `mod_headers`, `mod_mime`, `mod_authz_core`, e `mod_rewrite` no Bloco 2 ainda comentado) são
+  módulos padrão, universalmente habilitados em hospedagem compartilhada Apache — e todos os
+  blocos que dependem deles estão dentro de `<IfModule>`, então mesmo que algum módulo
+  específico não esteja habilitado no plano contratado, o bloco correspondente é apenas
+  ignorado, nunca causa erro 500.
+
+**Conclusão desta checagem: a aplicação é 100% compatível com a hospedagem Locaweb Linux
+confirmada, sem bloqueadores técnicos de compatibilidade.** As únicas pendências que restam para
+publicar são as já listadas na tabela de Bloqueadores no topo deste documento (chaves
+placeholder, configuração do Supabase, confirmações com a Cassia) — nenhuma delas é relacionada
+ao sistema operacional da hospedagem.
 
 ---
 
@@ -280,15 +320,13 @@ documento de referência isolado — não é copiado automaticamente ao pacote p
 
 ### 1. Confirme o que foi contratado
 - [ ] **Domínio**: `alfaprev-sci.com.br`, registrado via Locaweb, ativo até 08/09/2027 — confirmado.
-- [ ] **Plano de hospedagem**: a contratar/confirmar no painel Locaweb. Segundo a documentação
-  pública da Locaweb (consultada nesta sessão), hospedagem de sites oferece planos (ex:
-  "Hospedagem Go", "Hospedagem 1", "Hospedagem 2") e você escolhe **Linux ou Windows por site**
-  dentro da mesma conta — não é uma escolha única para a conta toda. **Confirmar no painel**:
-  qual SO foi escolhido para este site (afeta qual modelo de servidor usar — `.htaccess` para
-  Linux, que já está pronto, ou `web.config` para Windows, que ainda precisa ser criado).
+- [x] **Plano de hospedagem**: **Linux, confirmado em 2026-10-07.** O modelo de servidor a usar é
+  o `.htaccess` (`publicacao/modelos/.htaccess`), já pronto e validado — não é necessário
+  `web.config`/IIS.
   - Para um site estático simples como este, qualquer plano básico de hospedagem compartilhada
-    atende (sem necessidade de banco de dados no servidor — o banco de leads é no Supabase,
-    externo).
+    Linux da Locaweb atende (sem necessidade de banco de dados no servidor — o banco de leads é
+    no Supabase, externo; sem necessidade de PHP ou Node.js no servidor — ver checagem de
+    compatibilidade na Parte 2 acima).
 - [ ] **SSL incluso?** Segundo a documentação pública da Locaweb, certificado SSL gratuito
   (Let's Encrypt/ZeroSSL) é ativado automaticamente nos planos de hospedagem compartilhada e
   Cloud Hosting. **Confirmar no painel**: acessar "Hospedagem" → verificar status do SSL do
@@ -327,9 +365,9 @@ documento de referência isolado — não é copiado automaticamente ao pacote p
 - [ ] No painel Locaweb, seção **"Arquivos e FTP"** (segundo a documentação consultada) —
   mostra os dados de conexão (host, usuário, senha) e permite acesso via Web FTP, SSH, ou
   cliente como FileZilla.
-- [ ] **Pasta raiz pública**: segundo a documentação da Locaweb, em hospedagem **Linux** a pasta
-  raiz do domínio principal é `public_html`; em hospedagem **Windows** é `Web`. **Confirmar no
-  painel** qual das duas se aplica, conforme o SO escolhido no passo 1.
+- [ ] **Pasta raiz pública**: `public_html` (confirmado — hospedagem Linux, segundo a
+  documentação da Locaweb). **Confirmar no painel** apenas o caminho exato até essa pasta no
+  cliente FTP escolhido (pode variar conforme o cliente/visualização).
 - [ ] **Cliente recomendado**: FileZilla (gratuito, multiplataforma) — a própria Locaweb tem
   tutorial de uso publicado.
 - [ ] **Mostrar arquivos ocultos**: no FileZilla, menu "Servidor" → "Forçar mostrar arquivos
@@ -340,7 +378,7 @@ documento de referência isolado — não é copiado automaticamente ao pacote p
 - [ ] Gere o pacote com `npm run empacotar` (depois que os bloqueadores 1 e 2 forem resolvidos
   — o script falha de propósito enquanto esses placeholders existirem).
 - [ ] Suba o **conteúdo** da pasta `dist-locaweb/` (todos os arquivos e subpastas dentro dela),
-  não a pasta `dist-locaweb` em si, para a raiz pública (`public_html` ou `Web`, conforme passo 4).
+  não a pasta `dist-locaweb` em si, para a raiz pública `public_html` (confirmado no passo 4).
 - [ ] **Apague páginas padrão da hospedagem** que possam ter prioridade sobre `index.html` (ex:
   página "em construção", `index.php` de boas-vindas) — **confirmar no painel** se a conta já
   vem com algum arquivo desses.

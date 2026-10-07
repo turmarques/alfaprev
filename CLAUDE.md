@@ -563,11 +563,16 @@ comportamento do site**. Três documentos de referência em `publicacao/`:
   do Web3Forms, checklist de produção do Supabase, cadastro em Search Console/Bing/Google Business
   Profile).
 - **`publicacao/modelos/.htaccess`** — modelo de configuração Apache para hospedagem Locaweb
-  (equivalente em headers HTTP ao `netlify.toml`), com blocos claramente separados: compressão/
-  cache/headers de segurança (ativo desde o primeiro upload), força de HTTPS/host sem `www`
-  (**mantido comentado** até o certificado SSL estar confirmado funcionando — ativar antes disso
-  quebra o acesso ao site), e headers reforçados de `/leads.html`. Não existe `web.config`
-  equivalente ainda — bloqueado em confirmar se o plano Locaweb final será Linux ou Windows.
+  (equivalente em headers HTTP ao `netlify.toml`), com blocos claramente separados: tipos MIME
+  explícitos (`mod_mime` — adicionado out/2026, garante Content-Type correto de `.woff2`/`.svg`/
+  `.ico`/`.js` independentemente da versão da tabela MIME do servidor), compressão/cache/headers
+  de segurança (ativo desde o primeiro upload), força de HTTPS/host sem `www` (**mantido
+  comentado** até o certificado SSL estar confirmado funcionando — ativar antes disso quebra o
+  acesso ao site), e headers reforçados de `/leads.html`. **Plano Locaweb confirmado como Linux em
+  2026-10-07** — este `.htaccess` é a configuração final do servidor; não é necessário (nem será
+  criado) um `web.config`/IIS. `publicacao/modelos/leads.htaccess` (arquivo anterior a esta
+  publicação) foi marcado como superado/redundante no próprio arquivo, já que seu conteúdo está
+  embutido no `.htaccess` consolidado.
 - **`scripts/empacotar-locaweb.js`** (`npm run empacotar`) — gera `dist-locaweb/` a partir da saída
   de `npm run build`: copia só os arquivos de produção (HTML/CSS/JS/assets necessários, nunca
   `src/`, `node_modules/`, documentação `.md`, scripts internos), remove comentários HTML da cópia,

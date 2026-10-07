@@ -1,19 +1,19 @@
 # ALFA PREV — publicacao/modelos/leads.htaccess
 #
+# >>> SUPERADO em out/2026 — NÃO usar isoladamente. <<<
+# O conteúdo abaixo já está embutido em publicacao/modelos/.htaccess (bloco
+# <FilesMatch "^leads\.html$"> dentro do BLOCO 1), que é copiado automaticamente
+# para a raiz do pacote por "npm run empacotar". Este arquivo foi criado numa
+# sessão anterior (antes do empacotamento consolidado existir) e é mantido
+# apenas como referência histórica isolada do reforço de headers do /leads —
+# não precisa ser copiado manualmente para lugar nenhum. Se algum dia o
+# .htaccess principal for descontinuado, use este arquivo como base para
+# recriar a proteção de /leads, mas hoje ele é redundante.
+#
+# Descrição original (ainda válida como referência de conteúdo):
 # Modelo de configuração Apache para reforçar, via header HTTP, as mesmas
 # proteções já aplicadas em netlify.toml e na <meta http-equiv="Content-Security-Policy">
-# de src/pages/leads.html. Use este modelo SOMENTE se a hospedagem final for
-# Apache (ex: cPanel, hospedagem compartilhada) em vez de Netlify.
-#
-# Como usar:
-#   1. Copie o conteúdo abaixo para o final do .htaccess da raiz do site publicado
-#      (o mesmo diretório onde fica leads.html).
-#   2. Confirme que o módulo mod_headers está habilitado no servidor
-#      (normalmente já vem habilitado; peça confirmação ao suporte da hospedagem
-#      se os headers não aparecerem no navegador após publicar).
-#
-# Este arquivo NÃO é usado automaticamente pelo build — é só um modelo de
-# referência (ver docs/DASHBOARD-LEADS.md, seção "Segurança e limites").
+# de src/pages/leads.html.
 
 <IfModule mod_headers.c>
   <FilesMatch "^leads\.html$">
