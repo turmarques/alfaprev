@@ -1,0 +1,27 @@
+# ALFA PREV — publicacao/modelos/leads.htaccess
+#
+# Modelo de configuração Apache para reforçar, via header HTTP, as mesmas
+# proteções já aplicadas em netlify.toml e na <meta http-equiv="Content-Security-Policy">
+# de src/pages/leads.html. Use este modelo SOMENTE se a hospedagem final for
+# Apache (ex: cPanel, hospedagem compartilhada) em vez de Netlify.
+#
+# Como usar:
+#   1. Copie o conteúdo abaixo para o final do .htaccess da raiz do site publicado
+#      (o mesmo diretório onde fica leads.html).
+#   2. Confirme que o módulo mod_headers está habilitado no servidor
+#      (normalmente já vem habilitado; peça confirmação ao suporte da hospedagem
+#      se os headers não aparecerem no navegador após publicar).
+#
+# Este arquivo NÃO é usado automaticamente pelo build — é só um modelo de
+# referência (ver docs/DASHBOARD-LEADS.md, seção "Segurança e limites").
+
+<IfModule mod_headers.c>
+  <FilesMatch "^leads\.html$">
+    Header set Content-Security-Policy "default-src 'none'; script-src 'self'; style-src 'self'; font-src 'self'; img-src 'self'; connect-src 'self' https://*.supabase.co; base-uri 'none'; form-action 'none'; frame-ancestors 'none';"
+    Header set X-Robots-Tag "noindex, nofollow, noarchive"
+    Header set Referrer-Policy "no-referrer"
+    Header set Cache-Control "no-store"
+    Header set X-Content-Type-Options "nosniff"
+    Header set X-Frame-Options "DENY"
+  </FilesMatch>
+</IfModule>

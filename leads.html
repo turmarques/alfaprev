@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Guarda de segurança: redireciona para o arquivo gerado na raiz se aberto diretamente via servidor HTTP -->
+  <script>if(['http:','https:'].includes(location.protocol)&&location.pathname.includes('/src/pages/'))location.replace(location.pathname.replace('/src/pages/','/'));</script>
+  <title>Painel de Leads | Alfa Prev</title>
+  <meta name="robots" content="noindex, nofollow, noarchive">
+  <meta name="referrer" content="no-referrer">
+  <meta name="theme-color" content="#0F172A">
+  <!--
+    CSP restrita e própria desta página (ver docs/DASHBOARD-LEADS.md,
+    seção "Segurança e limites"). Sem Tailwind CDN, sem fontes externas em
+    tempo de execução, sem terceiros — só o próprio domínio e o projeto
+    Supabase configurado em assets/js/config.js.
+    Reforçada também via header HTTP (netlify.toml / publicacao/modelos/leads.htaccess).
+  -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; font-src 'self'; img-src 'self'; connect-src 'self' https://*.supabase.co; base-uri 'none'; form-action 'none'; frame-ancestors 'none';">
+  <link rel="icon" href="/assets/favicon.ico" type="image/x-icon">
+  <link rel="stylesheet" href="/assets/css/leads.css">
+</head>
+<body>
+  <noscript>
+    <p style="padding:2rem;font-family:system-ui,sans-serif;">
+      O painel de leads precisa de JavaScript habilitado no navegador para funcionar.
+    </p>
+  </noscript>
+
+  <!-- Diálogo de login (modal nativo) -->
+  <dialog id="login-dialogo" aria-labelledby="login-titulo">
+    <form id="login-form" class="login-form">
+      <h1 id="login-titulo">Painel de Leads</h1>
+      <p class="subtitulo">Acesso restrito à administração da Alfa Prev.</p>
+
+      <div class="campo">
+        <label for="login-email">E-mail</label>
+        <input type="email" id="login-email" name="email" autocomplete="username" required>
+      </div>
+
+      <div class="campo">
+        <label for="login-senha">Senha</label>
+        <input type="password" id="login-senha" name="senha" autocomplete="current-password" required>
+      </div>
+
+      <p id="login-erro" class="login-erro" role="alert"></p>
+      <p id="login-contagem" class="login-contagem" aria-live="polite"></p>
+
+      <button type="submit" id="btn-login-entrar" class="botao">Entrar</button>
+    </form>
+  </dialog>
+
+  <!-- Diálogo de detalhe do lead -->
+  <dialog id="detalhe-dialogo" aria-labelledby="detalhe-titulo">
+    <h2 id="detalhe-titulo">Detalhes do lead</h2>
+    <dl>
+      <div class="detalhe-linha"><dt>Nome</dt><dd id="detalhe-nome"></dd></div>
+      <div class="detalhe-linha"><dt>E-mail</dt><dd id="detalhe-email"></dd></div>
+      <div class="detalhe-linha"><dt>Telefone</dt><dd id="detalhe-telefone"></dd></div>
+      <div class="detalhe-linha"><dt>Ocupação</dt><dd id="detalhe-ocupacao"></dd></div>
+      <div class="detalhe-linha"><dt>Mensagem</dt><dd id="detalhe-mensagem"></dd></div>
+      <div class="detalhe-linha"><dt>Origem</dt><dd id="detalhe-origem"></dd></div>
+      <div class="detalhe-linha"><dt>Recebido em</dt><dd id="detalhe-recebido"></dd></div>
+    </dl>
+
+    <div class="campo">
+      <label for="detalhe-status">Status</label>
+      <select id="detalhe-status">
+        <option value="novo">Novo</option>
+        <option value="contatado">Contatado</option>
+        <option value="em_negociacao">Em negociação</option>
+        <option value="fechado">Fechado</option>
+        <option value="perdido">Perdido</option>
+      </select>
+    </div>
+
+    <div class="campo">
+      <label for="detalhe-observacao">Observação interna</label>
+      <textarea id="detalhe-observacao" rows="3"></textarea>
+    </div>
+
+    <div class="detalhe-acoes">
+      <a id="detalhe-link-whatsapp" class="botao" target="_blank" rel="noopener noreferrer">WhatsApp</a>
+      <a id="detalhe-link-email" class="botao botao--secundario">E-mail</a>
+      <button type="button" id="btn-detalhe-salvar" class="botao">Salvar</button>
+      <button type="button" id="btn-detalhe-excluir" class="botao botao--perigo">Excluir</button>
+      <button type="button" class="botao botao--secundario" onclick="document.getElementById('detalhe-dialogo').close()">Fechar</button>
+    </div>
+  </dialog>
+
+  <main id="conteudo-painel">
+    <header class="topo">
+      <span class="topo__marca">Alfa Prev — Painel de Leads</span>
+      <div class="topo__acoes">
+        <button type="button" id="btn-sair" class="botao botao--sair">Sair</button>
+      </div>
+    </header>
+
+    <div style="max-width:1200px;margin:0 auto;padding:1.5rem 1.25rem 3rem;">
+
+      <section class="secao" id="painel-dashboard" aria-labelledby="dashboard-titulo">
+        <h2 id="dashboard-titulo">Visão geral (últimos 30 dias)</h2>
+
+        <div class="indicadores">
+          <div class="indicador">
+            <div class="indicador__valor" id="ind-visualizacoes">—</div>
+            <div class="indicador__rotulo">Visualizações de página</div>
+          </div>
+          <div class="indicador">
+            <div class="indicador__valor" id="ind-visitantes">—</div>
+            <div class="indicador__rotulo">
+              Visitantes únicos (aprox.)
+              <span class="indicador__ajuda" tabindex="0">?</span>
+              <span class="indicador__tooltip">Estimativa baseada em hash diário não reversível (IP+navegador+sal do dia). Não é um identificador persistente.</span>
+            </div>
+          </div>
+          <div class="indicador">
+            <div class="indicador__valor" id="ind-whatsapp">—</div>
+            <div class="indicador__rotulo">Cliques no WhatsApp</div>
+          </div>
+          <div class="indicador">
+            <div class="indicador__valor" id="ind-leads">—</div>
+            <div class="indicador__rotulo">Leads recebidos</div>
+          </div>
+          <div class="indicador">
+            <div class="indicador__valor" id="ind-conversao">—</div>
+            <div class="indicador__rotulo">Taxa de conversão</div>
+          </div>
+        </div>
+
+        <div class="graficos">
+          <div class="cartao">
+            <h3>Visualizações por dia</h3>
+            <svg id="grafico-serie-svg" class="grafico-svg" role="img" aria-label="Gráfico de visualizações de página por dia"></svg>
+          </div>
+          <div class="cartao">
+            <h3>Dispositivos</h3>
+            <ul class="legenda-lista" id="legenda-dispositivos"></ul>
+          </div>
+        </div>
+
+        <div class="graficos">
+          <div class="cartao">
+            <h3>Páginas mais visitadas</h3>
+            <svg id="grafico-paginas-svg" class="grafico-svg" role="img" aria-label="Gráfico de páginas mais visitadas"></svg>
+          </div>
+          <div class="cartao">
+            <h3>Origem do tráfego</h3>
+            <svg id="grafico-origens-svg" class="grafico-svg" role="img" aria-label="Gráfico de origem do tráfego"></svg>
+          </div>
+        </div>
+
+        <div class="graficos">
+          <div class="cartao">
+            <h3>Leads por ocupação</h3>
+            <ul class="legenda-lista" id="legenda-ocupacao"></ul>
+          </div>
+          <div class="cartao">
+            <h3>Leads por status</h3>
+            <ul class="legenda-lista" id="legenda-status"></ul>
+          </div>
+        </div>
+      </section>
+
+      <section class="secao" aria-labelledby="leads-titulo">
+        <h2 id="leads-titulo">Leads</h2>
+
+        <div class="filtros">
+          <input type="search" id="filtro-busca" placeholder="Buscar por nome, e-mail ou telefone" aria-label="Buscar leads">
+          <select id="filtro-status" aria-label="Filtrar por status">
+            <option value="">Todos os status</option>
+            <option value="novo">Novo</option>
+            <option value="contatado">Contatado</option>
+            <option value="em_negociacao">Em negociação</option>
+            <option value="fechado">Fechado</option>
+            <option value="perdido">Perdido</option>
+          </select>
+          <select id="filtro-ocupacao" aria-label="Filtrar por ocupação">
+            <option value="">Todas as ocupações</option>
+            <option value="residencial">Residencial</option>
+            <option value="condominio">Condomínio</option>
+            <option value="comercial">Comercial</option>
+            <option value="industrial">Industrial</option>
+            <option value="escritorios">Escritórios</option>
+            <option value="outro">Outro</option>
+          </select>
+          <button type="button" id="btn-exportar-csv" class="botao botao--secundario">Exportar CSV</button>
+        </div>
+
+        <div class="cartao">
+          <table class="tabela-leads">
+            <thead>
+              <tr>
+                <th><button type="button" data-ordenar-por="nome">Nome</button></th>
+                <th>Contato</th>
+                <th><button type="button" data-ordenar-por="tipo_imovel">Ocupação</button></th>
+                <th><button type="button" data-ordenar-por="status">Status</button></th>
+                <th>Origem</th>
+                <th><button type="button" data-ordenar-por="criado_em">Recebido em</button></th>
+              </tr>
+            </thead>
+            <tbody id="tabela-leads-corpo"></tbody>
+          </table>
+
+          <div class="paginacao">
+            <span id="paginacao-info"></span>
+            <div>
+              <button type="button" id="btn-pagina-anterior" class="botao botao--secundario">Anterior</button>
+              <button type="button" id="btn-pagina-proxima" class="botao botao--secundario">Próxima</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <script src="/assets/vendor/supabase-js/supabase.js"></script>
+  <script src="/assets/js/config.js"></script>
+  <script src="/assets/js/leads/bloqueio.js"></script>
+  <script src="/assets/js/leads/telefone.js"></script>
+  <script src="/assets/js/leads/csv.js"></script>
+  <script src="/assets/js/leads/auth.js"></script>
+  <script src="/assets/js/leads/dashboard.js"></script>
+  <script src="/assets/js/leads/grade.js"></script>
+  <script src="/assets/js/leads/app.js"></script>
+</body>
+</html>

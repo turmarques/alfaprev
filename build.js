@@ -59,9 +59,16 @@ function processDir(srcDir, outDir) {
 
     fs.writeFileSync(outPath, content, 'utf8');
 
-    // Sanity check: Tailwind CDN must be present in every output
-    if (!content.includes('cdn.tailwindcss.com')) {
+    // Sanity check: Tailwind CDN must be present em todo output, EXCETO em leads/**.
+    // /leads é a página administrativa com CSP restrita (sem scripts de terceiros/CDN) —
+    // ver docs/DASHBOARD-LEADS.md e assets/css/leads.css (CSS próprio, sem Tailwind).
+    const ehPaginaLeads = relPath === 'leads.html' || relPath.startsWith('leads/');
+    if (!ehPaginaLeads && !content.includes('cdn.tailwindcss.com')) {
       console.error(`  [ERRO] cdn.tailwindcss.com NÃO encontrado em ${path.relative(OUT_DIR, outPath)} — verifique o partial head-common!`);
+      errors++;
+    }
+    if (ehPaginaLeads && content.includes('cdn.tailwindcss.com')) {
+      console.error(`  [ERRO] ${path.relative(OUT_DIR, outPath)} é a página /leads (CSP restrita) e NÃO deve incluir cdn.tailwindcss.com!`);
       errors++;
     }
     // Sanity check: no unresolved INCLUDE markers

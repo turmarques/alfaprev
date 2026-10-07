@@ -21,7 +21,9 @@
     Referrer-Policy = "strict-origin-when-cross-origin"
 
     # Desativa recursos não utilizados e restringe origens de conteúdo
-    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://www.google-analytics.com; connect-src 'self' https://api.web3forms.com https://www.google-analytics.com https://*.supabase.co; frame-src https://maps.google.com https://www.google.com; object-src 'none'; base-uri 'self'; form-action 'self' https://api.web3forms.com;"
+    # Sem Google Analytics/Tag Manager (o site não usa nenhum script de terceiros para métricas —
+    # ver assets/js/metricas.js, que só fala com o próprio Supabase do projeto).
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://api.web3forms.com https://*.supabase.co; frame-src https://maps.google.com https://www.google.com; object-src 'none'; base-uri 'self'; form-action 'self' https://api.web3forms.com;"
 
     # Controla acesso a recursos do dispositivo (câmera, microfone, geolocalização)
     Permissions-Policy = "camera=(), microphone=(), geolocation=(), payment=()"
@@ -42,6 +44,18 @@
   for = "/*.js"
   [headers.values]
     Cache-Control = "public, max-age=86400"
+
+# Painel administrativo /leads.html — CSP própria e mais restrita (sem Tailwind CDN,
+# sem Google Fonts em tempo de execução), sem indexação por buscadores, sem cache
+# (sempre busca a versão mais recente, nunca serve dados de leads a partir de um cache
+# compartilhado). Ver assets/css/leads.css, assets/js/leads/*.js e docs/DASHBOARD-LEADS.md.
+[[headers]]
+  for = "/leads.html"
+  [headers.values]
+    Content-Security-Policy = "default-src 'none'; script-src 'self'; style-src 'self'; font-src 'self'; img-src 'self'; connect-src 'self' https://*.supabase.co; base-uri 'none'; form-action 'none'; frame-ancestors 'none';"
+    X-Robots-Tag = "noindex, nofollow, noarchive"
+    Referrer-Policy = "no-referrer"
+    Cache-Control = "no-store"
 
 # Redirecionar www para apex ou vice-versa (descomente conforme necessário)
 # [[redirects]]
