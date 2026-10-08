@@ -77,8 +77,6 @@ alfaprev/
 ├── netlify.toml            # Headers de segurança + configuração de cache (Netlify)
 ├── server.ps1              # Servidor local PowerShell
 ├── CLAUDE.md               # Este arquivo
-├── AUDITORIA-SEGURANCA-SEO.md  # Resultado da auditoria pré-publicação
-├── GUIA-PUBLICACAO-INICIANTE.md # Guia passo a passo para publicar o site
 ├── supabase-schema.sql         # Script SQL para criar tabela + RLS no Supabase
 └── assets/
     ├── favicon.ico
@@ -200,7 +198,7 @@ alfaprev/
 - Honeypot duplo no formulário (checkbox Web3Forms `botcheck` + campo texto `#hp-website`)
 - netlify.toml com headers de segurança (incluindo `*.supabase.co` no CSP)
 - Auditoria de segurança e SEO concluída
-- Auditoria de conteúdo concluída (`AUDITORIA-CONTEUDO.md`)
+- Auditoria de conteúdo concluída
 - Integração Supabase implementada no `script.js` — aguarda configuração
 - `supabase-schema.sql` pronto para rodar no painel do Supabase
 - `assets/js/config.js` criado com placeholders
@@ -271,9 +269,10 @@ alfaprev/
 - [ ] Adicionar fotos reais de projetos/equipe
 
 ### Referência
-Resultado completo da auditoria pré-publicação: `AUDITORIA-SEGURANCA-SEO.md`
-Resultado da auditoria de conteúdo (set/2026): `AUDITORIA-CONTEUDO.md`
-Guia de publicação passo a passo: `GUIA-PUBLICACAO-INICIANTE.md`
+Resultado da auditoria de segurança (out/2026): `docs/SEGURANCA.md`
+Resultado da auditoria de SEO/performance (out/2026, dados reais via Lighthouse): `publicacao/AUDITORIA-SEO.md`
+Guia de publicação passo a passo (Locaweb, out/2026): `publicacao/PUBLICACAO-LOCAWEB.md`
+Documentação do painel `/leads` e métricas: `docs/DASHBOARD-LEADS.md`
 
 ---
 

@@ -110,8 +110,8 @@ crawler.
 | `build.js`, `generate-content-md.js`, `package.json`, `package-lock.json` | Ferramentas de build, não fazem parte do site |
 | `node_modules/` | Dependências de desenvolvimento |
 | `.git/`, `.gitignore`, `.idea/`, `.claude/` | Controle de versão e config de IDE |
-| `CLAUDE.md`, `CONTEUDO-PAGINAS.md`, `CONTEXTO-CLAUDE-WEB.md` | Documentação interna do projeto |
-| `AUDITORIA-*.md`, `AVALIACAO-*.md`, `GUIA-PUBLICACAO-INICIANTE.md` | Relatórios/guias internos |
+| `CLAUDE.md`, `CONTEUDO-PAGINAS.md` | Documentação interna do projeto |
+| `AUDITORIA-*.md`, `AVALIACAO-*.md` | Relatórios/guias internos |
 | `publicacao/` (este diretório) | Documentação e modelos desta tarefa |
 | `docs/` | Documentação técnica interna (`DASHBOARD-LEADS.md`) |
 | `scripts/` | Scripts internos (empacotamento, teste de RLS) |
