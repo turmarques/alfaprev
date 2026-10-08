@@ -598,3 +598,42 @@ comportamento do site**. Três documentos de referência em `publicacao/`:
 **Nenhum destes três documentos nem o script de empacotamento alteram `/src/pages/`,
 `/partials/` ou `assets/`** — qualquer correção de conteúdo/copy/schema listada neles exige um
 prompt dedicado e decisão humana antes de ser implementada.
+
+---
+
+## Segurança (adicionado out/2026 — varredura completa)
+
+Relatório completo em `docs/SEGURANCA.md` (achados, severidade, commits de correção, riscos
+residuais aceitos, checklist de resposta a incidente LGPD). Regras permanentes resultantes dessa
+auditoria:
+
+- **`publicacao/modelos/.htaccess` é o arquivo que de fato vai para produção (Locaweb/Apache),
+  não `netlify.toml`.** Qualquer header de segurança (CSP, COOP, HSTS, etc.) adicionado/alterado
+  em um dos dois **deve** ser replicado no outro — a auditoria encontrou o `.htaccess` real sem
+  nenhuma CSP para páginas públicas justamente porque só o `netlify.toml` (que não é o host real)
+  estava atualizado.
+- **2FA (TOTP) é obrigatório para qualquer admin do painel `/leads`.** `is_admin()` no banco exige
+  `auth.jwt() ->> 'aal' = 'aal2'` — a imposição real está no SQL, não na UI. Nenhum admin novo
+  pode receber a URL do painel antes de completar o cadastro do fator TOTP (ver
+  `supabase-admin.sql`). Nunca remover essa checagem de `is_admin()` para "facilitar" acesso.
+  Nunca criar um caminho na UI que permita desativar o 2FA do próprio usuário sem revisão humana
+  — remoção de fator deve ser uma ação manual no painel do Supabase.
+- **Fonte Inter é self-hosted** (`assets/fonts/inter-var.woff2`) em todo o site, público e
+  `/leads`. Nunca reintroduzir `fonts.googleapis.com`/`fonts.gstatic.com` — isso exigiria reabrir
+  esses domínios na CSP de ambos os arquivos de servidor.
+- **`<FilesMatch>` no Apache opera só no basename, nunca no caminho completo.** Qualquer novo
+  bloqueio de arquivo/pasta por padrão de caminho (não apenas extensão) no `.htaccess` deve usar
+  `mod_rewrite` sobre `%{REQUEST_URI}`, como o bloco de dotfiles já corrigido.
+- **HSTS está em rollout escalonado** (`max-age=21600`, sem `includeSubDomains`/`preload`) até
+  confirmação de que HTTPS funciona de forma estável em produção. Não ativar `preload` sem essa
+  confirmação — é quase irreversível.
+- **Antes de qualquer commit que toque `assets/js/`, `src/pages/`, `netlify.toml` ou
+  `publicacao/modelos/`:** rodar `npm test`, `npm run seguranca` e `npm audit`. Falha em qualquer
+  um deve ser investigada antes do commit.
+- **Nunca commitar a chave `service_role` do Supabase, e-mail real de admin, ou qualquer segredo**
+  — `supabase-admin.sql` é só um template; `scripts/empacotar-locaweb.js` e
+  `scripts/verificar-seguranca.js` já bloqueiam isso automaticamente, mas a regra vale também para
+  qualquer arquivo novo.
+- **Toda nova tabela/coluna no Supabase precisa de política RLS explícita antes de ir para
+  produção** — nunca assumir que "RLS habilitado sem política" é documentação suficiente; declarar
+  a política (ainda que seja "ninguém lê/escreve por enquanto") explicitamente.
