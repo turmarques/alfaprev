@@ -12,6 +12,7 @@
 (function () {
   var bloqueio = null;
   var intervaloContagem = null;
+  var fatorMfaAtual = null;
 
   function elemento(id) { return document.getElementById(id); }
 
@@ -89,6 +90,82 @@
     }
   }
 
+  // Diálogo de verificação em duas etapas (TOTP) — cobre cadastro do primeiro
+  // fator (motivo === 'mfa_cadastro_necessario') e desafio normal de login
+  // (motivo === 'mfa_codigo_necessario'). Ver assets/js/leads/auth.js.
+  async function abrirFluxoMfa(motivo, factorId) {
+    var dialogoLogin = elemento('login-dialogo');
+    if (dialogoLogin && dialogoLogin.open) dialogoLogin.close();
+
+    var dialogo = elemento('mfa-dialogo');
+    var instrucao = elemento('mfa-instrucao');
+    var blocoCadastro = elemento('mfa-cadastro-bloco');
+    var campoSegredo = elemento('mfa-segredo');
+    var erro = elemento('mfa-erro');
+    var campoCodigo = elemento('mfa-codigo');
+
+    if (erro) erro.textContent = '';
+    if (campoCodigo) campoCodigo.value = '';
+
+    if (motivo === 'mfa_cadastro_necessario') {
+      var cadastro = await window.AlfaPrevAuth.iniciarCadastroMfa();
+      if (!cadastro.ok) {
+        await window.AlfaPrevAuth.cancelarFluxoMfa();
+        mostrarLogin();
+        var erroLogin = elemento('login-erro');
+        if (erroLogin) erroLogin.textContent = 'Não foi possível iniciar a verificação em duas etapas. Tente novamente.';
+        return;
+      }
+      fatorMfaAtual = cadastro.factorId;
+      if (instrucao) instrucao.textContent = 'Primeiro acesso: cadastre a verificação em duas etapas no seu app autenticador e digite o código gerado para confirmar.';
+      if (blocoCadastro) blocoCadastro.hidden = false;
+      if (campoSegredo) campoSegredo.value = cadastro.secret;
+    } else {
+      fatorMfaAtual = factorId;
+      if (instrucao) instrucao.textContent = 'Digite o código de 6 dígitos do seu app autenticador.';
+      if (blocoCadastro) blocoCadastro.hidden = true;
+    }
+
+    if (dialogo && typeof dialogo.showModal === 'function' && !dialogo.open) {
+      dialogo.showModal();
+    }
+  }
+
+  async function cancelarMfaEVoltarAoLogin() {
+    var dialogo = elemento('mfa-dialogo');
+    if (dialogo && dialogo.open) dialogo.close();
+    fatorMfaAtual = null;
+    await window.AlfaPrevAuth.cancelarFluxoMfa();
+    mostrarLogin();
+  }
+
+  async function aoEnviarMfa(evento) {
+    evento.preventDefault();
+    var campoCodigo = elemento('mfa-codigo');
+    var codigo = campoCodigo ? campoCodigo.value.trim() : '';
+    var erro = elemento('mfa-erro');
+    var botao = elemento('btn-mfa-confirmar');
+
+    if (erro) erro.textContent = '';
+    if (botao) botao.disabled = true;
+
+    var resultado = fatorMfaAtual ? await window.AlfaPrevAuth.verificarCodigoMfa(fatorMfaAtual, codigo) : { ok: false };
+
+    if (botao) botao.disabled = false;
+
+    if (!resultado.ok) {
+      if (erro) erro.textContent = 'Código inválido ou expirado. Confira o app autenticador e tente novamente.';
+      return;
+    }
+
+    fatorMfaAtual = null;
+    elemento('mfa-form').reset();
+    var dialogo = elemento('mfa-dialogo');
+    if (dialogo && dialogo.open) dialogo.close();
+    bloqueio.registrarSucesso();
+    aoAutenticar();
+  }
+
   async function aoEnviarLogin(evento) {
     evento.preventDefault();
     if (!bloqueio || bloqueio.status().bloqueado) return;
@@ -106,6 +183,11 @@
     if (botaoEntrar) botaoEntrar.disabled = false;
 
     if (!resultado.ok) {
+      if (resultado.motivo === 'mfa_cadastro_necessario' || resultado.motivo === 'mfa_codigo_necessario') {
+        elemento('login-form').reset();
+        abrirFluxoMfa(resultado.motivo, resultado.factorId);
+        return;
+      }
       if (resultado.motivo === '429') {
         bloqueio.forcarBloqueio();
       } else {
@@ -142,6 +224,12 @@
 
     var form = elemento('login-form');
     if (form) form.addEventListener('submit', aoEnviarLogin);
+
+    var formMfa = elemento('mfa-form');
+    if (formMfa) formMfa.addEventListener('submit', aoEnviarMfa);
+
+    var botaoMfaCancelar = elemento('btn-mfa-cancelar');
+    if (botaoMfaCancelar) botaoMfaCancelar.addEventListener('click', cancelarMfaEVoltarAoLogin);
 
     var botaoSair = elemento('btn-sair');
     if (botaoSair) botaoSair.addEventListener('click', function () { window.AlfaPrevAuth.sair('manual'); });

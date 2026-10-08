@@ -50,6 +50,32 @@
     </form>
   </dialog>
 
+  <!-- Diálogo de verificação em duas etapas (TOTP) — cobre tanto o cadastro
+       do primeiro fator quanto o desafio de código em logins seguintes.
+       Ver assets/js/leads/auth.js e docs/DASHBOARD-LEADS.md. -->
+  <dialog id="mfa-dialogo" aria-labelledby="mfa-titulo">
+    <form id="mfa-form" class="login-form">
+      <h1 id="mfa-titulo">Verificação em duas etapas</h1>
+      <p id="mfa-instrucao" class="subtitulo"></p>
+
+      <div id="mfa-cadastro-bloco" class="campo" hidden>
+        <label for="mfa-segredo">Segredo (cadastre no seu app autenticador)</label>
+        <input type="text" id="mfa-segredo" readonly>
+        <p class="subtitulo">Use um app autenticador (Google Authenticator, Authy, 1Password, etc.) para adicionar uma conta manualmente com este segredo.</p>
+      </div>
+
+      <div class="campo">
+        <label for="mfa-codigo">Código de 6 dígitos</label>
+        <input type="text" id="mfa-codigo" name="codigo" inputmode="numeric" pattern="[0-9]*" autocomplete="one-time-code" maxlength="6" required>
+      </div>
+
+      <p id="mfa-erro" class="login-erro" role="alert"></p>
+
+      <button type="submit" id="btn-mfa-confirmar" class="botao">Confirmar</button>
+      <button type="button" id="btn-mfa-cancelar" class="botao botao--secundario">Cancelar e sair</button>
+    </form>
+  </dialog>
+
   <!-- Diálogo de detalhe do lead -->
   <dialog id="detalhe-dialogo" aria-labelledby="detalhe-titulo">
     <h2 id="detalhe-titulo">Detalhes do lead</h2>

@@ -367,6 +367,18 @@ grant execute on function public.registrar_lead(text,text,text,text,text,boolean
 -- ======================================================================
 -- 7. is_admin() — usada nas policies e nas funções de leitura administrativa
 -- ======================================================================
+-- Exige AAL2 (segundo fator / TOTP verificado na sessão atual) além de estar
+-- na tabela admins (adicionado out/2026, auditoria de segurança — 2FA
+-- obrigatório para /leads). auth.jwt() ->> 'aal' reflete o nível de garantia
+-- de autenticação (AAL) da sessão atual, carimbado no próprio JWT pelo
+-- GoTrue/Supabase Auth ao concluir um desafio MFA; não é um valor que o
+-- cliente possa forjar (quem assina o JWT é o servidor de autenticação).
+-- A aplicação (auth.js) só decide QUAL tela mostrar (cadastro vs. desafio de
+-- código) — a imposição real de que admin sem AAL2 nunca acessa dados fica
+-- inteiramente aqui, no banco. Isso significa que todo admin PRECISA
+-- cadastrar um fator TOTP (QR/segredo mostrado em /leads no primeiro login)
+-- antes de conseguir ler qualquer lead — cadastre imediatamente após criar a
+-- conta no painel do Supabase e antes de divulgar a URL do site.
 create or replace function public.is_admin()
 returns boolean
 language sql
@@ -374,9 +386,11 @@ security definer
 stable
 set search_path = ''
 as $$
-  select exists (select 1 from public.admins where user_id = auth.uid());
+  select
+    exists (select 1 from public.admins where user_id = auth.uid())
+    and coalesce(auth.jwt() ->> 'aal', 'aal1') = 'aal2';
 $$;
-comment on function public.is_admin() is 'true se o usuário autenticado atual está na tabela admins.';
+comment on function public.is_admin() is 'true se o usuário autenticado atual está em admins E a sessão atual tem AAL2 (2FA/TOTP verificado).';
 revoke all on function public.is_admin() from public, anon;
 grant execute on function public.is_admin() to authenticated;
 
