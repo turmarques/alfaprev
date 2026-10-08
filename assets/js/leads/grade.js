@@ -308,6 +308,7 @@
     var botaoProxima = elemento('btn-pagina-proxima');
     var botaoSalvarDetalhe = elemento('btn-detalhe-salvar');
     var botaoExcluirDetalhe = elemento('btn-detalhe-excluir');
+    var botaoFecharDetalhe = elemento('btn-detalhe-fechar');
 
     var timerBusca = null;
     if (campoBusca) {
@@ -364,6 +365,12 @@
     if (botaoExportar) botaoExportar.addEventListener('click', exportarCsv);
     if (botaoSalvarDetalhe) botaoSalvarDetalhe.addEventListener('click', salvarDetalhe);
     if (botaoExcluirDetalhe) botaoExcluirDetalhe.addEventListener('click', excluirDetalhe);
+    if (botaoFecharDetalhe) {
+      botaoFecharDetalhe.addEventListener('click', function () {
+        var dialogo = elemento('detalhe-dialogo');
+        if (dialogo) dialogo.close();
+      });
+    }
   }
 
   window.AlfaPrevGrade = { carregar: carregar, limpar: limpar, configurarControles: configurarControles };
