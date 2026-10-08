@@ -53,11 +53,19 @@
 </IfModule>
 
 # --- Headers de segurança básicos (equivalentes ao bloco [[headers]] "/*" do netlify.toml) ---
+# CSP/COOP adicionados em out/2026 (auditoria de segurança) — antes deste ajuste, este era
+# o arquivo que de fato vai para produção (Locaweb) e NÃO tinha nenhuma CSP para as páginas
+# públicas (só leads.html tinha, no FilesMatch abaixo). netlify.toml serve só como referência,
+# já que o host real é Apache/Locaweb, não Netlify — por isso o gap estava aqui, não lá.
+# Fonte Inter agora self-hosted (assets/fonts/inter-var.woff2) — sem fonts.googleapis.com/
+# fonts.gstatic.com no style-src/font-src.
 <IfModule mod_headers.c>
   Header always set X-Content-Type-Options "nosniff"
   Header always set Referrer-Policy "strict-origin-when-cross-origin"
   Header always set Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=()"
   Header always set X-Frame-Options "SAMEORIGIN"
+  Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data:; connect-src 'self' https://api.web3forms.com https://*.supabase.co; frame-src https://maps.google.com https://www.google.com; object-src 'none'; base-uri 'self'; form-action 'self' https://api.web3forms.com; frame-ancestors 'self';"
+  Header always set Cross-Origin-Opener-Policy "same-origin"
 
   # CSP rígida para a página /leads (painel administrativo oculto) — ver
   # docs/DASHBOARD-LEADS.md. O domínio Supabase final ainda não está definido
@@ -69,6 +77,7 @@
     Header set Content-Security-Policy "default-src 'none'; script-src 'self'; style-src 'self'; font-src 'self'; img-src 'self'; connect-src 'self' https://*.supabase.co; base-uri 'none'; form-action 'none'; frame-ancestors 'none';"
     Header set X-Robots-Tag "noindex, nofollow, noarchive"
     Header set Referrer-Policy "no-referrer"
+    Header set Cross-Origin-Opener-Policy "same-origin"
     Header set Cache-Control "no-store"
     Header unset X-Frame-Options
     Header set X-Frame-Options "DENY"
@@ -76,10 +85,19 @@
 </IfModule>
 
 # --- Bloqueio de arquivos ocultos e extensões que nunca devem ser públicas ---
+# CORRIGIDO em out/2026 (auditoria de segurança): <FilesMatch> do Apache compara apenas o
+# BASENAME da requisição, nunca o caminho completo. Isso significa que a regra antiga
+# <FilesMatch "^\."> bloqueava "/.env" na raiz, mas NÃO bloqueava "/.git/config" (basename
+# "config", sem ponto) nem qualquer arquivo dentro de uma pasta oculta. RewriteRule com
+# mod_rewrite opera na URI completa e corrige isso. Exceção explícita para "/.well-known/"
+# (obrigatória para validação ACME/SSL do Let's Encrypt e afins — nunca bloquear essa pasta).
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteCond %{REQUEST_URI} !^/\.well-known/
+  RewriteCond %{REQUEST_URI} (^|/)\.
+  RewriteRule ^ - [F]
+</IfModule>
 <IfModule mod_authz_core.c>
-  <FilesMatch "^\.">
-    Require all denied
-  </FilesMatch>
   <FilesMatch "\.(md|sql|log|env|bak|zip)$">
     Require all denied
   </FilesMatch>
@@ -87,10 +105,6 @@
 <IfModule !mod_authz_core.c>
   # Apache 2.2 (sintaxe antiga — mantido como fallback; a maioria das hospedagens
   # atuais já usa mod_authz_core/2.4, mas isso evita erro 500 em servidores mais antigos)
-  <FilesMatch "^\.">
-    Order allow,deny
-    Deny from all
-  </FilesMatch>
   <FilesMatch "\.(md|sql|log|env|bak|zip)$">
     Order allow,deny
     Deny from all
@@ -126,6 +140,18 @@
 #   # 3) Remove "/index.html" explícito da URL (preferir "/")
 #   RewriteCond %{THE_REQUEST} ^[A-Z]{3,}\s/+index\.html[?\s]
 #   RewriteRule ^index\.html$ / [L,R=301]
+# </IfModule>
+#
+# HSTS (HTTP Strict Transport Security) — SÓ ativar junto com o bloco acima, nunca antes
+# (teria o navegador memorizando "sempre HTTPS" para um domínio que ainda pode não ter TLS
+# funcionando em todas as rotas). Começar com max-age curto (6h) e SEM includeSubDomains/
+# preload: "preload" é quase irreversível (lista fica em cache nos navegadores por meses
+# mesmo depois de remover o header) e "includeSubDomains" pode afetar subdomínios (ex:
+# webmail/FTP da Locaweb) que talvez não tenham HTTPS configurado. Depois de confirmar que
+# HTTPS funciona de forma estável por algumas semanas, aumentar o max-age gradualmente
+# (ex: 1 dia -> 1 semana -> 1 mês -> 1 ano) antes de considerar includeSubDomains/preload.
+# <IfModule mod_headers.c>
+#   Header always set Strict-Transport-Security "max-age=21600"
 # </IfModule>
 
 

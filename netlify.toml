@@ -14,8 +14,17 @@
     # Impede que o site seja embutido em iframes por terceiros (proteção contra clickjacking)
     X-Frame-Options = "SAMEORIGIN"
 
-    # Força uso de HTTPS por 1 ano (max-age=31536000) após primeiro acesso seguro
-    Strict-Transport-Security = "max-age=31536000; includeSubDomains; preload"
+    # HSTS escalonado (auditoria de segurança, out/2026): começar com duração curta e
+    # sem includeSubDomains/preload até o HTTPS estar confirmado funcionando em produção
+    # de forma estável (preload é quase irreversível — fica num repositório de navegadores
+    # por meses mesmo após remover o header). Aumentar gradualmente depois. Mesma política
+    # aplicada ao modelo Apache em publicacao/modelos/.htaccess.
+    Strict-Transport-Security = "max-age=21600"
+
+    # Impede que o navegador exponha esta janela a "window.opener" de outra origem
+    # (mitiga certas classes de ataque tab-napping/XS-Leaks). Não afeta os links do
+    # WhatsApp/Maps, que já usam rel="noopener" ou são embutidos via frame-src.
+    Cross-Origin-Opener-Policy = "same-origin"
 
     # Limita quais referências são enviadas ao navegar para outros sites
     Referrer-Policy = "strict-origin-when-cross-origin"
@@ -23,7 +32,10 @@
     # Desativa recursos não utilizados e restringe origens de conteúdo
     # Sem Google Analytics/Tag Manager (o site não usa nenhum script de terceiros para métricas —
     # ver assets/js/metricas.js, que só fala com o próprio Supabase do projeto).
-    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://api.web3forms.com https://*.supabase.co; frame-src https://maps.google.com https://www.google.com; object-src 'none'; base-uri 'self'; form-action 'self' https://api.web3forms.com;"
+    # Fonte Inter agora self-hosted (assets/fonts/inter-var.woff2) — sem fonts.googleapis.com/
+    # fonts.gstatic.com no style-src/font-src (auditoria de segurança, out/2026).
+    # frame-ancestors complementa X-Frame-Options (suportado por mais navegadores modernos).
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data:; connect-src 'self' https://api.web3forms.com https://*.supabase.co; frame-src https://maps.google.com https://www.google.com; object-src 'none'; base-uri 'self'; form-action 'self' https://api.web3forms.com; frame-ancestors 'self';"
 
     # Controla acesso a recursos do dispositivo (câmera, microfone, geolocalização)
     Permissions-Policy = "camera=(), microphone=(), geolocation=(), payment=()"
@@ -55,6 +67,7 @@
     Content-Security-Policy = "default-src 'none'; script-src 'self'; style-src 'self'; font-src 'self'; img-src 'self'; connect-src 'self' https://*.supabase.co; base-uri 'none'; form-action 'none'; frame-ancestors 'none';"
     X-Robots-Tag = "noindex, nofollow, noarchive"
     Referrer-Policy = "no-referrer"
+    Cross-Origin-Opener-Policy = "same-origin"
     Cache-Control = "no-store"
 
 # Redirecionar www para apex ou vice-versa (descomente conforme necessário)

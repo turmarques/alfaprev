@@ -3,6 +3,17 @@
    Complementos ao Tailwind CDN
    ===================================================== */
 
+/* Fonte Inter self-hosted (mesmo arquivo variável já usado em /leads,
+   assets/css/leads.css) — remove a dependência do Google Fonts CDN nas
+   páginas públicas (auditoria de segurança/supply chain, out/2026). */
+@font-face {
+  font-family: 'Inter';
+  src: url('/assets/fonts/inter-var.woff2') format('woff2');
+  font-weight: 400 800;
+  font-style: normal;
+  font-display: swap;
+}
+
 /* Scroll suave */
 html {
   scroll-behavior: smooth;
