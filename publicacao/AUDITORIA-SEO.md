@@ -250,20 +250,21 @@ revisadas:
   endereço (opção "Service Area Business"). Mencionado aqui apenas como contexto, não como ação
   desta auditoria.
 - **[VERIFICADO] Prioridade MÉDIA — nome da empresa inconsistente entre o `CLAUDE.md` e o JSON-LD
-  (ver detalhe completo em 4.7, E-E-A-T/NAP)**: `LocalBusiness.name` e `Person.worksFor.name` usam
-  "Alfa Prev - Segurança Contra Incêndios", enquanto o nome fantasia confirmado é apenas "Alfa
-  Prev". Isso afeta diretamente a consistência de NAP entre o site e qualquer perfil externo
-  (Google Business Profile, redes sociais) que use "Alfa Prev" sem sufixo — inconsistência de NAP
-  é um fator negativo documentado para SEO local.
+  (ver detalhe completo em 4.7, E-E-A-T/NAP)**: `LocalBusiness.name`, `Person.worksFor.name` e
+  também `ProfessionalService.name` (`index.html`) usam "Alfa Prev - Segurança Contra Incêndios",
+  enquanto o nome fantasia confirmado é apenas "Alfa Prev". Isso afeta diretamente a consistência
+  de NAP entre o site e qualquer perfil externo (Google Business Profile, redes sociais) que use
+  "Alfa Prev" sem sufixo — inconsistência de NAP é um fator negativo documentado para SEO local.
 
 ---
 
 ## 4.7 — E-E-A-T (Experience, Expertise, Authoritativeness, Trust) e consistência de NAP
 
-- **[VERIFICADO] Prioridade MÉDIA — variação de nome de marca em 3 pontos do código:**
+- **[VERIFICADO] Prioridade MÉDIA — variação de nome de marca em 4 pontos do código:**
   - `robots.txt` (comentário): "Alfa Prev - Segurança Contra Incêndios"
   - `quem-somos.html` → JSON-LD `Person.worksFor.name`: "Alfa Prev - Segurança Contra Incêndios"
   - `contato.html` → JSON-LD `LocalBusiness.name`: "Alfa Prev - Segurança Contra Incêndios"
+  - `index.html` → JSON-LD `ProfessionalService.name`: "Alfa Prev - Segurança Contra Incêndios"
 
   O `CLAUDE.md` confirma a razão social completa (`ALFA SEGURANÇA CONTRA INCÊNDIO LTDA`) e o nome
   fantasia (`Alfa Prev`) como os dois únicos nomes oficiais — "Alfa Prev - Segurança Contra
@@ -273,8 +274,8 @@ revisadas:
   do Google (e de qualquer usuário comparando o site a outras fontes, como Google Business
   Profile, redes sociais) dependem de o nome da entidade aparecer de forma idêntica em todos os
   lugares — essa variação é pequena, mas é exatamente o tipo de inconsistência que esses
-  mecanismos são desenhados para notar. **Fix sugerido:** trocar `name` para `"Alfa Prev"` nos 2
-  blocos JSON-LD e no comentário de `robots.txt`. **Esforço estimado:** baixo (3 arquivos).
+  mecanismos são desenhados para notar. **Fix sugerido:** trocar `name` para `"Alfa Prev"` nos 3
+  blocos JSON-LD e no comentário de `robots.txt`. **Esforço estimado:** baixo (4 arquivos).
 
 - **[VERIFICADO] Positivo — credenciais da responsável técnica (Cassia) presentes e corretas** no
   texto visível de `quem-somos.html` (nome completo, CAU/SP 00A1858351, "+8 anos" via contador JS,
@@ -476,7 +477,7 @@ futuros, a critério do Artur.
 
 | # | Achado | Arquivo(s) | Esforço |
 |---|---|---|---|
-| 3 | Nome da empresa inconsistente ("Alfa Prev - Segurança Contra Incêndios" vs. "Alfa Prev") | `robots.txt`, `src/pages/quem-somos.html`, `src/pages/contato.html` | Baixo |
+| 3 | Nome da empresa inconsistente ("Alfa Prev - Segurança Contra Incêndios" vs. "Alfa Prev") | `robots.txt`, `src/pages/quem-somos.html`, `src/pages/contato.html`, `src/pages/index.html` | Baixo |
 | 4 | `quem-somos.html` sem bloco `ProfessionalService` dedicado | `src/pages/quem-somos.html` | Baixo |
 | 5 | `Person` sem registro CAU/SP estruturado | `src/pages/quem-somos.html` | Baixo |
 | 6 | Título/descrição de `index.html` e `contato.html` usam "Segurança Contra Incêndio" em vez de "Engenharia de Incêndio" | `src/pages/index.html`, `src/pages/contato.html` | Baixo |

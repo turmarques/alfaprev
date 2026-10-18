@@ -53,7 +53,7 @@ Fonte única de contexto do projeto para o Claude Code. Leia este arquivo no in�
 - **Tailwind CSS** via CDN Play (`cdn.tailwindcss.com`) — gera CSS no browser em tempo real
 - **Google Fonts** (Inter) via CDN com `preconnect`
 - **Web3Forms** — envio do formulário por e-mail (chave em `script.js`)
-- **Supabase** — banco de dados Postgres para armazenar leads (URL + anon key em `assets/js/config.js`)
+- **MySQL + API PHP própria** (`api/*.php`, vanilla, sem Composer) — banco de dados MySQL/MariaDB (hospedagem Locaweb) para leads e métricas; credenciais em `api/config.local.php` (gitignored, nunca commitado). Substitui a integração Supabase original (migração out/2026 — ver seção "Métricas, Leads e Painel Administrativo /leads")
 - **GA4** — rastreamento planejado, script ainda não adicionado ao HTML
 
 **Para rodar localmente:**
@@ -77,12 +77,17 @@ alfaprev/
 ├── netlify.toml            # Headers de segurança + configuração de cache (Netlify)
 ├── server.ps1              # Servidor local PowerShell
 ├── CLAUDE.md               # Este arquivo
-├── supabase-schema.sql         # Script SQL para criar tabela + RLS no Supabase
+├── database/
+│   └── schema.mysql.sql    # Script SQL idempotente: tabelas leads/admins/eventos/sais_diarios/tentativas_login
+├── api/                    # API PHP vanilla (sem Composer) — ver seção "Métricas, Leads e Painel /leads"
+│   ├── config.example.php  # Template de credenciais (placeholders SUBSTITUIR_*)
+│   ├── config.local.php    # Credenciais reais do MySQL — gitignored, nunca commitado
+│   └── lib/                # db.php, hash.php, rate_limit.php, resposta.php, sessao.php, tempo.php, totp.php, validacao.php
+├── tools/
+│   └── gerar-hash-admin.php # Utilitário local para gerar o hash da senha do admin (nunca publicado)
 └── assets/
     ├── favicon.ico
     ├── favicon.svg
-    ├── js/
-    │   └── config.js           # SUPABASE_URL e SUPABASE_ANON_KEY (preencher!)
     ├── logo/
     │   ├── logo-original.png
     │   ├── logo-color.svg
@@ -120,7 +125,7 @@ alfaprev/
 7. **Envio do formulário** — duplo canal:
    - Verificação de honeypot (`#hp-website`) antes de qualquer requisição
    - `fetch` POST JSON para Web3Forms (e-mail imediato)
-   - `fetch` POST JSON para Supabase REST API (lead gravado no banco)
+   - `fetch` POST JSON para `api/lead.php` (lead gravado no MySQL via API PHP própria)
    - Sucesso mostrado se qualquer um dos dois funcionar; botão bloqueado após sucesso
 8. **Banner de cookies LGPD** (`localStorage` key: `alfaprev_cookie_pref`)
 9. **Rastreamento GA4** (cliques WhatsApp por classe `.cta-whatsapp-*`, submit do form)
@@ -172,13 +177,13 @@ alfaprev/
 
 | Item | Onde fica | Status |
 |---|---|---|
-| Chave Web3Forms | `script.js` → `const ACCESS_KEY = 'SUA_CHAVE_WEB3FORMS'` | **PENDENTE** — substituir pela chave real |
-| Supabase URL | `assets/js/config.js` → `SUPABASE_URL` | **PENDENTE** — preencher após criar projeto |
-| Supabase Anon Key | `assets/js/config.js` → `SUPABASE_ANON_KEY` | **PENDENTE** — preencher após criar projeto |
-| Schema SQL Supabase | `supabase-schema.sql` | **PENDENTE** — rodar no SQL Editor do painel |
+| Chave Web3Forms | `script.js:282` → `const ACCESS_KEY = '...'` | **(2026-10-18) OK** — chave real configurada e confirmada registrada com `contato@alfasci.com.br`, e-mail e Web3Forms testados funcionando. O bloqueio que o `npm run empacotar` apresentava não era causado por um comentário `// PREENCHER`: a causa real era a string literal `SUA_CHAVE_WEB3FORMS` dentro de um comentário explicativo próximo à linha 245 (detectada pelo `PADRAO_PREENCHER` de `scripts/empacotar-locaweb.js`, que também casa esse texto, não só `[PREENCHER]`). Corrigido reescrevendo o comentário sem alterar a chave real nem a lógica. |
+| Credenciais MySQL | `api/config.local.php` (copiar de `api/config.example.php`, gitignored) | **(2026-10-18) OK** — arquivo já preenchido com os dados reais de conexão no ambiente local (conteúdo nunca lido/impresso por política deste projeto); falta apenas o envio ao servidor via FTP, à parte do restante do pacote (ver `publicacao/PUBLICACAO-LOCAWEB.md`, "Ordem recomendada") |
+| Schema SQL MySQL | `database/schema.mysql.sql` | **(2026-10-14) OK** — executado via phpMyAdmin na hospedagem, 5 tabelas confirmadas vazias; falta só confirmar a procedure `limpar_dados_antigos` (ver `publicacao/PUBLICACAO-LOCAWEB.md` §8-A.3) |
+| Admin do painel `/leads` | Tabela `admins` (via `tools/gerar-hash-admin.php` — reescrito em 2026-10-14 com 3 modos: criar/trocar senha/zerar 2FA, cada um só imprime um comando SQL para colar no phpMyAdmin) | **PENDENTE** — criar e completar cadastro do 2FA (TOTP); ver passo a passo em `publicacao/PUBLICACAO-LOCAWEB.md` §8-A.5/8-A.6 |
 | Script GA4 | Não adicionado ainda ao `index.html` | **PENDENTE** — adicionar após decidir conta GA4 |
 | Measurement ID GA4 | Inexistente | **PENDENTE** |
-| Canonical URL | Todas as páginas → `https://alfasci.com.br/[pagina]` | OK — atualizado para domínio final (out/2026) |
+| Canonical URL | Todas as páginas → `https://alfasci.com.br/[pagina]` | OK — atualizado para domínio final (out/2026). **Confirmado em 2026-10-18:** todo o código (canonical, sitemap.xml, robots.txt, JSON-LD, Open Graph, `.htaccess`) usa consistentemente `https://alfasci.com.br` sem `www`, sem nenhuma mistura. Decisão: manter sem `www` (nenhuma alteração necessária). |
 | Link do Facebook | `index.html` footer | OK — `https://www.facebook.com/profile.php?id=61594085214860` |
 | og:image | `index.html` → `assets/images/logo-dark-bg.jpg` | Funcional; ideal criar imagem 1200×630 |
 | Google Maps iframe | `index.html` seção `#localizacao` | OK — embed do endereço confirmado |
@@ -196,12 +201,10 @@ alfaprev/
 - Validação de formulário client-side
 - Todos os links externos com `rel="noopener noreferrer"`
 - Honeypot duplo no formulário (checkbox Web3Forms `botcheck` + campo texto `#hp-website`)
-- netlify.toml com headers de segurança (incluindo `*.supabase.co` no CSP)
+- netlify.toml com headers de segurança (CSP atualizada em out/2026 para refletir a migração para MySQL/PHP same-origin — ver seção "Métricas, Leads e Painel Administrativo /leads")
 - Auditoria de segurança e SEO concluída
 - Auditoria de conteúdo concluída
-- Integração Supabase implementada no `script.js` — aguarda configuração
-- `supabase-schema.sql` pronto para rodar no painel do Supabase
-- `assets/js/config.js` criado com placeholders
+- **(out/2026) Migração do banco de leads/métricas de Supabase (Postgres) para MySQL/PHP**: ver seção "Métricas, Leads e Painel Administrativo /leads" para a arquitetura atual. `supabase-schema.sql` e `assets/js/config.js` foram removidos do repositório; substituídos por `database/schema.mysql.sql` e `api/*.php`.
 - Bloco de estatísticas do Hero corrigido definitivamente:
   - Texto encurtado: `+50.000 m²` → `+50 mil m²` (reduz risco de overflow em qualquer breakpoint)
   - `min-w-0` em cada item do grid (impede que o conteúdo force a coluna a crescer além do espaço disponível)
@@ -234,28 +237,31 @@ alfaprev/
 - Artigo "Lei Kiss": renomeado para `lei-kiss-decreto-69118.html`, linha do tempo normativa (56.819 → 63.911 → 69.118) adicionada — **removido do site em out/2026, ver item abaixo**
 - **(out/2026) Artigo "Lei Kiss e Decreto 69.118/2024" removido do Blog SCI**: arquivo-fonte, arquivo gerado, card no hub, entrada no `sitemap.xml` e entrada no `PAGE_ORDER` de `generate-content-md.js` foram todos removidos. O hub (`blog-sci.html`) ficou com 2 cards de artigo (AVCB/CLCB e Vencimento). O texto de introdução do hub ainda cita "o Decreto Estadual nº 69.118/2024 e suas Instruções Técnicas" como conteúdo disponível, mas não há mais artigo dedicado a isso — ver `CONTEUDO-PAGINAS.md` seção 4 para a inconsistência registrada.
 - **(out/2026) Artigo `avcb-clcb.html` reescrito em pontos-chave**: processo do AVCB detalhado (PPCI → vistoria → emissão); processo do CLCB reescrito para não mais exigir aprovação prévia de projeto, mas reforçando que extintores/sinalização/saídas precisam estar corretos mesmo sem aprovação prévia; seção "Quando consultar um profissional" removida do final do artigo; parágrafo de validade do AVCB simplificado.
-- **(out/2026) Regra de validade do AVCB:** a validade do AVCB (geralmente entre 1 e 3 anos) depende apenas do **grupo de ocupação** da edificação. Removida toda menção a "grupo de risco" ou "complexidade" como fator de validade — essa vinculação era usada antes em `avcb-clcb.html`, `faq.html` e trechos do site, e foi corrigida para citar apenas ocupação. **Pendente de confirmação com a Cassia** a faixa "entre 1 e 3 anos" (ver seção de pendências abaixo).
+- **(out/2026) Regra de validade do AVCB:** a validade do AVCB (geralmente entre 1 e 3 anos) depende apenas do **grupo de ocupação** da edificação. Removida toda menção a "grupo de risco" ou "complexidade" como fator de validade — essa vinculação era usada antes em `avcb-clcb.html`, `faq.html` e trechos do site, e foi corrigida para citar apenas ocupação. A faixa "entre 1 e 3 anos" foi validada pela Cassia (ver nota de validação geral abaixo).
 - **(out/2026) Página FAQ ocultada do site publicado** sem remover o conteúdo-fonte. Ver seção "FAQ oculto (out/2026)" mais abaixo para detalhes e instruções de reativação.
-- **(out/2026) Select "Ocupação" do formulário de contato ajustado**: removidas as opções "Condomínio Comercial" e "Digitalização de Plantas / Projetos"; adicionada a opção "Escritórios" (valor `escritorios`). Nenhuma dependência encontrada em `script.js` ou `supabase-schema.sql` que precisasse de ajuste.
+- **(out/2026) Select "Ocupação" do formulário de contato ajustado**: removidas as opções "Condomínio Comercial" e "Digitalização de Plantas / Projetos"; adicionada a opção "Escritórios" (valor `escritorios`). Nenhuma dependência encontrada em `script.js` ou `database/schema.mysql.sql` que precisasse de ajuste.
 - **(out/2026) Tópico "o que acontece quando o AVCB/CLCB vence sem renovação" removido do site**: esse tópico não era uma seção dentro de um artigo maior, era o artigo inteiro (`blog-sci/vencimento-avcb-clcb.html` — título, meta, JSON-LD e 4 dos 6 H2 eram exatamente esse tópico). Removidos: arquivo-fonte (`src/pages/blog-sci/vencimento-avcb-clcb.html`), arquivo gerado (`blog-sci/vencimento-avcb-clcb.html`), card no hub (`src/pages/blog-sci.html`), entrada no `sitemap.xml`, entrada no `PAGE_ORDER` de `generate-content-md.js`, e a pergunta/resposta correspondente no FAQ oculto (`src/pages/faq.html`, pergunta "O que acontece se o AVCB ou CLCB vencer sem ser renovado?", JSON-LD + accordion). O hub (`blog-sci.html`) ficou com 1 card de artigo (AVCB/CLCB). **"Consequências do vencimento sem renovação" é assunto fora do site por decisão do cliente** — não reintroduzir esse conteúdo sem autorização explícita.
+- **(2026-10-14) Banco MySQL criado e schema executado em produção** (relatado pelo Artur: 5 tabelas vazias no banco `alfasci`, confirmado via phpMyAdmin). `tools/gerar-hash-admin.php` reescrito com 3 modos (criar admin / trocar senha / zerar 2FA), todos interativos e só imprimindo o comando SQL correspondente — nunca executam nada contra nenhum banco. `publicacao/PUBLICACAO-LOCAWEB.md` revisado por completo contra o estado real do repositório: tabela de Bloqueadores atualizada, seção "Ordem recomendada" adicionada, DNS do registro `www` detalhado, checklist de testes e tabela de problemas comuns ampliadas, nova nota de segurança antes do passo de DNS. Achado não corrigido, registrado em `docs/DASHBOARD-LEADS.md` §3: `admins.totp_secret` fica em texto puro no MySQL (sem cifragem). Achado não corrigido, registrado no passo 9 (Google Business Profile) do guia de publicação: contradição entre a regra "sem endereço físico no site" deste arquivo e as meta tags `geo.*` (Guarulhos, SP) já presentes em `partials/head-common.html` — decisão de conteúdo pendente entre o Artur e a Cassia, não alterada nesta revisão.
+- **(2026-10-18) Preparação final antes do upload à Locaweb:** domínio `alfasci.com.br` já ativo e vinculado (DNS resolvendo para `179.188.54.226`, `www` como `CNAME` do domínio principal — falta só o Artur confirmar no painel que esse é o IP da hospedagem contratada), hospedagem Linux/PHP 8.5 confirmada, SSL Let's Encrypt já ativo, banco MySQL criado, `api/config.local.php` já preenchido com os dados reais, e-mail e Web3Forms já testados e funcionando, e todo o conteúdo do site já validado pela Cassia (ver seção acima). Causa real do bloqueio do `npm run empacotar` identificada e corrigida (string `SUA_CHAVE_WEB3FORMS` num comentário de `script.js`, não um `// PREENCHER` — ver linha da tabela "Configurações Chave" acima). `npm run build`, `npm run seguranca`, `npm test` e `npm run empacotar` executados com sucesso nesta revisão, gerando `dist-locaweb/` com 47 arquivos (459,7 KB). `docs/SEGURANCA.md` revisado por completo para descrever a arquitetura real MySQL/PHP (sessão PHP, `api/login.php`, `api/mfa-*.php`, `admins.totp_confirmado`) em vez da arquitetura Supabase/Postgres descrita antes da migração de out/2026. Ainda faltam, exclusivamente no painel da Locaweb: envio dos arquivos via FTP, criação do admin do painel `/leads` (com cadastro do 2FA) e os testes finais pós-publicação — nenhuma alteração de DNS foi feita pelo Artur pessoalmente até esta data.
 
-### ⚠️ Pendências de revisão técnica com a Cassia — OBRIGATÓRIO antes de considerar definitivo
+### ✅ Conteúdo validado pela Cassia em outubro de 2026
 
-> **Contexto:** as correções de citações legais/normativas abaixo foram feitas com base em pesquisa externa, NÃO em confirmação direta da responsável técnica. Conteúdo de lei e norma é o tipo de informação que mais compromete a credibilidade da empresa se estiver errado. Estes itens devem ser revisados pela Cassia antes da publicação do site ou de qualquer divulgação do Blog SCI.
-
-1. **Órfão desde out/2026 — Numeração das Instruções Técnicas (ITs)** — confirmar se a numeração IT-01, IT-11, IT-18, IT-20, IT-21, IT-22 permanece igual com o Decreto 69.118/2024 ou se houve renumeração. O artigo que citava essas ITs (`lei-kiss-decreto-69118.html`) foi removido do site em out/2026 — este item não tem mais localização ativa, mantido aqui apenas como registro histórico até confirmação definitiva (caso o artigo seja reescrito/reativado no futuro).
-2. **Órfão desde out/2026 — NBR 12962 (Extintores, edição 2016)** — verificar se a edição 2016 continua vigente ou foi cancelada/substituída. Foram encontrados sinais ambíguos em fontes secundárias, mas sem confirmação. Não alterar a citação enquanto não houver confirmação. Localização: `src/pages/servicos.html` (tag do card Extintores). *(Mantido como "ainda ativo" — a citação continua presente em `servicos.html`, diferente dos itens 1 e 3-4 que dependiam do artigo removido.)*
-3. **Ainda ativo — VIA-FÁCIL e TAACB** — plataforma digital de licenciamento e novo documento citados em fontes de terceiros como novidades do Decreto 69.118/2024. Não foram adicionados ao site. Confirmar com a Cassia se já fazem parte do fluxo de trabalho real da Alfa Prev — podem ser conteúdo relevante para o Blog SCI se confirmados.
-4. **Ainda ativo — Outros impactos do Decreto 69.118/2024** — verificar se há algum outro processo, prazo ou terminologia que mudou com o decreto e que afete a descrição dos serviços da Alfa Prev no site.
-5. **(out/2026) Faixa de validade do AVCB ("entre 1 e 3 anos")** — o artigo `avcb-clcb.html` e outros trechos do site afirmam que a validade do AVCB varia "geralmente entre 1 e 3 anos" conforme o grupo de ocupação. Essa faixa numérica não foi confirmada diretamente com a Cassia — precisa de validação antes de qualquer divulgação do Blog SCI, já que está vinculada à regra de "validade depende apenas da ocupação" também adicionada em out/2026.
-6. **Ainda ativo — Inconsistência CLCB declaração vs. aprovação prévia** — o processo de obtenção do CLCB em `avcb-clcb.html` foi reescrito para não exigir mais aprovação prévia de projeto, mas as seções "O que é o CLCB" e "A diferença essencial" (no mesmo artigo) continuam descrevendo o CLCB como documento "declaratório". Essa divergência não foi corrigida — avaliar com a Cassia qual framing é o correto e unificar. *(A segunda ocorrência desse mesmo problema estava no artigo `vencimento-avcb-clcb.html`, removido do site em out/2026 — ver item "Tópico ... removido do site" no histórico "Feito" acima.)*
+Todo o conteúdo técnico/legal do site (citações de leis, decretos e normas, numeração das
+Instruções Técnicas, faixa de validade do AVCB, framing do CLCB, e os demais itens antes
+listados nesta seção como pendências de revisão) foi revisado e validado pela responsável
+técnica (Cassia). Nenhum item de conteúdo permanece como pendência dela. Referências a
+"aguardar validação da Cassia" em outros documentos (`publicacao/PUBLICACAO-LOCAWEB.md`,
+`docs/`) devem ser lidas como resolvidas a partir desta data.
 
 ### Pendente antes de publicar 🔴
 - [x] Registrar domínio — domínio final do site é `alfasci.com.br` (decisão out/2026, mesmo domínio do e-mail). `alfaprev-sci.com.br` foi registrado via Locaweb em set/2026 (ativo, expira 08/09/2027) mas está abandonado, sem uso no site e sem redirecionamento configurado.
-- [ ] Escolher hospedagem (Netlify recomendado — `netlify.toml` já pronto)
-- [ ] Criar projeto no Supabase, rodar `supabase-schema.sql` e preencher `assets/js/config.js`
-- [ ] Configurar chave Web3Forms em `script.js` — criar nova chave no painel do Web3Forms registrada com `contato@alfasci.com.br` (e-mail de contato atualizado em set/2026)
-- [ ] Testar envio real do formulário (e-mail + gravação no banco)
+- [x] Escolher hospedagem — Locaweb "Hospedagem Compartilhada I" (Linux, PHP+MySQL), confirmado em 2026-10-07. `netlify.toml` permanece apenas como referência histórica de headers (o arquivo que de fato vai para produção é `publicacao/modelos/.htaccess`).
+- [x] Criar o banco MySQL na Locaweb e rodar `database/schema.mysql.sql` via phpMyAdmin — confirmado em 2026-10-14, 5 tabelas vazias.
+- [x] Preencher `api/config.local.php` com os dados reais — confirmado em 2026-10-18 (arquivo já preenchido no ambiente local; conteúdo nunca lido/impresso). Falta enviar esse arquivo ao servidor via FTP, à parte do restante do pacote.
+- [ ] Criar o admin do painel `/leads` (`tools/gerar-hash-admin.php`, reescrito em 2026-10-14 com 3 modos — criar/trocar senha/zerar 2FA — todos só imprimindo SQL para colar no phpMyAdmin) + cadastro do 2FA/TOTP (este último só é possível depois do site publicado). Passo a passo completo em `publicacao/PUBLICACAO-LOCAWEB.md` §8-A.
+- [x] Confirmar a chave Web3Forms em `script.js:282` — confirmado em 2026-10-18: chave real registrada com `contato@alfasci.com.br`, e-mail e Web3Forms testados funcionando. O bloqueio do `npm run empacotar` foi corrigido (causa real era a string `SUA_CHAVE_WEB3FORMS` num comentário, não um `// PREENCHER`).
+- [ ] Enviar os arquivos de `dist-locaweb/` ao servidor via FTP e testar envio real do formulário em produção (e-mail + gravação no banco, confirmando o lead em `/leads`). Passo a passo do envio por FTP (conexão, modos de reenvio, conferência de arquivos) em `MANUAL-UPLOAD-FTP.md` (raiz do projeto) — cobre **apenas** o upload de arquivos, não DNS/SSL/admin/2FA/testes funcionais (esses continuam em `publicacao/PUBLICACAO-LOCAWEB.md`). Esse manual nunca é incluído em `dist-locaweb/` nem no `.zip` (empacotamento é allowlist, e o manual não está em nenhuma lista).
+- [x] Caixas de e-mail do domínio já criadas (incluindo `contato@alfasci.com.br`) — envio/recebimento real já testado e confirmado funcionando (2026-10-18).
 
 ### Pendente na semana de publicação 🟠
 - [ ] Cadastrar no Google Search Console + enviar sitemap.xml
@@ -438,7 +444,7 @@ O número de anos de experiência é atualizado automaticamente por JS via `scri
 
 ### Marcadores de revisão
 - Conteúdo que precisa de validação da responsável técnica deve ter comentário HTML: `<!-- REVISAR COM CASSIA: [motivo] -->`
-- Atualmente marcados: classes de extintores e categorias de sinalização em `servicos.html`.
+- Atualmente marcados: nenhum — todas as marcações foram removidas após a validação completa do site pela Cassia em outubro de 2026.
 
 ### Convenção de terminologia (atualizado set/2026)
 
@@ -534,16 +540,21 @@ Decisão de negócio para remover a página de FAQ do site publicado temporariam
 
 Documentação técnica completa em `docs/DASHBOARD-LEADS.md` — leia-a antes de tocar em qualquer arquivo citado abaixo. Resumo operacional:
 
-- **Métricas anônimas do site público:** `assets/js/metricas.js` (sem dependências, carregado via `partials/scripts.html`). Sem cookies, sem GA/GTM (removidos nesta implementação — não reintroduzir). `page_view` e `whatsapp_click` (delegado em `a[class*="cta-whatsapp"]`) são enviados à função SQL `registrar_evento` via RPC.
-- **Formulário de contato:** `script.js` (módulo 7b) chama a função SQL `registrar_lead` via RPC (`/rest/v1/rpc/registrar_lead`) em vez de `INSERT` direto na tabela `leads`. Nunca reverter para `INSERT` direto — a função valida, normaliza telefone, exige consentimento e aplica rate limit no banco.
-- **Banco:** `supabase-schema.sql` é idempotente e aditivo — sempre `DROP ... IF EXISTS` + `CREATE`/`ADD`, nunca editado destrutivamente. Nunca retipar colunas existentes de `leads` (usar `CHECK (char_length(...))` em vez de `ALTER COLUMN ... TYPE`). `supabase-admin.sql` é só um template (nunca commitar e-mail real de admin). Rodar `scripts/testar-supabase-rls.js` (variáveis de ambiente, nunca chave hardcoded) após qualquer mudança no schema.
+**Histórico:** implementado originalmente em set/2026 com Supabase (Postgres + RLS). Migrado em out/2026 para MySQL (hospedagem Locaweb não oferece Postgres) com uma API PHP vanilla própria (`api/*.php`, sem Composer) no lugar do cliente Supabase/REST. 2FA (TOTP) adicionado ao painel `/leads` também em out/2026, já sobre a base MySQL/PHP.
+
+- **Métricas anônimas do site público:** `assets/js/metricas.js` (sem dependências, carregado via `partials/scripts.html`) envia `page_view` e `whatsapp_click` (delegado em `a[class*="cta-whatsapp"]`) via `fetch` POST JSON para `api/metrica.php`, que insere na tabela `eventos`. Sem cookies, sem GA/GTM (removidos nesta implementação — não reintroduzir). `api/metrica.php` sempre responde `{ok:true}` mesmo em entrada inválida/rate-limited (falha silenciosa intencional para não expor lógica de rate limit a scrapers).
+- **Formulário de contato:** `script.js` (módulo 7b) chama `api/lead.php` via `fetch` POST JSON em vez de qualquer `INSERT`/RPC direto. `api/lead.php` verifica honeypot, valida nome/e-mail/telefone/ocupação/mensagem, aplica rate limit (`alfaprev_limite_lead_atingido()`) e grava em `leads` (incluindo UTM/gclid/sessao_id/visitante_hash). Mensagens de erro são sempre genéricas.
+- **Banco:** `database/schema.mysql.sql` é idempotente e aditivo — sempre `CREATE TABLE IF NOT EXISTS` / `DROP PROCEDURE IF EXISTS` + `CREATE`, nunca editado destrutivamente. Nunca retipar colunas existentes de `leads` (usar `CHECK (char_length(...))` em vez de `ALTER COLUMN ... TYPE`). Tabelas: `leads`, `admins`, `eventos`, `sais_diarios`, `tentativas_login`; uma stored procedure `limpar_dados_antigos(p_dias_eventos, p_dias_login)`. Todos os timestamps são gravados em UTC (`alfaprev_agora_utc()` em `api/lib/tempo.php`) e só convertidos para `America/Sao_Paulo` na leitura. Rodar `npm test` após qualquer mudança em `api/lib/`.
+- **API PHP (`api/`):** vanilla, sem Composer, sem dependências de terceiros. `api/lib/db.php` (conexão PDO), `hash.php` (hash de visitante/IP com sal diário, nunca persiste IP/User-Agent cru), `rate_limit.php`, `resposta.php` (helpers de resposta JSON padronizada), `sessao.php` (sessão PHP de admin), `tempo.php` (disciplina UTC), `totp.php` (TOTP RFC 6238 implementado à mão), `validacao.php`.
+- **Login do admin (`api/login.php` + `api/mfa-*.php`):** fluxo de duas fases — e-mail+senha retorna `pre_admin_id` na sessão e exige TOTP (`mfa_cadastro_necessario` no primeiro login, `mfa_codigo_necessario` nos demais); só após o código TOTP correto a sessão recebe `admin_id`. Rate limit de tentativas de login é feito no banco via tabela `tentativas_login` (hash de IP + sal diário, nunca IP cru — ver `alfaprev_hash_login()` em `api/lib/hash.php`), **distinto e adicional** ao bloqueio client-side (`assets/js/leads/bloqueio.js`, que é só UX/localStorage e não impede nada no servidor).
+- **CSRF:** token obtido via `GET /api/sessao-verificar.php` e enviado no header `X-CSRF-Token` em toda requisição mutável do painel.
 - **Painel `/leads` (`src/pages/leads.html` → `leads.html` gerado):**
-  - **Não usa os partials públicos nem Tailwind CDN** — CSS próprio em `assets/css/leads.css`, fonte self-hosted em `assets/fonts/inter-var.woff2`. CSP própria e mais restrita que a do site público, aplicada via `<meta http-equiv>` na própria página **e** via header HTTP (`netlify.toml` → bloco `for = "/leads.html"`; modelo Apache em `publicacao/modelos/leads.htaccess` se a hospedagem não for Netlify).
+  - **Não usa os partials públicos nem Tailwind CDN** — CSS próprio em `assets/css/leads.css`, fonte self-hosted em `assets/fonts/inter-var.woff2`. CSP própria e mais restrita que a do site público, aplicada via `<meta http-equiv>` na própria página **e** via header HTTP (`publicacao/modelos/.htaccess` → bloco de `leads.html`; `netlify.toml` mantido apenas como referência histórica equivalente).
   - `build.js` tem uma exceção (`ehPaginaLeads`) que isenta `leads.html`/`leads/**` do check "precisa ter `cdn.tailwindcss.com`" e adiciona o check inverso ("não pode ter `cdn.tailwindcss.com`"). Não remover essa exceção nem apontar `leads.html` para `head-common.html`.
-  - Lógica em `assets/js/leads/`: `bloqueio.js` (bloqueio de tentativas, só UX — ver aviso no topo do arquivo), `telefone.js` (formatação, não validação), `csv.js` (exportação com neutralização de injeção de fórmula OWASP), `auth.js` (Supabase Auth + `is_admin()` + sessão com timeout de inatividade), `dashboard.js` (gráficos em SVG puro, sem biblioteca), `grade.js` (grid de leads, filtros/paginação server-side via `listar_leads`), `app.js` (bootstrap).
-  - Os três primeiros módulos (`bloqueio.js`, `telefone.js`, `csv.js`) são puros e testados em `test/*.test.js` (`npm test`, zero dependências, `node --test` nativo). Qualquer alteração nesses três arquivos deve manter os testes passando.
-  - Nunca linkar `/leads.html` em `robots.txt`, `sitemap.xml` ou qualquer `partial` público — a proteção real é Supabase Auth + RLS (`is_admin()`), não a obscuridade da URL (que também tem `meta robots noindex, nofollow` e `X-Robots-Tag` via header).
-- **Dependência nova:** `@supabase/supabase-js@2.117.2` (MIT, versão fixada) — vendorizado em `assets/vendor/supabase-js/supabase.js` (cópia do UMD bundle, nunca carregado via CDN em runtime). Usado exclusivamente em `/leads`.
+  - Lógica em `assets/js/leads/`: `bloqueio.js` (bloqueio de tentativas, só UX — ver aviso no topo do arquivo), `telefone.js` (formatação, não validação), `csv.js` (exportação com neutralização de injeção de fórmula OWASP), `auth.js` (chama `api/login.php`/`api/mfa-*.php`/`api/logout.php`, mantém CSRF token e timeout de inatividade de 30 min), `dashboard.js` (consome `GET /api/dashboard.php`, gráficos em SVG puro, sem biblioteca), `grade.js` (grid de leads, filtros/paginação server-side via `GET/POST /api/leads.php`), `app.js` (bootstrap).
+  - Os três módulos puros (`bloqueio.js`, `telefone.js`, `csv.js`) são testados em `test/*.test.js` (`npm test`, zero dependências, `node --test` nativo). Qualquer alteração nesses três arquivos deve manter os testes passando.
+  - Nunca linkar `/leads.html` em `robots.txt`, `sitemap.xml` ou qualquer `partial` público — a proteção real é a sessão PHP + verificação de admin (`admins.totp_confirmado`) no MySQL, não a obscuridade da URL (que também tem `meta robots noindex, nofollow` e `X-Robots-Tag` via header).
+- **Dependências:** zero bibliotecas de terceiros em produção. A API é PHP vanilla (sem Composer) e o frontend de `/leads` é JS vanilla — nenhum bundle vendorizado.
 
 ---
 
@@ -554,12 +565,12 @@ de SEO/performance, feito como investigação e documentação — **sem alterar
 comportamento do site**. Três documentos de referência em `publicacao/`:
 
 - **`publicacao/PUBLICACAO-LOCAWEB.md`** — bloqueadores antes de publicar (chaves placeholder,
-  Supabase não configurado, pendências de confirmação com a Cassia), resultado da checagem de DNS
+  banco MySQL não configurado, pendências de confirmação com a Cassia), resultado da checagem de DNS
   de `alfasci.com.br` (apontando para servidores de nome/MX/SPF da Locaweb, ainda sem registro A —
   hospedagem não apontada), confirmação de que o host canônico (`https://alfasci.com.br`, sem
   `www`, domínio final único decidido em out/2026) é 100% consistente em todo o código, e o guia
   passo a passo completo de publicação (DNS, FTP, SSL, testes pós-publicação, reconfiguração
-  do Web3Forms, checklist de produção do Supabase, cadastro em Search Console/Bing/Google Business
+  do Web3Forms, checklist de produção do MySQL/PHP, cadastro em Search Console/Bing/Google Business
   Profile).
 - **`publicacao/modelos/.htaccess`** — modelo de configuração Apache para hospedagem Locaweb
   (equivalente em headers HTTP ao `netlify.toml`), com blocos claramente separados: tipos MIME
@@ -569,14 +580,15 @@ comportamento do site**. Três documentos de referência em `publicacao/`:
   comentado** até o certificado SSL estar confirmado funcionando — ativar antes disso quebra o
   acesso ao site), e headers reforçados de `/leads.html`. **Plano Locaweb confirmado como Linux em
   2026-10-07** — este `.htaccess` é a configuração final do servidor; não é necessário (nem será
-  criado) um `web.config`/IIS. `publicacao/modelos/leads.htaccess` (arquivo anterior a esta
-  publicação) foi marcado como superado/redundante no próprio arquivo, já que seu conteúdo está
-  embutido no `.htaccess` consolidado.
+  criado) um `web.config`/IIS. O antigo `publicacao/modelos/leads.htaccess` (arquivo isolado,
+  anterior ao `.htaccess` consolidado) foi removido em out/2026 por estar redundante e
+  desatualizado (ainda citava `https://*.supabase.co` na CSP) — seu conteúdo já está embutido
+  no `.htaccess` único (Bloco 1, `<FilesMatch "^leads\.html$">`).
 - **`scripts/empacotar-locaweb.js`** (`npm run empacotar`) — gera `dist-locaweb/` a partir da saída
   de `npm run build`: copia só os arquivos de produção (HTML/CSS/JS/assets necessários, nunca
   `src/`, `node_modules/`, documentação `.md`, scripts internos), remove comentários HTML da cópia,
-  bloqueia o empacotamento se detectar qualquer chave `service_role` do Supabase (decodificando
-  JWTs encontrados no conteúdo), placeholder não preenchido, ou link apontando para `localhost`,
+  bloqueia o empacotamento se detectar credencial real do MySQL em `api/config.example.php` (em vez
+  do placeholder `SUBSTITUIR_*`), placeholder não preenchido, ou link apontando para `localhost`,
   copia os modelos de servidor para a raiz do pacote, gera um manifesto SHA-256 por arquivo
   (`publicacao/MANIFESTO-PACOTE.txt`, gitignored) e tenta gerar um `.zip` (`alfaprev-site-*.zip`,
   gitignored, nunca commitado).
@@ -611,12 +623,25 @@ auditoria:
   em um dos dois **deve** ser replicado no outro — a auditoria encontrou o `.htaccess` real sem
   nenhuma CSP para páginas públicas justamente porque só o `netlify.toml` (que não é o host real)
   estava atualizado.
-- **2FA (TOTP) é obrigatório para qualquer admin do painel `/leads`.** `is_admin()` no banco exige
-  `auth.jwt() ->> 'aal' = 'aal2'` — a imposição real está no SQL, não na UI. Nenhum admin novo
-  pode receber a URL do painel antes de completar o cadastro do fator TOTP (ver
-  `supabase-admin.sql`). Nunca remover essa checagem de `is_admin()` para "facilitar" acesso.
-  Nunca criar um caminho na UI que permita desativar o 2FA do próprio usuário sem revisão humana
-  — remoção de fator deve ser uma ação manual no painel do Supabase.
+- **2FA (TOTP) é obrigatório para qualquer admin do painel `/leads`.** A imposição real está no
+  fluxo de duas fases de `api/login.php`/`api/mfa-*.php` + na coluna `admins.totp_confirmado`
+  (MySQL), não apenas na UI: a sessão só recebe `admin_id` (acesso liberado) depois do código TOTP
+  correto. Nenhum admin novo pode receber a URL do painel antes de completar o cadastro do fator
+  TOTP. Nunca remover essa checagem do fluxo de login para "facilitar" acesso. Nunca criar um
+  caminho na UI que permita desativar o 2FA do próprio usuário sem revisão humana — remoção de
+  fator deve ser uma ação manual direto no banco (`UPDATE admins SET totp_confirmado = 0,
+  totp_secret = NULL ...`).
+- **(2026-10-14) `tools/gerar-hash-admin.php` reescrito com 3 modos** — criar admin, trocar
+  senha, zerar 2FA — todos interativos (e-mail e senha digitados no terminal, senha nunca aceita
+  como argumento, nunca ecoada na tela, pedida duas vezes para confirmar) e todos **só imprimem**
+  o comando SQL (`INSERT`/`UPDATE`) para colar no phpMyAdmin — o script nunca se conecta a nenhum
+  banco. Rejeita `contato@alfasci.com.br` como e-mail de admin (é o e-mail público do site).
+  Passo a passo completo (incluindo recuperação de senha esquecida e 2FA perdido) em
+  `publicacao/PUBLICACAO-LOCAWEB.md` §8-A.5/8-A.6 e `docs/DASHBOARD-LEADS.md` §4.
+- **(2026-10-14) Achado não corrigido:** `admins.totp_secret` é gravado em texto puro no MySQL
+  (sem cifragem). Quem tiver acesso de leitura ao banco consegue ler o segredo TOTP de qualquer
+  admin. Mitigado hoje só pelo controle de acesso ao painel Locaweb/phpMyAdmin — ver análise
+  completa e opção de correção (sem dependência nova) em `docs/DASHBOARD-LEADS.md` §3.
 - **Fonte Inter é self-hosted** (`assets/fonts/inter-var.woff2`) em todo o site, público e
   `/leads`. Nunca reintroduzir `fonts.googleapis.com`/`fonts.gstatic.com` — isso exigiria reabrir
   esses domínios na CSP de ambos os arquivos de servidor.
@@ -629,10 +654,12 @@ auditoria:
 - **Antes de qualquer commit que toque `assets/js/`, `src/pages/`, `netlify.toml` ou
   `publicacao/modelos/`:** rodar `npm test`, `npm run seguranca` e `npm audit`. Falha em qualquer
   um deve ser investigada antes do commit.
-- **Nunca commitar a chave `service_role` do Supabase, e-mail real de admin, ou qualquer segredo**
-  — `supabase-admin.sql` é só um template; `scripts/empacotar-locaweb.js` e
-  `scripts/verificar-seguranca.js` já bloqueiam isso automaticamente, mas a regra vale também para
-  qualquer arquivo novo.
-- **Toda nova tabela/coluna no Supabase precisa de política RLS explícita antes de ir para
-  produção** — nunca assumir que "RLS habilitado sem política" é documentação suficiente; declarar
-  a política (ainda que seja "ninguém lê/escreve por enquanto") explicitamente.
+- **Nunca commitar credenciais reais do MySQL, e-mail real de admin, ou qualquer segredo** —
+  `api/config.local.php` é gitignored (só `api/config.example.php`, com placeholders
+  `SUBSTITUIR_*`, é commitado); `scripts/empacotar-locaweb.js` e `scripts/verificar-seguranca.js`
+  já bloqueiam isso automaticamente, mas a regra vale também para qualquer arquivo novo.
+- **Toda nova tabela/coluna em `database/schema.mysql.sql` precisa de validação explícita na
+  camada PHP (`api/lib/validacao.php`) antes de ir para produção** — o MySQL não tem RLS; toda
+  autorização e validação de entrada é responsabilidade do código PHP em `api/`. Nunca assumir que
+  uma tabela nova está protegida sem que o endpoint que a acessa valide explicitamente o que pode
+  ler/escrever.
