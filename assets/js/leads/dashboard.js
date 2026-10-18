@@ -1,8 +1,8 @@
 /**
  * ALFA PREV — assets/js/leads/dashboard.js
  *
- * Renderização do painel de métricas (/leads) a partir da função
- * `dashboard_dados(p_inicio, p_fim)` do Supabase (ver supabase-schema.sql).
+ * Renderização do painel de métricas (/leads) a partir de api/dashboard.php
+ * (equivalente à antiga função dashboard_dados() do Supabase).
  * Gráficos em SVG puro, sem bibliotecas externas (CSP restrita).
  *
  * Módulo com DOM — não testado via node --test.
@@ -150,25 +150,31 @@
   }
 
   async function carregar(inicio, fim) {
-    var auth = window.AlfaPrevAuth;
-    var c = auth && auth.clienteSupabase();
     var container = elemento('painel-dashboard');
-    if (!c || !container) return;
+    if (!container) return;
 
     container.setAttribute('aria-busy', 'true');
 
-    var resultado;
+    var dados;
     try {
-      resultado = await c.rpc('dashboard_dados', { p_inicio: inicio, p_fim: fim });
+      var resposta = await fetch(
+        '/api/dashboard.php?inicio=' + encodeURIComponent(inicio) + '&fim=' + encodeURIComponent(fim),
+        { method: 'GET', credentials: 'same-origin', cache: 'no-store' }
+      );
+      var corpo = null;
+      try { corpo = await resposta.json(); } catch (e) { /* corpo vazio ou inválido */ }
+      if (!resposta.ok || !corpo || !corpo.ok) {
+        container.setAttribute('aria-busy', 'false');
+        return;
+      }
+      dados = corpo;
     } catch (e) {
       container.setAttribute('aria-busy', 'false');
       return;
     }
 
     container.setAttribute('aria-busy', 'false');
-    if (resultado.error || !resultado.data) return;
 
-    var dados = resultado.data;
     renderizarIndicadores(dados.totais || {});
     renderizarSerieDiaria(dados.serie_diaria || []);
     renderizarBarras('grafico-paginas-svg', dados.top_paginas || [], 'caminho', 'visualizacoes');

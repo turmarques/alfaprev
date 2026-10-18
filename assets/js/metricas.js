@@ -2,7 +2,8 @@
  * ALFA PREV — assets/js/metricas.js
  *
  * Métricas anônimas e sem cookies das páginas públicas. Sem dependências,
- * sem CDN de terceiros. Nunca bloqueia a renderização: o envio só ocorre
+ * sem CDN de terceiros. Envia os eventos via fetch (caminho relativo) para
+ * api/metrica.php — nunca bloqueia a renderização: o envio só ocorre
  * dentro de requestIdleCallback (ou setTimeout como fallback) e falha
  * silenciosamente em qualquer erro de rede/armazenamento.
  *
@@ -109,38 +110,30 @@
     return 'desktop';
   }
 
-  function supabaseConfigurado() {
-    return typeof SUPABASE_URL !== 'undefined' && typeof SUPABASE_URL === 'string' && SUPABASE_URL.indexOf('https://') === 0
-      && typeof SUPABASE_ANON_KEY !== 'undefined' && SUPABASE_ANON_KEY;
-  }
-
   function enviar(tipo) {
-    if (ehAmbienteFiltrado() || !supabaseConfigurado()) return;
+    if (ehAmbienteFiltrado()) return;
 
     var origem = obterOrigemSessao();
     var corpo = {
-      p_tipo:         tipo,
-      p_caminho:      location.pathname,
-      p_origem:       origem.origem || 'direto',
-      p_utm_source:   origem.utm_source || null,
-      p_utm_medium:   origem.utm_medium || null,
-      p_utm_campaign: origem.utm_campaign || null,
-      p_utm_term:     origem.utm_term || null,
-      p_utm_content:  origem.utm_content || null,
-      p_gclid:        origem.gclid || null,
-      p_dispositivo:  detectarDispositivo(),
-      p_sessao_id:    obterSessaoId(),
+      tipo:         tipo,
+      caminho:      location.pathname,
+      origem:       origem.origem || 'direto',
+      utm_source:   origem.utm_source || null,
+      utm_medium:   origem.utm_medium || null,
+      utm_campaign: origem.utm_campaign || null,
+      utm_term:     origem.utm_term || null,
+      utm_content:  origem.utm_content || null,
+      gclid:        origem.gclid || null,
+      dispositivo:  detectarDispositivo(),
+      sessao_id:    obterSessaoId(),
     };
 
     try {
-      fetch(SUPABASE_URL + '/rest/v1/rpc/registrar_evento', {
+      fetch('/api/metrica.php', {
         method: 'POST',
         keepalive: true,
-        headers: {
-          'Content-Type':  'application/json',
-          apikey:           SUPABASE_ANON_KEY,
-          Authorization:    'Bearer ' + SUPABASE_ANON_KEY,
-        },
+        credentials: 'same-origin',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(corpo),
       }).catch(function () { /* falha silenciosa — nunca exibe erro ao visitante */ });
     } catch (e) { /* falha silenciosa */ }

@@ -5,10 +5,11 @@
  *
  * IMPORTANTE — isto é só UX/dissuasão, NÃO é segurança real:
  * qualquer pessoa pode limpar o localStorage do navegador e tentar de novo.
- * A proteção real contra força bruta é o rate limit do Supabase Auth, a
- * política de senha forte do usuário admin, e o fato de que um login válido
- * mas não-admin (is_admin() falso) é deslogado e tratado como tentativa
- * inválida (ver docs/DASHBOARD-LEADS.md, seção "Segurança e limites").
+ * A proteção real contra força bruta é o rate limit de api/login.php (ver
+ * api/lib/rate_limit.php), a política de senha forte do usuário admin, e o
+ * fato de que um login válido mas não-admin (is_admin() falso) é deslogado
+ * e tratado como tentativa inválida (ver docs/DASHBOARD-LEADS.md, seção
+ * "Segurança e limites").
  *
  * Módulo sem DOM, testável com storage/relógio injetáveis (node --test).
  */
@@ -75,7 +76,7 @@ function criarBloqueio(opcoes) {
     return status();
   }
 
-  // Usado quando o próprio Supabase Auth retorna 429 (rate limit nativo) — também conta como bloqueio.
+  // Usado quando api/login.php retorna 429 (rate limit no servidor) — também conta como bloqueio.
   function forcarBloqueio(duracaoCustomMs) {
     var dados = ler();
     dados.tentativas = Math.max(dados.tentativas, maxTentativas);

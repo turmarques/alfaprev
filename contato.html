@@ -316,10 +316,10 @@
                   aria-required="true" aria-describedby="resumo-error"></textarea>
                 <p id="resumo-error" class="field-error text-corp-red text-xs mt-1.5 hidden" role="alert" aria-live="polite"></p>
               </div>
-              <div>
+              <div id="lgpd-campo">
                 <div class="flex items-start gap-3">
                   <input type="checkbox" id="lgpd" name="lgpd" required
-                    class="mt-0.5 w-4 h-4 border-gray-300 rounded text-corp-red focus:ring-corp-red focus:ring-2 cursor-pointer flex-shrink-0"
+                    class="mt-0.5 w-5 h-5 border-2 border-gray-400 rounded text-corp-red focus:ring-corp-red focus:ring-2 cursor-pointer flex-shrink-0"
                     aria-required="true" aria-describedby="lgpd-error">
                   <label for="lgpd" class="text-xs text-gray-600 leading-relaxed cursor-pointer">Concordo com o tratamento dos meus dados pessoais conforme a <a href="#politica-privacidade" class="text-corp-red hover:underline font-medium">Política de Privacidade</a> da Alfa Prev, para fins de resposta ao orçamento solicitado. (LGPD, Lei 13.709/2018)</label>
                 </div>
@@ -372,7 +372,6 @@
           engenharia contra incêndio, em total conformidade com a <strong>Lei Geral de Proteção de Dados (LGPD, Lei nº 13.709/2018)</strong>.
         </p>
         <p>Os dados fornecidos não são comercializados, alugados ou compartilhados com terceiros para quaisquer finalidades publicitárias sem consentimento explícito.</p>
-        <!-- REVISAR COM CASSIA: parágrafo novo (out/2026), pendente de validação jurídica antes de publicar — ver docs/DASHBOARD-LEADS.md, seção LGPD -->
         <p>Além dos dados do formulário, este site coleta métricas anônimas de navegação (como páginas visitadas, cliques no WhatsApp, origem do acesso e tipo de dispositivo), sem uso de cookies e sem qualquer identificador que permita reconhecer o mesmo visitante em visitas diferentes. Esses dados são mantidos por até 180 dias e usados apenas para entender o desempenho do site.</p>
         <p>O titular dos dados pode solicitar a confirmação da existência de tratamento, a retificação ou a eliminação dos seus dados a qualquer momento pelo e-mail <a href="mailto:contato@alfasci.com.br" class="text-corp-red hover:underline font-medium">contato@alfasci.com.br</a>.</p>
       </div>
@@ -497,9 +496,6 @@
   </a>
 
   <!-- BANNER DE COOKIES -->
-  <!-- REVISAR COM CASSIA: texto atualizado em out/2026 para refletir que o site não usa cookies de
-       rastreamento (métricas anônimas via assets/js/metricas.js, sem identificador persistente).
-       Pendente de validação jurídica antes de publicar — ver docs/DASHBOARD-LEADS.md, seção LGPD. -->
   <div id="cookie-banner"
     class="fixed bottom-0 left-0 right-0 z-40 bg-corp-slate border-t border-gray-700 px-4 py-4 hidden" role="dialog"
     aria-modal="false" aria-label="Aviso de privacidade" aria-live="polite">
@@ -520,7 +516,6 @@
     </div>
   </div>
 
-  <script src="/assets/js/config.js" defer></script>
   <script src="/assets/js/metricas.js" defer></script>
   <script src="/script.js" defer></script>
 

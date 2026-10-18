@@ -4,3 +4,4 @@ node_modules/
 dist-locaweb/
 alfaprev-site-*.zip
 publicacao/MANIFESTO-PACOTE.txt
+api/config.local.php

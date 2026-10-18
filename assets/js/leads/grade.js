@@ -5,9 +5,10 @@
  * paginação, painel de detalhe, atualização de status/observação,
  * exclusão (com confirmação) e exportação CSV.
  *
- * Usa listar_leads() (ver supabase-schema.sql), assets/js/leads/telefone.js
- * e assets/js/leads/csv.js. Toda renderização usa textContent (nunca
- * innerHTML com dado vindo do servidor) para não abrir espaço a XSS.
+ * Usa api/leads.php (GET lista, POST atualizar/excluir com X-CSRF-Token),
+ * assets/js/leads/telefone.js e assets/js/leads/csv.js. Toda renderização
+ * usa textContent (nunca innerHTML com dado vindo do servidor) para não
+ * abrir espaço a XSS.
  *
  * Módulo com DOM — não testado via node --test.
  */
@@ -20,7 +21,7 @@
     ocupacao: '',
     inicio: null,
     fim: null,
-    ordenarPor: 'criado_em',
+    ordenarPor: 'created_at',
     ordem: 'desc',
     pagina: 1,
     porPagina: 20,
@@ -38,15 +39,9 @@
 
   function elemento(id) { return document.getElementById(id); }
 
-  function clienteSupabase() {
-    var auth = window.AlfaPrevAuth;
-    return auth ? auth.clienteSupabase() : null;
-  }
-
   async function carregar() {
-    var c = clienteSupabase();
     var corpo = elemento('tabela-leads-corpo');
-    if (!c || !corpo) return;
+    if (!corpo) return;
 
     corpo.innerHTML = '';
     var linhaCarregando = document.createElement('tr');
@@ -57,33 +52,41 @@
     linhaCarregando.appendChild(celulaCarregando);
     corpo.appendChild(linhaCarregando);
 
-    var resultado;
+    var parametros = {
+      busca: ESTADO.busca || '',
+      status: ESTADO.status || '',
+      ocupacao: ESTADO.ocupacao || '',
+      inicio: ESTADO.inicio || '',
+      fim: ESTADO.fim || '',
+      ordenar_por: ESTADO.ordenarPor,
+      ordem: ESTADO.ordem,
+      pagina: ESTADO.pagina,
+      por_pagina: ESTADO.porPagina,
+    };
+    var qs = Object.keys(parametros)
+      .filter(function (k) { return parametros[k] !== '' && parametros[k] !== null && parametros[k] !== undefined; })
+      .map(function (k) { return encodeURIComponent(k) + '=' + encodeURIComponent(parametros[k]); })
+      .join('&');
+
+    var dados;
     try {
-      resultado = await c.rpc('listar_leads', {
-        p_busca: ESTADO.busca || null,
-        p_status: ESTADO.status || null,
-        p_ocupacao: ESTADO.ocupacao || null,
-        p_inicio: ESTADO.inicio,
-        p_fim: ESTADO.fim,
-        p_ordenar_por: ESTADO.ordenarPor,
-        p_ordem: ESTADO.ordem,
-        p_pagina: ESTADO.pagina,
-        p_por_pagina: ESTADO.porPagina,
-      });
+      var resposta = await fetch('/api/leads.php?' + qs, { method: 'GET', credentials: 'same-origin', cache: 'no-store' });
+      var corpoResposta = null;
+      try { corpoResposta = await resposta.json(); } catch (e) { /* corpo vazio ou inválido */ }
+      if (!resposta.ok || !corpoResposta || !corpoResposta.ok) {
+        corpo.innerHTML = '';
+        renderizarVazio(corpo, 'Não foi possível carregar os leads. Tente novamente.');
+        return;
+      }
+      dados = corpoResposta;
     } catch (e) {
       corpo.innerHTML = '';
       renderizarVazio(corpo, 'Não foi possível carregar os leads. Tente novamente.');
       return;
     }
 
-    if (resultado.error || !resultado.data) {
-      corpo.innerHTML = '';
-      renderizarVazio(corpo, 'Não foi possível carregar os leads. Tente novamente.');
-      return;
-    }
-
-    ESTADO.dados = resultado.data.dados || [];
-    ESTADO.total = resultado.data.total || 0;
+    ESTADO.dados = dados.dados || [];
+    ESTADO.total = dados.total || 0;
     renderizarTabela();
     renderizarPaginacao();
   }
@@ -105,13 +108,6 @@
     return td;
   }
 
-  function formatarData(iso) {
-    if (!iso) return '';
-    var d = new Date(iso);
-    if (isNaN(d.getTime())) return '';
-    return d.toLocaleDateString('pt-BR') + ' ' + d.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
-  }
-
   function renderizarTabela() {
     var corpo = elemento('tabela-leads-corpo');
     corpo.innerHTML = '';
@@ -131,7 +127,7 @@
 
       linha.appendChild(celulaTexto('Nome', lead.nome));
       linha.appendChild(celulaTexto('Contato', telefoneApi ? telefoneApi.formatarTelefoneExibicao(lead.telefone) : lead.telefone));
-      linha.appendChild(celulaTexto('Ocupação', lead.tipo_imovel));
+      linha.appendChild(celulaTexto('Ocupação', lead.ocupacao));
 
       var tdStatus = document.createElement('td');
       tdStatus.setAttribute('data-rotulo', 'Status');
@@ -143,7 +139,7 @@
       linha.appendChild(tdStatus);
 
       linha.appendChild(celulaTexto('Origem', lead.pagina_origem || lead.utm_source || '—'));
-      linha.appendChild(celulaTexto('Recebido em', formatarData(lead.criado_em)));
+      linha.appendChild(celulaTexto('Recebido em', lead.contato_em));
 
       linha.addEventListener('click', function () { abrirDetalhe(lead); });
       linha.addEventListener('keydown', function (e) {
@@ -178,10 +174,10 @@
     elemento('detalhe-nome').textContent = lead.nome || '';
     elemento('detalhe-email').textContent = lead.email || '';
     elemento('detalhe-telefone').textContent = telefoneApi ? telefoneApi.formatarTelefoneExibicao(lead.telefone) : (lead.telefone || '');
-    elemento('detalhe-ocupacao').textContent = lead.tipo_imovel || '';
+    elemento('detalhe-ocupacao').textContent = lead.ocupacao || '';
     elemento('detalhe-mensagem').textContent = lead.mensagem || '';
     elemento('detalhe-origem').textContent = lead.pagina_origem || '—';
-    elemento('detalhe-recebido').textContent = formatarData(lead.criado_em);
+    elemento('detalhe-recebido').textContent = lead.contato_em || '';
 
     var selectStatus = elemento('detalhe-status');
     if (selectStatus) selectStatus.value = lead.status || 'novo';
@@ -204,10 +200,22 @@
     if (typeof dialogo.showModal === 'function') dialogo.showModal();
   }
 
+  async function acaoLead(corpo) {
+    var auth = window.AlfaPrevAuth;
+    var csrf = auth ? auth.csrfToken() : null;
+    var resposta = await fetch('/api/leads.php', {
+      method: 'POST',
+      credentials: 'same-origin',
+      headers: { 'Content-Type': 'application/json', 'X-CSRF-Token': csrf || '' },
+      body: JSON.stringify(corpo),
+    });
+    var dados = null;
+    try { dados = await resposta.json(); } catch (e) { /* corpo vazio ou inválido */ }
+    return resposta.ok && dados && dados.ok;
+  }
+
   async function salvarDetalhe() {
     if (!leadAtual) return;
-    var c = clienteSupabase();
-    if (!c) return;
 
     var novoStatus = elemento('detalhe-status').value;
     var novaObservacao = elemento('detalhe-observacao').value;
@@ -215,10 +223,8 @@
     if (botaoSalvar) botaoSalvar.disabled = true;
 
     try {
-      var resultado = await c.from('leads')
-        .update({ status: novoStatus, observacao: novaObservacao, atualizado_em: new Date().toISOString() })
-        .eq('id', leadAtual.id);
-      if (!resultado.error) {
+      var ok = await acaoLead({ action: 'atualizar', id: leadAtual.id, status: novoStatus, observacao: novaObservacao });
+      if (ok) {
         leadAtual.status = novoStatus;
         leadAtual.observacao = novaObservacao;
         await carregar();
@@ -235,11 +241,8 @@
     var confirmar = window.confirm('Excluir este lead permanentemente? Esta ação não pode ser desfeita.');
     if (!confirmar) return;
 
-    var c = clienteSupabase();
-    if (!c) return;
-
     try {
-      await c.from('leads').delete().eq('id', leadAtual.id);
+      await acaoLead({ action: 'excluir', id: leadAtual.id });
     } catch (e) {
       // Falha silenciosa.
     }
@@ -259,11 +262,11 @@
       { titulo: 'Nome', chave: 'nome' },
       { titulo: 'E-mail', chave: 'email' },
       { titulo: 'Telefone', chave: 'telefone' },
-      { titulo: 'Ocupação', chave: 'tipo_imovel' },
+      { titulo: 'Ocupação', chave: 'ocupacao' },
       { titulo: 'Mensagem', chave: 'mensagem' },
       { titulo: 'Status', chave: 'status' },
       { titulo: 'Origem', chave: 'pagina_origem' },
-      { titulo: 'Recebido em', chave: 'criado_em' },
+      { titulo: 'Recebido em', chave: 'contato_em' },
     ];
 
     var linhas = ESTADO.dados.map(function (lead) {
@@ -271,11 +274,11 @@
         nome: lead.nome,
         email: lead.email,
         telefone: telefoneApi ? telefoneApi.formatarTelefoneExibicao(lead.telefone) : lead.telefone,
-        tipo_imovel: lead.tipo_imovel,
+        ocupacao: lead.ocupacao,
         mensagem: lead.mensagem,
         status: ROTULOS_STATUS[lead.status] || lead.status,
         pagina_origem: lead.pagina_origem,
-        criado_em: formatarData(lead.criado_em),
+        contato_em: lead.contato_em,
       };
     });
 

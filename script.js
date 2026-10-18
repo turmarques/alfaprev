@@ -222,7 +222,15 @@ function validateForm() {
     valid = false;
   }
   if (!lgpd) {
+    // Salvaguarda: nunca mostrar erro sobre um campo que o visitante não enxerga —
+    // revela o checkbox (caso ainda esteja oculto) e leva o foco até ele.
+    revelarConsentimentoLgpd();
     showError('lgpd', 'Você precisa aceitar a Política de Privacidade para continuar.');
+    const lgpdInput = document.getElementById('lgpd');
+    if (lgpdInput) {
+      lgpdInput.scrollIntoView({ block: 'center' });
+      lgpdInput.focus();
+    }
     valid = false;
   }
   return valid;
@@ -239,13 +247,35 @@ const lgpdEl = document.getElementById('lgpd');
 if (lgpdEl) lgpdEl.addEventListener('change', () => clearError('lgpd'));
 
 /* =====================================================
-   7. ENVIO DO FORMULÁRIO — duplo: e-mail (Web3Forms) + banco (Supabase)
+   6b. REVELAÇÃO DO CHECKBOX DE CONSENTIMENTO (LGPD)
+   =====================================================
+   Decisão de produto: o checkbox fica oculto ao carregar a página e aparece assim que o
+   visitante começar a preencher qualquer campo do formulário. Sem JavaScript, o checkbox
+   já é visível por padrão (ver HTML/CSS) — a classe que o oculta só é adicionada aqui,
+   nunca no HTML/CSS de origem, para que uma falha do script nunca esconda o consentimento.
+   ===================================================== */
+const lgpdCampo = document.getElementById('lgpd-campo');
+function revelarConsentimentoLgpd() {
+  if (lgpdCampo) lgpdCampo.classList.remove('lgpd-oculto');
+}
+if (form && lgpdCampo) {
+  lgpdCampo.classList.add('lgpd-oculto');
+  // "input" cobre digitação, colar texto e a maioria dos preenchimentos automáticos do
+  // navegador; "change" cobre o <select> de ocupação; "focusin" cobre o visitante que só
+  // clica/tabula em um campo antes de digitar.
+  form.addEventListener('input', revelarConsentimentoLgpd);
+  form.addEventListener('change', revelarConsentimentoLgpd);
+  form.addEventListener('focusin', revelarConsentimentoLgpd);
+}
+
+/* =====================================================
+   7. ENVIO DO FORMULÁRIO — duplo: e-mail (Web3Forms) + banco (api/lead.php)
    =====================================================
    Configuração necessária antes de funcionar:
-     • Web3Forms: substitua 'SUA_CHAVE_WEB3FORMS' abaixo pela chave real
-       (obtida em https://web3forms.com/ — gratuito)
-     • Supabase: preencha SUPABASE_URL e SUPABASE_ANON_KEY em assets/js/config.js
-       (obtidos em Project Settings → API no painel do Supabase)
+     • Web3Forms: a chave de acesso real já está configurada na constante ACCESS_KEY
+       abaixo (obtida em https://web3forms.com/ — gratuito)
+     • Banco: api/lead.php grava o lead via PDO/MySQL — exige api/config.local.php
+       preenchido com as credenciais do banco (ver api/config.example.php)
    ===================================================== */
 if (form) {
   form.addEventListener('submit', async (e) => {
@@ -279,7 +309,7 @@ if (form) {
     // contato@alfasci.com.br, mas o destino real dos envios só muda quando a chave for registrada
     // com o novo e-mail no painel do Web3Forms. Trocar a ACCESS_KEY abaixo não basta — é necessário
     // acessar web3forms.com, criar uma nova chave associada a contato@alfasci.com.br e substituir aqui.
-    const ACCESS_KEY = 'SUA_CHAVE_WEB3FORMS'; // PREENCHER — ver https://web3forms.com/
+    const ACCESS_KEY = '79231f9e-39cb-4b65-bb1d-53f14a2966b8';
 
     try {
       const res = await fetch('https://api.web3forms.com/submit', {
@@ -289,11 +319,20 @@ if (form) {
           access_key: ACCESS_KEY,
           subject:    'Novo orçamento — Projeto de Prevenção e Combate a Incêndio — Alfa Prev',
           from_name:  'Site Alfa Prev',
-          name:       nome,
-          email:      email,
-          phone:      telefone,
-          property:   tipo,
-          message:    resumo,
+          // Web3Forms usa o campo chamado "email" para definir o endereço de resposta —
+          // como o campo abaixo passou a se chamar "E-mail" (rótulo em português no corpo
+          // do e-mail), o reply-to precisa ser informado explicitamente aqui.
+          replyto:    email,
+          // Nomes dos campos abaixo viram os rótulos exibidos no corpo do e-mail recebido em
+          // contato@alfasci.com.br — mantidos em português para quem lê o e-mail (não afeta
+          // o payload enviado à API PHP/MySQL, que é um objeto totalmente separado, logo abaixo).
+          'Nome':                  nome,
+          'E-mail':                email,
+          'Telefone':              telefone,
+          'Ocupação':              tipo,
+          'Tipos de serviços':     resumo,
+          'Consentimento (LGPD)':  'Aceito',
+          'Data e hora do envio':  new Date().toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' }),
           botcheck:   false, // honeypot Web3Forms — sempre false para envios legítimos
         }),
       });
@@ -304,47 +343,39 @@ if (form) {
       console.error('[Alfa Prev] Falha no envio por e-mail (Web3Forms):', err);
     }
 
-    // ── 7b. Gravação no banco via função registrar_lead() ───
-    // Nunca faz INSERT direto na tabela: a função valida campos/consentimento no servidor,
-    // normaliza o telefone, aplica rate limit e grava origem/UTMs/sessão (ver supabase-schema.sql).
-    // Só tenta se config.js estiver preenchido com a URL real do projeto.
-    if (typeof SUPABASE_URL !== 'undefined' && SUPABASE_URL.startsWith('https://')) {
-      try {
-        const origem = (window.AlfaPrevMetricas && window.AlfaPrevMetricas.origemSessao())
-          || { origem: 'direto' };
-        const sessaoId = window.AlfaPrevMetricas ? window.AlfaPrevMetricas.sessaoId() : null;
+    // ── 7b. Gravação no banco via api/lead.php ───
+    // Nunca faz INSERT direto: o endpoint valida campos/consentimento no servidor,
+    // normaliza o telefone, aplica rate limit e grava origem/UTMs/sessão (ver database/schema.mysql.sql).
+    try {
+      const origem = (window.AlfaPrevMetricas && window.AlfaPrevMetricas.origemSessao())
+        || { origem: 'direto' };
+      const sessaoId = window.AlfaPrevMetricas ? window.AlfaPrevMetricas.sessaoId() : null;
 
-        const res = await fetch(`${SUPABASE_URL}/rest/v1/rpc/registrar_lead`, {
-          method: 'POST',
-          headers: {
-            'Content-Type':  'application/json',
-            'apikey':        SUPABASE_ANON_KEY,
-            'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
-          },
-          body: JSON.stringify({
-            p_nome:               nome,
-            p_email:              email,
-            p_telefone:           telefone,
-            p_tipo_imovel:        tipo,
-            p_mensagem:           resumo,
-            p_consentimento_lgpd: true, // checkbox LGPD já validado pelo validateForm()
-            p_pagina_origem:      location.pathname,
-            p_utm_source:         origem.utm_source || null,
-            p_utm_medium:         origem.utm_medium || null,
-            p_utm_campaign:       origem.utm_campaign || null,
-            p_utm_term:           origem.utm_term || null,
-            p_utm_content:        origem.utm_content || null,
-            p_gclid:              origem.gclid || null,
-            p_sessao_id:          sessaoId,
-          }),
-        });
-        dbOk = res.status >= 200 && res.status < 300;
-        if (!dbOk) console.error('[Alfa Prev] Supabase retornou status inesperado:', res.status, await res.text());
-      } catch (err) {
-        console.error('[Alfa Prev] Erro de rede ao conectar ao Supabase:', err);
-      }
-    } else {
-      console.warn('[Alfa Prev] Supabase não configurado — preencha assets/js/config.js.');
+      const res = await fetch('/api/lead.php', {
+        method: 'POST',
+        credentials: 'same-origin',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          nome:                 nome,
+          email:                email,
+          telefone:             telefone,
+          ocupacao:             tipo,
+          mensagem:             resumo,
+          consentimento_lgpd:   true, // checkbox LGPD já validado pelo validateForm()
+          pagina_origem:        location.pathname,
+          utm_source:           origem.utm_source || null,
+          utm_medium:           origem.utm_medium || null,
+          utm_campaign:         origem.utm_campaign || null,
+          utm_term:             origem.utm_term || null,
+          utm_content:          origem.utm_content || null,
+          gclid:                origem.gclid || null,
+          sessao_id:            sessaoId,
+        }),
+      });
+      dbOk = res.ok;
+      if (!dbOk) console.error('[Alfa Prev] api/lead.php retornou status inesperado:', res.status, await res.text());
+    } catch (err) {
+      console.error('[Alfa Prev] Erro de rede ao conectar à API:', err);
     }
 
     // ── 7c. Resultado para o usuário ─────────────────────
@@ -402,7 +433,7 @@ if (cookieReject) {
 
 /* =====================================================
    9. (removido) Rastreamento de cliques no WhatsApp agora é feito por
-      assets/js/metricas.js (evento anônimo whatsapp_click via Supabase,
+      assets/js/metricas.js (evento anônimo whatsapp_click via api/metrica.php,
       sem Google Analytics/Tag Manager — ver docs/DASHBOARD-LEADS.md).
    ===================================================== */
 

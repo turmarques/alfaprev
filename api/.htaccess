@@ -1,0 +1,31 @@
+# ALFA PREV — api/.htaccess
+#
+# Bloqueia acesso HTTP direto a qualquer coisa que não seja um endpoint
+# PHP de primeiro nível (lead.php, metrica.php, login.php, etc.):
+#   - config.php / config.example.php / config.local.php nunca devem ser
+#     executados diretamente (só via require dos próprios endpoints).
+#   - api/lib/*.php são só bibliotecas internas, nunca endpoints.
+#   - qualquer .sql que por engano acabe aqui.
+#   - listagem de diretório desligada.
+
+Options -Indexes
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteCond %{REQUEST_URI} ^/api/lib/ [NC]
+  RewriteRule .* - [F,L]
+</IfModule>
+
+<IfModule mod_authz_core.c>
+  <FilesMatch "^config(\.local|\.example)?\.php$|\.sql$">
+    Require all denied
+  </FilesMatch>
+</IfModule>
+<IfModule !mod_authz_core.c>
+  <IfModule mod_access_compat.c>
+    <FilesMatch "^config(\.local|\.example)?\.php$|\.sql$">
+      Order allow,deny
+      Deny from all
+    </FilesMatch>
+  </IfModule>
+</IfModule>

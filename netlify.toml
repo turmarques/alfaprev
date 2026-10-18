@@ -31,11 +31,13 @@
 
     # Desativa recursos não utilizados e restringe origens de conteúdo
     # Sem Google Analytics/Tag Manager (o site não usa nenhum script de terceiros para métricas —
-    # ver assets/js/metricas.js, que só fala com o próprio Supabase do projeto).
+    # ver assets/js/metricas.js, que fala só com api/metrica.php, same-origin).
+    # Banco de dados é MySQL acessado via api/*.php (same-origin) — sem domínio externo de
+    # banco no connect-src (migração de Supabase para MySQL/PHP, out/2026).
     # Fonte Inter agora self-hosted (assets/fonts/inter-var.woff2) — sem fonts.googleapis.com/
     # fonts.gstatic.com no style-src/font-src (auditoria de segurança, out/2026).
     # frame-ancestors complementa X-Frame-Options (suportado por mais navegadores modernos).
-    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data:; connect-src 'self' https://api.web3forms.com https://*.supabase.co; frame-src https://maps.google.com https://www.google.com; object-src 'none'; base-uri 'self'; form-action 'self' https://api.web3forms.com; frame-ancestors 'self';"
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data:; connect-src 'self' https://api.web3forms.com; frame-src https://maps.google.com https://www.google.com; object-src 'none'; base-uri 'self'; form-action 'self' https://api.web3forms.com; frame-ancestors 'self';"
 
     # Controla acesso a recursos do dispositivo (câmera, microfone, geolocalização)
     Permissions-Policy = "camera=(), microphone=(), geolocation=(), payment=()"
@@ -64,7 +66,7 @@
 [[headers]]
   for = "/leads.html"
   [headers.values]
-    Content-Security-Policy = "default-src 'none'; script-src 'self'; style-src 'self'; font-src 'self'; img-src 'self'; connect-src 'self' https://*.supabase.co; base-uri 'none'; form-action 'none'; frame-ancestors 'none';"
+    Content-Security-Policy = "default-src 'none'; script-src 'self'; style-src 'self'; font-src 'self'; img-src 'self'; connect-src 'self'; base-uri 'none'; form-action 'none'; frame-ancestors 'none';"
     X-Robots-Tag = "noindex, nofollow, noarchive"
     Referrer-Policy = "no-referrer"
     Cross-Origin-Opener-Policy = "same-origin"

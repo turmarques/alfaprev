@@ -66,7 +66,7 @@ test('estado persiste entre instâncias com o mesmo storage (reload/nova aba)', 
   assert.equal(b2.status().bloqueado, true);
 });
 
-test('forcarBloqueio (usado no 429 do Supabase Auth) bloqueia imediatamente', () => {
+test('forcarBloqueio (usado no 429 de api/login.php) bloqueia imediatamente', () => {
   const relogio = relogioFalso(0);
   const b = criarBloqueio({ storage: storageFalso(), agora: relogio, duracaoMs: 5 * 60 * 1000 });
   const s = b.forcarBloqueio();

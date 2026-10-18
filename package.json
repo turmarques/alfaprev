@@ -7,8 +7,5 @@
     "test": "node --test test/*.test.js",
     "seguranca": "node scripts/verificar-seguranca.js",
     "empacotar": "node scripts/empacotar-locaweb.js"
-  },
-  "dependencies": {
-    "@supabase/supabase-js": "2.117.2"
   }
 }

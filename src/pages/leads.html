@@ -12,11 +12,11 @@
   <!--
     CSP restrita e própria desta página (ver docs/DASHBOARD-LEADS.md,
     seção "Segurança e limites"). Sem Tailwind CDN, sem fontes externas em
-    tempo de execução, sem terceiros — só o próprio domínio e o projeto
-    Supabase configurado em assets/js/config.js.
-    Reforçada também via header HTTP (netlify.toml / publicacao/modelos/leads.htaccess).
+    tempo de execução, sem terceiros — só o próprio domínio (a API em
+    api/*.php é same-origin, não precisa de exceção em connect-src).
+    Reforçada também via header HTTP (netlify.toml / .htaccess real de produção).
   -->
-  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; font-src 'self'; img-src 'self'; connect-src 'self' https://*.supabase.co; base-uri 'none'; form-action 'none'; frame-ancestors 'none';">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; font-src 'self'; img-src 'self'; connect-src 'self'; base-uri 'none'; form-action 'none'; frame-ancestors 'none';">
   <link rel="icon" href="/assets/favicon.ico" type="image/x-icon">
   <link rel="stylesheet" href="/assets/css/leads.css">
 </head>
@@ -222,7 +222,7 @@
                 <th><button type="button" data-ordenar-por="tipo_imovel">Ocupação</button></th>
                 <th><button type="button" data-ordenar-por="status">Status</button></th>
                 <th>Origem</th>
-                <th><button type="button" data-ordenar-por="criado_em">Recebido em</button></th>
+                <th><button type="button" data-ordenar-por="created_at">Recebido em</button></th>
               </tr>
             </thead>
             <tbody id="tabela-leads-corpo"></tbody>
@@ -241,8 +241,6 @@
     </div>
   </main>
 
-  <script src="/assets/vendor/supabase-js/supabase.js"></script>
-  <script src="/assets/js/config.js"></script>
   <script src="/assets/js/leads/bloqueio.js"></script>
   <script src="/assets/js/leads/telefone.js"></script>
   <script src="/assets/js/leads/csv.js"></script>
