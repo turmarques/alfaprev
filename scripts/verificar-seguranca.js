@@ -138,34 +138,20 @@ function checarHandlersInline() {
 }
 
 // -----------------------------------------------------------------------
-// 4. Chave Supabase service_role (JWT com claim role=service_role) em
-//    qualquer arquivo que será publicado — nunca pode existir no repositório.
+// 4. Credenciais reais do MySQL — api/config.local.php (onde ficam host/
+//    usuário/senha/sal) nunca pode ser commitado, e o template
+//    (api/config.example.php) nunca pode conter um valor real no lugar do
+//    placeholder.
 // -----------------------------------------------------------------------
-function checarChaveServiceRole() {
-  const padraoJwt = /\beyJ[\w-]+\.[\w-]+\.[\w-]+\b/g;
-  const candidatos = [
-    ...listarArquivos('assets', ['.js', '.html', '.json'], IGNORAR_JS),
-    ...listarArquivos('src', ['.html'], IGNORAR_HTML),
-    ...listarArquivos('partials', ['.html'], IGNORAR_HTML),
-    path.join(ROOT, 'script.js'),
-  ].filter((f) => fs.existsSync(f));
+function checarCredenciaisMysql() {
+  const gitignorePath = path.join(ROOT, '.gitignore');
+  if (!fs.existsSync(gitignorePath) || !/api\/config\.local\.php/.test(conteudo(gitignorePath))) {
+    erros.push('.gitignore não lista "api/config.local.php" — credenciais reais do MySQL poderiam ser commitadas por engano.');
+  }
 
-  for (const arquivo of candidatos) {
-    const texto = conteudo(arquivo);
-    const tokens = texto.match(padraoJwt) || [];
-    for (const token of tokens) {
-      const partes = token.split('.');
-      if (partes.length < 2) continue;
-      try {
-        const payloadBase64 = partes[1].replace(/-/g, '+').replace(/_/g, '/');
-        const payload = JSON.parse(Buffer.from(payloadBase64, 'base64').toString('utf8'));
-        if (payload && payload.role === 'service_role') {
-          erros.push(`chave Supabase com role "service_role" encontrada em ${rel(arquivo)} — NUNCA pode estar no repositório.`);
-        }
-      } catch (e) {
-        // não é um JWT decodificável — ignora
-      }
-    }
+  const exemplo = path.join(ROOT, 'api', 'config.example.php');
+  if (fs.existsSync(exemplo) && !/PREENCHER|exemplo|SEU_|TROQUE|SUBSTITUIR_/i.test(conteudo(exemplo))) {
+    avisos.push('api/config.example.php não contém nenhum marcador de placeholder óbvio — confirme manualmente que não há credencial real.');
   }
 }
 
@@ -190,8 +176,9 @@ function checarTargetBlank() {
 }
 
 // -----------------------------------------------------------------------
-// 6. /leads nunca pode aparecer em robots.txt ou sitemap.xml (proteção é
-//    Supabase Auth + RLS, não obscuridade — mas também não precisa convidar).
+// 6. /leads nunca pode aparecer em robots.txt ou sitemap.xml (proteção real é
+//    sessão PHP + is_admin() no MySQL, não obscuridade — mas também não
+//    precisa convidar).
 // -----------------------------------------------------------------------
 function checarLeadsNaoPublico() {
   for (const nome of ['robots.txt', 'sitemap.xml']) {
@@ -279,7 +266,7 @@ function checarPacotePublicado() {
 checarInnerHtml();
 checarEvalEDocumentWrite();
 checarHandlersInline();
-checarChaveServiceRole();
+checarCredenciaisMysql();
 checarTargetBlank();
 checarLeadsNaoPublico();
 checarLeadsNoindexECsp();

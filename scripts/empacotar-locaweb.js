@@ -54,9 +54,8 @@ const ARQUIVOS_ASSETS = [
   // CSS / JS do site público
   path.join('styles.css'),
   path.join('script.js'),
-  path.join('assets', 'js', 'config.js'),
   path.join('assets', 'js', 'metricas.js'),
-  // CSS / JS / fonte / lib exclusivos do /leads
+  // CSS / JS / fonte exclusivos do /leads
   path.join('assets', 'css', 'leads.css'),
   path.join('assets', 'js', 'leads', 'app.js'),
   path.join('assets', 'js', 'leads', 'auth.js'),
@@ -65,8 +64,6 @@ const ARQUIVOS_ASSETS = [
   path.join('assets', 'js', 'leads', 'dashboard.js'),
   path.join('assets', 'js', 'leads', 'grade.js'),
   path.join('assets', 'js', 'leads', 'telefone.js'),
-  path.join('assets', 'vendor', 'supabase-js', 'supabase.js'),
-  path.join('assets', 'vendor', 'supabase-js', 'LICENSE'),
   path.join('assets', 'fonts', 'inter-var.woff2'),
   // Favicon e imagens efetivamente referenciadas (ver PUBLICACAO-LOCAWEB.md §1.1 para o
   // resultado do grep de referência — exclui logo-original.png, logo-color.svg,
@@ -78,7 +75,34 @@ const ARQUIVOS_ASSETS = [
   path.join('assets', 'images', 'logo-dark-bg.jpg'),
 ];
 
-const ARQUIVOS_PUBLICAR = [...PAGINAS_HTML, ...ARQUIVOS_RAIZ, ...ARQUIVOS_ASSETS];
+// API PHP (api/) — nunca inclui api/config.local.php (gitignored, criado manualmente
+// no servidor a partir de api/config.example.php). database/ e tools/ NUNCA são
+// publicados (schema SQL e utilitário de geração de hash de admin são só para uso local).
+const ARQUIVOS_API = [
+  path.join('api', '.htaccess'),
+  path.join('api', 'config.example.php'),
+  path.join('api', 'config.php'),
+  path.join('api', 'cancelar-mfa.php'),
+  path.join('api', 'dashboard.php'),
+  path.join('api', 'lead.php'),
+  path.join('api', 'leads.php'),
+  path.join('api', 'login.php'),
+  path.join('api', 'logout.php'),
+  path.join('api', 'metrica.php'),
+  path.join('api', 'mfa-cadastro.php'),
+  path.join('api', 'mfa-verificar.php'),
+  path.join('api', 'sessao-verificar.php'),
+  path.join('api', 'lib', 'db.php'),
+  path.join('api', 'lib', 'hash.php'),
+  path.join('api', 'lib', 'rate_limit.php'),
+  path.join('api', 'lib', 'resposta.php'),
+  path.join('api', 'lib', 'sessao.php'),
+  path.join('api', 'lib', 'tempo.php'),
+  path.join('api', 'lib', 'totp.php'),
+  path.join('api', 'lib', 'validacao.php'),
+];
+
+const ARQUIVOS_PUBLICAR = [...PAGINAS_HTML, ...ARQUIVOS_RAIZ, ...ARQUIVOS_ASSETS, ...ARQUIVOS_API];
 
 // -----------------------------------------------------------------------
 // 2. Padrões de bloqueador crítico — se encontrados no CONTEÚDO de um arquivo
@@ -91,49 +115,27 @@ const PADRAO_PREENCHER = /\[PREENCHER|SUA_CHAVE_WEB3FORMS/;
 const PADRAO_LOCALHOST = /(https?:)?\/\/(localhost|127\.0\.0\.1)\b|:\/\/127\.0\.0\.1\b/i;
 // noindex é ESPERADO em leads.html (ver exceção abaixo) — crítico em qualquer outra página.
 const PADRAO_NOINDEX = /noindex/i;
-// JWT (3 segmentos base64url separados por ".") — formato das chaves do Supabase.
-const PADRAO_JWT = /\beyJ[\w-]+\.[\w-]+\.[\w-]+\b/g;
+// Credenciais reais do MySQL nunca podem ir ao pacote — api/config.local.php é gitignored e
+// nunca faz parte de ARQUIVOS_PUBLICAR, mas o template (api/config.example.php) precisa manter
+// o placeholder "SUBSTITUIR_" em vez de um valor real (mesma convenção checada em
+// scripts/verificar-seguranca.js).
+const PADRAO_CONFIG_LOCAL_REAL = /'(host|port|dbname|user|password|sal_fixo)'\s*=>\s*'(?!SUBSTITUIR_)[^']+'/;
 
 function arquivoEhLeads(relPath) {
   const norm = relPath.split(path.sep).join('/');
   return norm === 'leads.html' || norm.startsWith('leads/');
 }
 
-// Decodifica o payload de um JWT e verifica a claim "role". Procuramos por
-// qualquer JWT embutido no arquivo cujo payload decodificado tenha
-// role === "service_role" — essa é a única forma confiável de detectar a
-// chave secreta, já que o texto literal "service_role" só aparece em
-// comentários de documentação (nunca dentro do próprio token, que é opaco).
-function contemChaveServiceRole(conteudo) {
-  const tokens = conteudo.match(PADRAO_JWT) || [];
-  for (const token of tokens) {
-    const partes = token.split('.');
-    if (partes.length < 2) continue;
-    try {
-      const payloadBase64 = partes[1].replace(/-/g, '+').replace(/_/g, '/');
-      const payloadJson = Buffer.from(payloadBase64, 'base64').toString('utf8');
-      const payload = JSON.parse(payloadJson);
-      if (payload && payload.role === 'service_role') return true;
-    } catch (e) {
-      // token não é um JWT válido/decodificável — ignora, não é a chave que procuramos
-    }
-  }
-  return false;
-}
-
 function checarBloqueadores(relPath, conteudo) {
   const erros = [];
-  if (contemChaveServiceRole(conteudo)) {
-    erros.push(`chave Supabase com role "service_role" encontrada em ${relPath} — NUNCA pode ir ao ar (acesso total ao banco).`);
+  const norm = relPath.split(path.sep).join('/');
+  if (norm === 'api/config.example.php' && PADRAO_CONFIG_LOCAL_REAL.test(conteudo)) {
+    erros.push(`api/config.example.php parece conter uma credencial real (sem placeholder "SUBSTITUIR_") — NUNCA pode ir ao ar.`);
   }
   if (PADRAO_PREENCHER.test(conteudo)) {
     erros.push(`marcador de placeholder ([PREENCHER] ou SUA_CHAVE_WEB3FORMS) encontrado em ${relPath}.`);
   }
-  // Bibliotecas de terceiros vendorizadas (ex: assets/vendor/supabase-js/) legitimamente
-  // contêm "localhost"/"127.0.0.1" em sua própria lógica interna (hosts padrão, listas de
-  // allow-list) — não apontam o SITE para localhost. Não aplicar este check a vendor/.
-  const ehArquivoVendorizado = relPath.split(path.sep).join('/').includes('assets/vendor/');
-  if (!ehArquivoVendorizado && PADRAO_LOCALHOST.test(conteudo)) {
+  if (PADRAO_LOCALHOST.test(conteudo)) {
     erros.push(`referência a localhost/127.0.0.1 encontrada em ${relPath}.`);
   }
   if (!arquivoEhLeads(relPath) && PADRAO_NOINDEX.test(conteudo)) {
@@ -199,7 +201,7 @@ function copiarArquivo(relPath) {
   } else {
     // Arquivos binários/CSS/JS: copiados sem alteração, mas ainda passam pelo
     // scan de bloqueadores se forem texto (CSS/JS/txt/xml).
-    const extensoesTexto = ['.js', '.css', '.txt', '.xml', '.json', '.svg'];
+    const extensoesTexto = ['.js', '.css', '.txt', '.xml', '.json', '.svg', '.php'];
     if (extensoesTexto.includes(path.extname(relPath))) {
       const conteudo = fs.readFileSync(origem, 'utf8');
       const erros = checarBloqueadores(relPath, conteudo);
@@ -217,8 +219,8 @@ function copiarModelosServidor() {
   // leads.html é um ARQUIVO único (não uma subpasta), então o bloco de headers restritos
   // para /leads (Bloco 3 — ver publicacao/AUDITORIA-SEO.md e publicacao/modelos/.htaccess)
   // já vem embutido como <FilesMatch "^leads\.html$"> dentro do .htaccess único da raiz —
-  // não existe um "leads/.htaccess" separado neste site. publicacao/modelos/leads.htaccess
-  // continua existindo apenas como referência isolada/documentação (não é copiado ao pacote).
+  // não existe um "leads/.htaccess" separado neste site. O antigo publicacao/modelos/leads.htaccess
+  // (arquivo isolado e desatualizado) foi removido em out/2026 — nunca foi copiado ao pacote.
   const htaccessRaiz = path.join(MODELOS_DIR, '.htaccess');
   if (fs.existsSync(htaccessRaiz)) {
     fs.copyFileSync(htaccessRaiz, path.join(DIST_DIR, '.htaccess'));

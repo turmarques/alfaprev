@@ -51,11 +51,24 @@ select {
   -moz-appearance: none;
 }
 
-/* Remove iOS input styling */
-input, textarea, select {
+/* Remove iOS input styling — exclui checkbox/radio de propósito: "appearance: none" nesses
+   tipos remove a caixa nativa inteira (borda e preenchimento) sem nenhum estilo de
+   substituição, deixando o campo completamente invisível. Texto, e-mail, telefone,
+   textarea e select continuam com o reset (necessário no iOS Safari). */
+input:not([type="checkbox"]):not([type="radio"]),
+textarea,
+select {
   -webkit-appearance: none;
   appearance: none;
   border-radius: 0.375rem; /* rounded-md */
+}
+
+/* Checkbox de consentimento (LGPD) do formulário de contato — oculto só por esta classe,
+   adicionada via JS (script.js) depois que a página carrega. Sem JavaScript, o campo
+   permanece visível por padrão (ver HTML), garantindo que uma falha do script nunca
+   esconda o consentimento. Revelado no primeiro preenchimento de qualquer campo do form. */
+.lgpd-oculto {
+  display: none;
 }
 
 /* Garantir que inputs de data/hora mantenham o estilo */

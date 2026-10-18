@@ -64,17 +64,15 @@
   Header always set Referrer-Policy "strict-origin-when-cross-origin"
   Header always set Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=()"
   Header always set X-Frame-Options "SAMEORIGIN"
-  Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data:; connect-src 'self' https://api.web3forms.com https://*.supabase.co; frame-src https://maps.google.com https://www.google.com; object-src 'none'; base-uri 'self'; form-action 'self' https://api.web3forms.com; frame-ancestors 'self';"
+  Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data:; connect-src 'self' https://api.web3forms.com; frame-src https://maps.google.com https://www.google.com; object-src 'none'; base-uri 'self'; form-action 'self' https://api.web3forms.com; frame-ancestors 'self';"
   Header always set Cross-Origin-Opener-Policy "same-origin"
 
   # CSP rígida para a página /leads (painel administrativo oculto) — ver
-  # docs/DASHBOARD-LEADS.md. O domínio Supabase final ainda não está definido
-  # no código (assets/js/config.js tem SUPABASE_URL como placeholder em
-  # out/2026) — por isso o wildcard https://*.supabase.co é usado aqui, igual
-  # ao já adotado em netlify.toml e publicacao/modelos/leads.htaccess. Se o
-  # projeto Supabase final usar outro domínio, ajuste aqui também.
+  # docs/DASHBOARD-LEADS.md. Banco de dados é MySQL acessado via api/*.php
+  # same-origin (migração de Supabase para MySQL/PHP, out/2026) — connect-src
+  # não precisa de nenhum domínio externo.
   <FilesMatch "^leads\.html$">
-    Header set Content-Security-Policy "default-src 'none'; script-src 'self'; style-src 'self'; font-src 'self'; img-src 'self'; connect-src 'self' https://*.supabase.co; base-uri 'none'; form-action 'none'; frame-ancestors 'none';"
+    Header set Content-Security-Policy "default-src 'none'; script-src 'self'; style-src 'self'; font-src 'self'; img-src 'self'; connect-src 'self'; base-uri 'none'; form-action 'none'; frame-ancestors 'none';"
     Header set X-Robots-Tag "noindex, nofollow, noarchive"
     Header set Referrer-Policy "no-referrer"
     Header set Cross-Origin-Opener-Policy "same-origin"
@@ -164,9 +162,9 @@
 
 # Nunca usar HTTP Basic Auth aqui — abriria um diálogo de autenticação do
 # próprio navegador ANTES da tela de login da aplicação (login real é via
-# Supabase Auth + is_admin(), ver docs/DASHBOARD-LEADS.md). Isso quebraria a
-# UX da tela de login com fundo desfocado. Não adicionar <AuthType Basic> a
-# este arquivo.
+# sessão PHP nativa + is_admin() no MySQL, ver docs/DASHBOARD-LEADS.md). Isso
+# quebraria a UX da tela de login com fundo desfocado. Não adicionar
+# <AuthType Basic> a este arquivo.
 
 # Não há "RewriteRule" dedicada para /leads -> /leads/: a página existe como
 # arquivo único (leads.html). O acesso correto e único é "/leads.html"; não
