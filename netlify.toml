@@ -37,7 +37,12 @@
     # Fonte Inter agora self-hosted (assets/fonts/inter-var.woff2) — sem fonts.googleapis.com/
     # fonts.gstatic.com no style-src/font-src (auditoria de segurança, out/2026).
     # frame-ancestors complementa X-Frame-Options (suportado por mais navegadores modernos).
-    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data:; connect-src 'self' https://api.web3forms.com; frame-src https://maps.google.com https://www.google.com; object-src 'none'; base-uri 'self'; form-action 'self' https://api.web3forms.com; frame-ancestors 'self';"
+    # Tailwind migrado do Play CDN (cdn.tailwindcss.com) para CSS compilado localmente via
+    # Tailwind CLI em out/2026 (ver publicacao/RELATORIO-TAILWIND-COMPILADO.md) — script-src
+    # não precisa mais liberar esse domínio de terceiro. "unsafe-inline" em script-src
+    # permanece necessário pelo <script> inline da guarda de redirecionamento /src/pages/
+    # (sem nonce/hash); em style-src permanece necessário por atributos style="" inline.
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data:; connect-src 'self' https://api.web3forms.com; frame-src https://maps.google.com https://www.google.com; object-src 'none'; base-uri 'self'; form-action 'self' https://api.web3forms.com; frame-ancestors 'self';"
 
     # Controla acesso a recursos do dispositivo (câmera, microfone, geolocalização)
     Permissions-Policy = "camera=(), microphone=(), geolocation=(), payment=()"

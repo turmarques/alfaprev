@@ -52,6 +52,10 @@ const ARQUIVOS_RAIZ = [
 
 const ARQUIVOS_ASSETS = [
   // CSS / JS do site público
+  // assets/css/tailwind.css é GERADO por "npm run css:build" (parte de "npm run build")
+  // a partir de assets/css/tailwind-origem.css — nunca publicar o arquivo de entrada,
+  // só o compilado. Ver publicacao/RELATORIO-TAILWIND-COMPILADO.md.
+  path.join('assets', 'css', 'tailwind.css'),
   path.join('styles.css'),
   path.join('script.js'),
   path.join('assets', 'js', 'metricas.js'),

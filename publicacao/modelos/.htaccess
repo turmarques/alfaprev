@@ -59,12 +59,19 @@
 # já que o host real é Apache/Locaweb, não Netlify — por isso o gap estava aqui, não lá.
 # Fonte Inter agora self-hosted (assets/fonts/inter-var.woff2) — sem fonts.googleapis.com/
 # fonts.gstatic.com no style-src/font-src.
+# Tailwind migrado do Play CDN (cdn.tailwindcss.com) para CSS compilado localmente via
+# Tailwind CLI em out/2026 (ver publicacao/RELATORIO-TAILWIND-COMPILADO.md) — script-src
+# não precisa mais liberar esse domínio de terceiro. "unsafe-inline" em script-src
+# permanece necessário por causa do <script> inline da guarda de redirecionamento
+# /src/pages/ presente em todas as páginas públicas (sem nonce/hash); em style-src
+# permanece necessário por atributos style="" inline (marca d'água do Hero, honeypot
+# do formulário) — ver análise completa no relatório da migração.
 <IfModule mod_headers.c>
   Header always set X-Content-Type-Options "nosniff"
   Header always set Referrer-Policy "strict-origin-when-cross-origin"
   Header always set Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=()"
   Header always set X-Frame-Options "SAMEORIGIN"
-  Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data:; connect-src 'self' https://api.web3forms.com; frame-src https://maps.google.com https://www.google.com; object-src 'none'; base-uri 'self'; form-action 'self' https://api.web3forms.com; frame-ancestors 'self';"
+  Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data:; connect-src 'self' https://api.web3forms.com; frame-src https://maps.google.com https://www.google.com; object-src 'none'; base-uri 'self'; form-action 'self' https://api.web3forms.com; frame-ancestors 'self';"
   Header always set Cross-Origin-Opener-Policy "same-origin"
 
   # CSP rígida para a página /leads (painel administrativo oculto) — ver

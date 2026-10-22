@@ -1,10 +1,25 @@
 'use strict';
 const fs = require('fs');
 const path = require('path');
+const crypto = require('crypto');
 
 const PARTIALS_DIR = path.join(__dirname, 'partials');
 const SRC_DIR = path.join(__dirname, 'src', 'pages');
 const OUT_DIR = __dirname;
+
+// Cache-busting por hash de conteúdo para o CSS compilado do Tailwind: evita que
+// visitantes recebam CSS desatualizado do cache do navegador/Locaweb depois de um
+// reenvio (ver publicacao/RELATORIO-TAILWIND-COMPILADO.md). Hash calculado a partir
+// do próprio arquivo compilado — "npm run css:build" roda sempre antes deste script
+// (ver "build" em package.json), então o arquivo já reflete o conteúdo atual.
+const CSS_COMPILADO_PATH = path.join(__dirname, 'assets', 'css', 'tailwind.css');
+let cssVersion = null;
+if (fs.existsSync(CSS_COMPILADO_PATH)) {
+  const cssBuf = fs.readFileSync(CSS_COMPILADO_PATH);
+  cssVersion = crypto.createHash('sha256').update(cssBuf).digest('hex').slice(0, 10);
+} else {
+  console.warn('  [WARN] assets/css/tailwind.css não encontrado — rode "npm run css:build" antes do build (já incluso em "npm run build"). Link ficará sem cache-busting.');
+}
 
 // Páginas de src/pages/ que não devem gerar arquivo publicado na raiz.
 // Caminho relativo a SRC_DIR, com '/' mesmo no Windows.
@@ -57,18 +72,25 @@ function processDir(srcDir, outDir) {
       return partials[name];
     });
 
+    // Aplica cache-busting no link do CSS compilado (ver cssVersion acima).
+    if (cssVersion && content.includes('/assets/css/tailwind.css"')) {
+      content = content.split('/assets/css/tailwind.css"').join(`/assets/css/tailwind.css?v=${cssVersion}"`);
+    }
+
     fs.writeFileSync(outPath, content, 'utf8');
 
-    // Sanity check: Tailwind CDN must be present em todo output, EXCETO em leads/**.
-    // /leads é a página administrativa com CSP restrita (sem scripts de terceiros/CDN) —
-    // ver docs/DASHBOARD-LEADS.md e assets/css/leads.css (CSS próprio, sem Tailwind).
+    // Sanity check: o CSS compilado do Tailwind (assets/css/tailwind.css) deve estar
+    // presente em todo output, EXCETO em leads/**. /leads é a página administrativa com
+    // CSP restrita (sem Tailwind) — ver docs/DASHBOARD-LEADS.md e assets/css/leads.css
+    // (CSS próprio). Migrado do Play CDN (cdn.tailwindcss.com) para o Tailwind CLI
+    // compilado em out/2026 — ver publicacao/RELATORIO-TAILWIND-COMPILADO.md.
     const ehPaginaLeads = relPath === 'leads.html' || relPath.startsWith('leads/');
-    if (!ehPaginaLeads && !content.includes('cdn.tailwindcss.com')) {
-      console.error(`  [ERRO] cdn.tailwindcss.com NÃO encontrado em ${path.relative(OUT_DIR, outPath)} — verifique o partial head-common!`);
+    if (!ehPaginaLeads && !content.includes('assets/css/tailwind.css')) {
+      console.error(`  [ERRO] assets/css/tailwind.css NÃO encontrado em ${path.relative(OUT_DIR, outPath)} — verifique o partial head-common!`);
       errors++;
     }
-    if (ehPaginaLeads && content.includes('cdn.tailwindcss.com')) {
-      console.error(`  [ERRO] ${path.relative(OUT_DIR, outPath)} é a página /leads (CSP restrita) e NÃO deve incluir cdn.tailwindcss.com!`);
+    if (ehPaginaLeads && (content.includes('cdn.tailwindcss.com') || content.includes('assets/css/tailwind.css'))) {
+      console.error(`  [ERRO] ${path.relative(OUT_DIR, outPath)} é a página /leads (CSP restrita) e NÃO deve incluir Tailwind (CDN ou compilado)!`);
       errors++;
     }
     // Sanity check: no unresolved INCLUDE markers

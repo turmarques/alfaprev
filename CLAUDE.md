@@ -50,7 +50,7 @@ Fonte única de contexto do projeto para o Claude Code. Leia este arquivo no in�
 ## Stack Técnica
 
 - **HTML/CSS/JS vanilla** — zero framework, zero bundler, zero build step
-- **Tailwind CSS** via CDN Play (`cdn.tailwindcss.com`) — gera CSS no browser em tempo real
+- **Tailwind CSS v3.4.17** compilado via Tailwind CLI em build time (out/2026) — substitui o antigo Play CDN (`cdn.tailwindcss.com`, que gerava CSS no browser em tempo real e causava nota de Performance mobile 36/100 no Lighthouse). Config em `tailwind.config.js`; `npm run css:build` (parte de `npm run build`) gera `assets/css/tailwind.css` minificado a partir de `assets/css/tailwind-origem.css`. Ver `publicacao/RELATORIO-TAILWIND-COMPILADO.md` para o relatório completo da migração (0 diferenças visuais, Lighthouse mobile 55→80 na home, 56→90 em contato)
 - **Google Fonts** (Inter) via CDN com `preconnect`
 - **Web3Forms** — envio do formulário por e-mail (chave em `script.js`)
 - **MySQL + API PHP própria** (`api/*.php`, vanilla, sem Composer) — banco de dados MySQL/MariaDB (hospedagem Locaweb) para leads e métricas; credenciais em `api/config.local.php` (gitignored, nunca commitado). Substitui a integração Supabase original (migração out/2026 — ver seção "Métricas, Leads e Painel Administrativo /leads")
@@ -270,7 +270,7 @@ técnica (Cassia). Nenhum item de conteúdo permanece como pendência dela. Refe
 
 ### Pendente após publicar 🟡
 - [ ] Adicionar script GA4 com controle de consentimento
-- [ ] Avaliar nota PageSpeed Insights — se < 70 mobile, migrar Tailwind para versão compilada
+- [x] Avaliar nota PageSpeed Insights — se < 70 mobile, migrar Tailwind para versão compilada — **(2026-10-22) feito.** Nota mobile medida era 36/100 (Lighthouse local, `publicacao/AUDITORIA-SEO.md`), bem abaixo do critério. Migrado do Play CDN para Tailwind CLI compilado (v3.4.17, mesma major version do CDN). Resultado: Lighthouse mobile 55→80 (home) e 56→90 (contato); 0 diferenças de pixel em 18 comparações visuais (3 larguras × 6 páginas); CLS idêntico antes/depois. Ver `publicacao/RELATORIO-TAILWIND-COMPILADO.md` para o relatório completo. Pendência de ação: reenviar `dist-locaweb/` completo via FTP na próxima publicação (ver `MANUAL-UPLOAD-FTP.md`, números já atualizados).
 - [ ] Criar og:image dedicada (1200×630 px) e adicionar tags `og:image:width/height`
 - [ ] Adicionar fotos reais de projetos/equipe
 
@@ -303,7 +303,7 @@ npm run build
 ```
 Isso regera todos os HTMLs na raiz do projeto **e** atualiza automaticamente `CONTEUDO-PAGINAS.md`.
 
-**OBRIGATÓRIO após o build:** abrir o arquivo gerado na raiz (ex: `index.html`) no navegador via Live Server — nunca o arquivo-fonte em `/src/pages/`. Os arquivos-fonte não têm o Tailwind CDN nem os partials expandidos; abri-los diretamente exibe o site sem nenhum estilo. O `build.js` agora inclui sanity checks que avisam no terminal se `cdn.tailwindcss.com` ou partials não resolvidos forem detectados na saída.
+**OBRIGATÓRIO após o build:** abrir o arquivo gerado na raiz (ex: `index.html`) no navegador via Live Server — nunca o arquivo-fonte em `/src/pages/`. Os arquivos-fonte não têm o link do CSS compilado do Tailwind nem os partials expandidos; abri-los diretamente exibe o site sem nenhum estilo. O `build.js` agora inclui sanity checks que avisam no terminal se `assets/css/tailwind.css` ou partials não resolvidos forem detectados na saída.
 
 **Guarda automática nos arquivos-fonte:** cada arquivo em `/src/pages/` contém um script que detecta se está sendo servido via URL `/src/` e redireciona automaticamente para o arquivo gerado equivalente na raiz. Isso evita o site sem estilo caso o arquivo errado seja aberto acidentalmente.
 
@@ -503,7 +503,7 @@ Removidos: "Projetos 100% Adequados às Normas Técnicas" e "Atendimento Persona
 
 5. **Rodar `npm run build`** — o `processDir()` do `build.js` percorre recursivamente `src/pages/` incluindo subdiretórios.
 
-6. **Verificar**: abrir o arquivo gerado na raiz (ex: `blog-sci/nome-do-artigo.html`) e confirmar que `cdn.tailwindcss.com` está presente no `<head>` (sinal de que o `<!-- INCLUDE:head-common -->` foi expandido corretamente).
+6. **Verificar**: abrir o arquivo gerado na raiz (ex: `blog-sci/nome-do-artigo.html`) e confirmar que `assets/css/tailwind.css` está presente no `<head>` (sinal de que o `<!-- INCLUDE:head-common -->` foi expandido corretamente).
 
 ---
 
@@ -549,8 +549,8 @@ Documentação técnica completa em `docs/DASHBOARD-LEADS.md` — leia-a antes d
 - **Login do admin (`api/login.php` + `api/mfa-*.php`):** fluxo de duas fases — e-mail+senha retorna `pre_admin_id` na sessão e exige TOTP (`mfa_cadastro_necessario` no primeiro login, `mfa_codigo_necessario` nos demais); só após o código TOTP correto a sessão recebe `admin_id`. Rate limit de tentativas de login é feito no banco via tabela `tentativas_login` (hash de IP + sal diário, nunca IP cru — ver `alfaprev_hash_login()` em `api/lib/hash.php`), **distinto e adicional** ao bloqueio client-side (`assets/js/leads/bloqueio.js`, que é só UX/localStorage e não impede nada no servidor).
 - **CSRF:** token obtido via `GET /api/sessao-verificar.php` e enviado no header `X-CSRF-Token` em toda requisição mutável do painel.
 - **Painel `/leads` (`src/pages/leads.html` → `leads.html` gerado):**
-  - **Não usa os partials públicos nem Tailwind CDN** — CSS próprio em `assets/css/leads.css`, fonte self-hosted em `assets/fonts/inter-var.woff2`. CSP própria e mais restrita que a do site público, aplicada via `<meta http-equiv>` na própria página **e** via header HTTP (`publicacao/modelos/.htaccess` → bloco de `leads.html`; `netlify.toml` mantido apenas como referência histórica equivalente).
-  - `build.js` tem uma exceção (`ehPaginaLeads`) que isenta `leads.html`/`leads/**` do check "precisa ter `cdn.tailwindcss.com`" e adiciona o check inverso ("não pode ter `cdn.tailwindcss.com`"). Não remover essa exceção nem apontar `leads.html` para `head-common.html`.
+  - **Não usa os partials públicos nem o Tailwind compilado** — CSS próprio em `assets/css/leads.css`, fonte self-hosted em `assets/fonts/inter-var.woff2`. CSP própria e mais restrita que a do site público, aplicada via `<meta http-equiv>` na própria página **e** via header HTTP (`publicacao/modelos/.htaccess` → bloco de `leads.html`; `netlify.toml` mantido apenas como referência histórica equivalente).
+  - `build.js` tem uma exceção (`ehPaginaLeads`) que isenta `leads.html`/`leads/**` do check "precisa ter `assets/css/tailwind.css`" e adiciona o check inverso ("não pode ter `assets/css/tailwind.css`"). Não remover essa exceção nem apontar `leads.html` para `head-common.html`.
   - Lógica em `assets/js/leads/`: `bloqueio.js` (bloqueio de tentativas, só UX — ver aviso no topo do arquivo), `telefone.js` (formatação, não validação), `csv.js` (exportação com neutralização de injeção de fórmula OWASP), `auth.js` (chama `api/login.php`/`api/mfa-*.php`/`api/logout.php`, mantém CSRF token e timeout de inatividade de 30 min), `dashboard.js` (consome `GET /api/dashboard.php`, gráficos em SVG puro, sem biblioteca), `grade.js` (grid de leads, filtros/paginação server-side via `GET/POST /api/leads.php`), `app.js` (bootstrap).
   - Os três módulos puros (`bloqueio.js`, `telefone.js`, `csv.js`) são testados em `test/*.test.js` (`npm test`, zero dependências, `node --test` nativo). Qualquer alteração nesses três arquivos deve manter os testes passando.
   - Nunca linkar `/leads.html` em `robots.txt`, `sitemap.xml` ou qualquer `partial` público — a proteção real é a sessão PHP + verificação de admin (`admins.totp_confirmado`) no MySQL, não a obscuridade da URL (que também tem `meta robots noindex, nofollow` e `X-Robots-Tag` via header).
@@ -597,7 +597,8 @@ comportamento do site**. Três documentos de referência em `publicacao/`:
   ainda não está publicado) contra o build estático. **Achado principal, medido e com maior
   impacto: Performance mobile 36/100 (desktop 99/100)**, causa raiz isolada no Tailwind CSS via
   CDN (`cdn.tailwindcss.com`) — confirma com número real a pendência já listada acima em
-  "Pendente após publicar" (critério "< 70 mobile" foi atingido). Demais achados (prioridade média/
+  "Pendente após publicar" (critério "< 70 mobile" foi atingido). **Corrigido em 2026-10-22** —
+  ver `publicacao/RELATORIO-TAILWIND-COMPILADO.md`. Demais achados (prioridade média/
   baixa): nome da empresa inconsistente em 3 arquivos ("Alfa Prev - Segurança Contra Incêndios" em
   vez de "Alfa Prev", violando a convenção de marca e de terminologia já documentadas neste
   arquivo), `quem-somos.html` sem bloco `ProfessionalService` dedicado no JSON-LD, registro CAU/SP

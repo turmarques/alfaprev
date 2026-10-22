@@ -55,14 +55,25 @@ reais do banco de dados — por isso nunca é copiado para dentro do pacote).
 - [ ] Confirme a contagem de arquivos/pastas do pacote gerado contra
       `publicacao/MANIFESTO-PACOTE.txt` (gerado automaticamente pelo último comando).
 
-**Números confirmados nesta geração (2026-10-18):**
-- Total de arquivos no pacote: **47** (contagem do manifesto; a pasta `dist-locaweb/`
-  também contém o `.htaccess` da raiz, que por ser um arquivo de configuração de servidor
-  não entra na contagem do manifesto SHA-256, mas **deve** ser enviado — ver seção 7)
-- Tamanho total: **462.8 KB**
-- `.htaccess` (raiz): **9294 bytes**
-- `index.html`: **47706 bytes**
-- `script.js`: **19085 bytes**
+**Números confirmados nesta geração (2026-10-22, após migração do Tailwind Play CDN
+para CSS compilado — ver `publicacao/RELATORIO-TAILWIND-COMPILADO.md`):**
+- Total de arquivos no pacote: **48** (47 anteriores + 1 novo: `assets/css/tailwind.css`;
+  contagem do manifesto; a pasta `dist-locaweb/` também contém o `.htaccess` da raiz, que
+  por ser um arquivo de configuração de servidor não entra na contagem do manifesto
+  SHA-256, mas **deve** ser enviado — ver seção 7)
+- Tamanho total: **481.0 KB**
+- `.htaccess` (raiz): **9857 bytes**
+- `index.html`: **46973 bytes** (menor que antes — não tem mais o `<script>` inline do
+  Tailwind Play CDN nem o `tailwind.config` inline, só um `<link>` para o CSS compilado)
+- `script.js`: **19085 bytes** (inalterado — este arquivo não foi tocado pela migração)
+- `assets/css/tailwind.css` (novo): **21296 bytes** (~20.8 KB, minificado, gerado por
+  `npm run css:build`)
+
+**Importante:** reenvie o pacote **completo**, não apenas os arquivos alterados. Navegadores
+podem ter cacheado o HTML antigo (que referenciava `cdn.tailwindcss.com`) ou o CSS compilado
+de uma geração anterior; o cache-busting por hash (`?v=...`) no link do CSS já resolve isso
+para quem acessar depois do reenvio, mas o servidor precisa ter a versão nova de todos os
+arquivos ao mesmo tempo.
 
 Se os números que você vir ao gerar o pacote novamente forem muito diferentes destes, pare
 e confira se alguma alteração de conteúdo não documentada aconteceu antes de subir.

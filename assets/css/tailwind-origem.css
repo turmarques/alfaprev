@@ -1,0 +1,9 @@
+/* =====================================================
+   ALFA PREV — assets/css/tailwind-origem.css
+   Arquivo de ENTRADA do Tailwind CLI (não publicado).
+   Compilado para assets/css/tailwind.css via "npm run css:build"
+   (ver tailwind.config.js e package.json).
+   ===================================================== */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;

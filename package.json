@@ -3,9 +3,14 @@
   "version": "1.0.0",
   "description": "Site estático da Alfa Prev — processo de build para includes de partials",
   "scripts": {
-    "build": "node build.js && node generate-content-md.js",
+    "css:build": "tailwindcss -i ./assets/css/tailwind-origem.css -o ./assets/css/tailwind.css --minify",
+    "css:watch": "tailwindcss -i ./assets/css/tailwind-origem.css -o ./assets/css/tailwind.css --watch",
+    "build": "npm run css:build && node build.js && node generate-content-md.js",
     "test": "node --test test/*.test.js",
     "seguranca": "node scripts/verificar-seguranca.js",
     "empacotar": "node scripts/empacotar-locaweb.js"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.4.17"
   }
 }
